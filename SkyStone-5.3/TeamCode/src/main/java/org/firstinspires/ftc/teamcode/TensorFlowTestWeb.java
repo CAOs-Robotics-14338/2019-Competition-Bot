@@ -1,5 +1,7 @@
+/*
 package org.firstinspires.ftc.teamcode;
 
+*/
 /* Copyright (c) 2019 FIRST. All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without modification,
@@ -27,7 +29,8 @@ package org.firstinspires.ftc.teamcode;
  * CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY,
  * OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE
  * OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
- */
+ *//*
+
 
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 import com.qualcomm.robotcore.eventloop.opmode.Disabled;
@@ -44,6 +47,7 @@ import org.firstinspires.ftc.robotcore.external.navigation.VuforiaLocalizer;
 import org.firstinspires.ftc.robotcore.external.tfod.TFObjectDetector;
 import org.firstinspires.ftc.robotcore.external.tfod.Recognition;
 
+*/
 /**
  * This 2019-2020 OpMode illustrates the basics of using the TensorFlow Object Detection API to
  * determine the position of the Skystone game elements.
@@ -53,7 +57,8 @@ import org.firstinspires.ftc.robotcore.external.tfod.Recognition;
  *
  * IMPORTANT: In order to use this OpMode, you need to obtain your own Vuforia license key as
  * is explained below.
- */
+ *//*
+
 @Autonomous(name = "Concept cam Blue", group = "Concept")
 public class TensorFlowTestWeb extends LinearOpMode {
     private static final String TFOD_MODEL_ASSET = "Skystone.tflite";
@@ -66,7 +71,8 @@ public class TensorFlowTestWeb extends LinearOpMode {
     Servo left_hook, right_hook;
 
 
-    /*
+    */
+/*
      * IMPORTANT: You need to obtain your own license key to use Vuforia. The string below with which
      * 'parameters.vuforiaLicenseKey' is initialized is for illustration only, and will not function.
      * A Vuforia 'Development' license key, can be obtained free of charge from the Vuforia developer
@@ -77,20 +83,25 @@ public class TensorFlowTestWeb extends LinearOpMode {
      *      ... yIgIzTqZ4mWjk9wd3cZO9T1axEqzuhxoGlfOOI2dRzKS4T0hQ8kT ...
      * Once you've obtained a license key, copy the string from the Vuforia web site
      * and paste it in to your code on the next line, between the double quotes.
-     */
+     *//*
+
     private static final String VUFORIA_KEY =
             " AYDOawL/////AAABmRg/2IBfP0h/gFrTpRMdOcYUlX4rWD72D/Rt+L/Z9YGEQ7REsFBVqq4Yo2hvSJoTrPuVgyHDjjOLgurV9q00YLltcWipqHo1fFxXA45LZHu0ODYKzJ7SCdh/9l9vHtpry3jlefDGdO17owoxqDQMdFwxoAY82mWIm+PhgcKHljKOGXlkCRJnTrEBk4/ldzd6uKw8Y9FMsbNtDlvSW8F2fxPXvhI22mc34D/O0auF3esgHVMq+XND+Ncs6/su+0myu7jiZ7/O8zVFvC5WvuX2P8k8p4RkQQVaNhKerGNGBkmzxHYxJIPKWGwX5NXuO28dIEtZh1N0Bm5BRoSxATCe9DLN41rRufeps6VTC4EwzBC+\n";
 
-    /**
+    */
+/**
      * {@link #vuforia} is the variable we will use to store our instance of the Vuforia
      * localization engine.
-     */
+     *//*
+
     private VuforiaLocalizer vuforia;
 
-    /**
+    */
+/**
      * {@link #tfod} is the variable we will use to store our instance of the TensorFlow Object
      * Detection engine.
-     */
+     *//*
+
     private TFObjectDetector tfod;
     WebcamName webcamName = null;
 
@@ -105,9 +116,11 @@ public class TensorFlowTestWeb extends LinearOpMode {
         holonomicDrive = new HolonomicDrive(FrontRightMotor, FrontLeftMotor, BackRightMotor, BackLeftMotor);
         left_hook = hardwareMap.servo.get("left_hook");
         right_hook = hardwareMap.servo.get("right_hook");
-        /*
+        */
+/*
          * Retrieve the camera we are to use.
-         */
+         *//*
+
         webcamName = hardwareMap.get(WebcamName.class, "Webcam 1");
         int pos = 1;
         // The TFObjectDetector uses the camera frames from the VuforiaLocalizer, so we create that
@@ -120,15 +133,19 @@ public class TensorFlowTestWeb extends LinearOpMode {
             telemetry.addData("Sorry!", "This device is not compatible with TFOD");
         }
 
-        /**
+        */
+/**
          * Activate TensorFlow Object Detection before we wait for the start command.
          * Do it here so that the Camera Stream window will have the TensorFlow annotations visible.
-         **/
+         **//*
+
         if (tfod != null) {
             tfod.activate();
         }
 
-        /** Wait for the game to begin */
+        */
+/** Wait for the game to begin *//*
+
         telemetry.addData(">", "Press Play to start op mode");
         telemetry.update();
         waitForStart();
@@ -192,13 +209,17 @@ public class TensorFlowTestWeb extends LinearOpMode {
         }
     }
 
-    /**
+    */
+/**
      * Initialize the Vuforia localization engine.
-     */
+     *//*
+
     private void initVuforia() {
-        /*
+        */
+/*
          * Configure Vuforia by creating a Parameter object, and passing it to the Vuforia engine.
-         */
+         *//*
+
         VuforiaLocalizer.Parameters parameters = new VuforiaLocalizer.Parameters();
 
         parameters.vuforiaLicenseKey = VUFORIA_KEY;
@@ -210,9 +231,11 @@ public class TensorFlowTestWeb extends LinearOpMode {
         // Loading trackables is not necessary for the TensorFlow Object Detection engine.
     }
 
-    /**
+    */
+/**
      * Initialize the TensorFlow Object Detection engine.
-     */
+     *//*
+
     private void initTfod() {
         int tfodMonitorViewId = hardwareMap.appContext.getResources().getIdentifier(
                 "tfodMonitorViewId", "id", hardwareMap.appContext.getPackageName());
@@ -223,3 +246,4 @@ public class TensorFlowTestWeb extends LinearOpMode {
     }
 }
 
+*/

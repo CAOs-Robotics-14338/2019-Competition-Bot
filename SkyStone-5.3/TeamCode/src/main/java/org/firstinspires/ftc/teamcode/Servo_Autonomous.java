@@ -1,3 +1,4 @@
+/*
 package org.firstinspires.ftc.teamcode;
 
 //Importing required classes
@@ -21,7 +22,9 @@ public class Servo_Autonomous extends LinearOpMode {
 
     // Declaring servos attached/required for this autonomous class
     Servo left_hook, right_hook;
-    /* Declare OpMode members. */
+    */
+/* Declare OpMode members. *//*
+
     private ElapsedTime runtime = new ElapsedTime();
 
     // Declaring the DC motors for our holonomic drive base
@@ -110,3 +113,4 @@ public class Servo_Autonomous extends LinearOpMode {
 
 
 }
+*/
