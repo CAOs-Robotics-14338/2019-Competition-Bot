@@ -1,9 +1,6 @@
-/*
 package org.firstinspires.ftc.teamcode;
 
 //Importing required classes
-import android.content.Context;
-import com.qualcomm.ftccommon.SoundPlayer;
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.hardware.DcMotor;
@@ -14,16 +11,10 @@ import com.qualcomm.robotcore.util.ElapsedTime;
 @Autonomous(name="Servo_Autonomous", group="test")
 // Creating class named servo autonomous that uses linear op mode
 public class Servo_Autonomous extends LinearOpMode {
-
-    // Declaring variable to ensure that sounds are not playing over each other
-    boolean soundPlaying = false;
-    // Declaring a variable for the id of our sound we want play later
-    int     soundID         = 16;
-
+    
     // Declaring servos attached/required for this autonomous class
     Servo left_hook, right_hook;
-    */
-/* Declare OpMode members. *//*
+    //Declare OpMode members.
 
     private ElapsedTime runtime = new ElapsedTime();
 
@@ -113,4 +104,3 @@ public class Servo_Autonomous extends LinearOpMode {
 
 
 }
-*/
