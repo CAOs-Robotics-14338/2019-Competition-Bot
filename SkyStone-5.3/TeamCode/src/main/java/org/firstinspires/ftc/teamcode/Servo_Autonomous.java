@@ -11,7 +11,13 @@ import com.qualcomm.robotcore.util.ElapsedTime;
 @Autonomous(name="Servo_Autonomous", group="test")
 // Creating class named servo autonomous that uses linear op mode
 public class Servo_Autonomous extends LinearOpMode {
-    
+
+    double lStored = 0.5;
+    double rStored = 0.7;
+    double lActive = 0.9;
+    double rActive = 0.4;
+
+
     // Declaring servos attached/required for this autonomous class
     Servo left_hook, right_hook;
     //Declare OpMode members.
@@ -40,8 +46,8 @@ public class Servo_Autonomous extends LinearOpMode {
         right_hook = hardwareMap.servo.get("right_hook");
 
         // Setting servos to the retracted position allowing them to move over the foundation lip
-        left_hook .setPosition(.5);
-        right_hook.setPosition(0.7);
+        left_hook .setPosition(lStored);
+        right_hook.setPosition(rStored);
 
         // Waiting for the player to hit the play button on the drive station phone when autonomous starts
         waitForStart();
@@ -64,8 +70,8 @@ public class Servo_Autonomous extends LinearOpMode {
         // Resetting the time again
         runtime.reset();
         // Moving the servo hooks to grab onto the foundation
-        left_hook.setPosition(.9);
-        right_hook.setPosition(.4);
+        left_hook.setPosition(lActive);
+        right_hook.setPosition(rActive);
         // Running a while loop that will wait for 1 second before moving
         while (opModeIsActive() && runtime.seconds() < 1.0) {
             // Adding telemetry data with the time elapsed
@@ -89,8 +95,8 @@ public class Servo_Autonomous extends LinearOpMode {
         // Resetting the time again
         runtime.reset();
         // Moving the hooks so they will not collide with the foundation
-        left_hook.setPosition(0.5);
-        right_hook.setPosition(0.7);
+        left_hook.setPosition(lStored);
+        right_hook.setPosition(rStored);
         //  Running a while look to prevent the robot from moving while we reset the hooks
         while (opModeIsActive() && runtime.seconds() < 1.0){
             // Adding telemetry data for the time elapsed
