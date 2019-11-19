@@ -56,9 +56,10 @@ public class HolonomicOpMode extends OpMode
 {
     // Declare OpMode members.
     private ElapsedTime runtime = new ElapsedTime();
-    private DcMotor  FrontRightMotor, FrontLeftMotor, BackRightMotor, BackLeftMotor, IntakeLeftMotor, IntakeRightMotor;
+    private DcMotor  FrontRightMotor, FrontLeftMotor, BackRightMotor, BackLeftMotor, IntakeLeftMotor, IntakeRightMotor, ScissorLiftMotor;
 
     HolonomicDrive holonomicDrive;
+    ScissorLift scissorLift;
 
     /*
      * Code to run ONCE when the driver hits INIT
@@ -76,9 +77,10 @@ public class HolonomicOpMode extends OpMode
         BackLeftMotor = hardwareMap.get(DcMotor.class, "back_left_drive");
         IntakeLeftMotor = hardwareMap.get(DcMotor.class, "intake_left_motor");
         IntakeRightMotor = hardwareMap.get(DcMotor.class, "intake_right_motor");
+        ScissorLiftMotor =  hardwareMap.get(DcMotor.class, "scissor");
 
         holonomicDrive = new HolonomicDrive(FrontRightMotor, FrontLeftMotor, BackRightMotor, BackLeftMotor, IntakeRightMotor, IntakeLeftMotor);
-
+        scissorLift = new ScissorLift(ScissorLiftMotor);
 
         // Tell the driver that initialization is complete.
         telemetry.addData("Status", "Initialized");
@@ -107,12 +109,14 @@ public class HolonomicOpMode extends OpMode
         double x = gamepad1.left_stick_x;
         double y = -gamepad1.left_stick_y;
         double z = gamepad1.right_stick_x;
+        double y2 = -gamepad2.left_stick_y;
         boolean button_a = gamepad1.a;
         boolean button_b = gamepad1.b;
 
 
         holonomicDrive.teleopDrive(x,y,z);
         holonomicDrive.intakeMotor(button_a,button_b);
+        scissorLift.LiftControl(y2);
         // Show the elapsed game time and wheel power.
         telemetry.addData("Status", "Run Time: " + runtime.toString());
     }
