@@ -1,6 +1,9 @@
 package org.firstinspires.ftc.teamcode;
 
 import com.qualcomm.robotcore.hardware.DcMotor;
+import com.qualcomm.robotcore.hardware.Servo;
+
+
 import com.qualcomm.robotcore.util.Range;
 import java.lang.Math;
 
@@ -38,15 +41,15 @@ public class CollectorSystem {
     }
 
     public void pullBackCollectArms(){
-       intakePulley.set(backPos);
+       intakePulley.setPosition(backPos);
     }
     public void releaseCollectArms(){
-       intakePulley.set(releasedPos);
+       intakePulley.setPosition(releasedPos);
     }
 
     public void stopCollection(){
-       intakeLeftMotor.set(0);
-       intakeRightMotor.set(0);
+       intakeLeftMotor.setPower(0);
+       intakeRightMotor.setPower(0);
 
 
     }
