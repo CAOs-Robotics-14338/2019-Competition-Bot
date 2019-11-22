@@ -29,12 +29,11 @@
 
 package org.firstinspires.ftc.teamcode;
 
-import com.qualcomm.robotcore.eventloop.opmode.Disabled;
 import com.qualcomm.robotcore.eventloop.opmode.OpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 import com.qualcomm.robotcore.hardware.DcMotor;
+import com.qualcomm.robotcore.hardware.Servo;
 import com.qualcomm.robotcore.util.ElapsedTime;
-import com.qualcomm.robotcore.util.Range;
 
 /**
  * This file contains an example of an iterative (Non-Linear) "OpMode".
@@ -57,9 +56,11 @@ public class HolonomicOpMode extends OpMode
     // Declare OpMode members.
     private ElapsedTime runtime = new ElapsedTime();
     private DcMotor  FrontRightMotor, FrontLeftMotor, BackRightMotor, BackLeftMotor, IntakeLeftMotor, IntakeRightMotor, ScissorLiftMotor;
+    private Servo IntakePulley;
 
     HolonomicDrive holonomicDrive;
     ScissorLift scissorLift;
+    Intake_Systems intake_systems;
 
     /*
      * Code to run ONCE when the driver hits INIT
@@ -75,12 +76,14 @@ public class HolonomicOpMode extends OpMode
         FrontLeftMotor = hardwareMap.get(DcMotor.class, "front_left_drive");
         BackRightMotor  = hardwareMap.get(DcMotor.class, "back_right_drive");
         BackLeftMotor = hardwareMap.get(DcMotor.class, "back_left_drive");
-        IntakeLeftMotor = hardwareMap.get(DcMotor.class, "intake_left_motor");
-        IntakeRightMotor = hardwareMap.get(DcMotor.class, "intake_right_motor");
+        IntakeLeftMotor = hardwareMap.get(DcMotor.class, "left_intake");
+        IntakeRightMotor = hardwareMap.get(DcMotor.class, "right_intake");
         ScissorLiftMotor =  hardwareMap.get(DcMotor.class, "scissor");
+        IntakePulley = hardwareMap.servo.get("intake_pulley");
 
-        holonomicDrive = new HolonomicDrive(FrontRightMotor, FrontLeftMotor, BackRightMotor, BackLeftMotor, IntakeRightMotor, IntakeLeftMotor);
+        holonomicDrive = new HolonomicDrive(FrontRightMotor, FrontLeftMotor, BackRightMotor, BackLeftMotor);
         scissorLift = new ScissorLift(ScissorLiftMotor);
+        intake_systems = new Intake_Systems(IntakeRightMotor, IntakeLeftMotor, IntakePulley);
 
         // Tell the driver that initialization is complete.
         telemetry.addData("Status", "Initialized");
@@ -107,15 +110,15 @@ public class HolonomicOpMode extends OpMode
     @Override
     public void loop() {
         double x = gamepad1.left_stick_x;
-        double y = -gamepad1.left_stick_y;
+        double y = gamepad1.left_stick_y;
         double z = gamepad1.right_stick_x;
-        double y2 = -gamepad2.left_stick_y;
-        boolean button_a = gamepad1.a;
-        boolean button_b = gamepad1.b;
+        double y2 = gamepad2.left_stick_y;
+        boolean collectButton = gamepad1.a;
+        boolean deployButton = gamepad1.b;
 
 
         holonomicDrive.teleopDrive(x,y,z);
-        holonomicDrive.intakeMotor(button_a,button_b);
+        intake_systems.intake(collectButton, deployButton);
         scissorLift.LiftControl(y2);
         // Show the elapsed game time and wheel power.
         telemetry.addData("Status", "Run Time: " + runtime.toString());
