@@ -113,12 +113,12 @@ public class HolonomicOpMode extends OpMode
         double y = gamepad1.left_stick_y;
         double z = gamepad1.right_stick_x;
         double y2 = gamepad2.left_stick_y;
-        boolean collectButton = gamepad1.a;
-        boolean deployButton = gamepad1.b;
+        boolean collect = gamepad1.a;
+        boolean deploy = gamepad1.b;
 
 
         holonomicDrive.teleopDrive(x,y,z);
-        intake_systems.intake(collectButton, deployButton);
+        intake_systems.intake(collect, deploy);
         scissorLift.LiftControl(y2);
         // Show the elapsed game time and wheel power.
         telemetry.addData("Status", "Run Time: " + runtime.toString());

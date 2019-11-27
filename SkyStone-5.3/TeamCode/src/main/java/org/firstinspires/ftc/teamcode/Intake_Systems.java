@@ -14,12 +14,12 @@ public class Intake_Systems {
         IntakeRightMotor = rightIntake;
         IntakePulley = pulley;
     }
-        public void intake(boolean collectButton, boolean deployButton){
-            if(collectButton == true){
+        public void intake(boolean collect, boolean deploy){
+            if(collect == true){
                 IntakeLeftMotor.setPower(0.95);
                 IntakeRightMotor.setPower(-0.95);
             }
-            else if(deployButton == true){
+            else if(deploy == true){
                 IntakeLeftMotor.setPower(-0.95);
                 IntakeRightMotor.setPower(0.95);
             }
