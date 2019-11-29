@@ -38,9 +38,11 @@ public class SkyProto extends LinearOpMode {
     double lActive = 0.5;
     double rActive = 0.1;
     double time = 5;
+    double intake_time = 3;
     double r_time = 7;
     int pos;
     boolean skyFound = false;
+    boolean sky2Found = false;
     boolean collect, deploy;
 
     //0 means skystone, 1 means yellow stone
@@ -120,6 +122,7 @@ public class SkyProto extends LinearOpMode {
                 while (opModeIsActive() && runtime.seconds() < 0.5){
                     // Adding telemetry of the time elapsed
                     telemetry.addData("Path", "TIME: %2.5f S Elapsed", runtime.seconds());
+                    telemetry.addData("Position", pos);
                     telemetry.update();
                 }
                 holonomicDrive.stopMoving();
@@ -137,6 +140,8 @@ public class SkyProto extends LinearOpMode {
                 while (opModeIsActive() && runtime.seconds() < 0.5){
                     // Adding telemetry of the time elapsed
                     telemetry.addData("Path", "TIME: %2.5f S Elapsed", runtime.seconds());
+                    telemetry.addData("Position", pos);
+
                     telemetry.update();
                 }
                 holonomicDrive.stopMoving();
@@ -144,6 +149,8 @@ public class SkyProto extends LinearOpMode {
             else if(valMid == 0 && !skyFound) {
                 skyFound = true;
                 pos = 2;
+                telemetry.addData("Position", pos);
+
             }
 
 
@@ -152,37 +159,193 @@ public class SkyProto extends LinearOpMode {
                 telemetry.addData("Sorry!", "I don't see anything!");
                 telemetry.update();
             }
+            // After moving the robot infront of the skystone or displaying a message that we do not see one,
+            // We will enable the intake and move forward for the amount of time defined by intake_time
             intake_systems.intake(collect, deploy);
             collect = true;
             runtime.reset();
             holonomicDrive.autoDrive(0,0.8);
-            while (opModeIsActive() && runtime.seconds() < 3.0){
+            while (opModeIsActive() && runtime.seconds() < intake_time){
                 // Adding telemetry of the time elapsed
                 telemetry.addData("Path", "TIME: %2.5f S Elapsed", runtime.seconds());
                 telemetry.update();
             }
             holonomicDrive.stopMoving();
-            Gyro.rotate(90,0.5);
+            sleep(1000);
+            // We will now have the skystone so we must drive back to the starting position and disable the collector
             collect = false;
             runtime.reset();
             holonomicDrive.autoDrive(180,0.8);
-            while (opModeIsActive() && runtime.seconds() < 3.0){
+            while (opModeIsActive() && runtime.seconds() < intake_time-1){
                 // Adding telemetry of the time elapsed
                 telemetry.addData("Path", "TIME: %2.5f S Elapsed", runtime.seconds());
                 telemetry.update();
             }
             holonomicDrive.stopMoving();
+            // We are now pointing towards our alliance side with the skystone, next we will turn
+            // to the right 90 degrees so we are pointing towards the building zone
+            Gyro.rotate(-90,0.5);
+            // Next we will want to drive towards the building zone for the amount of time defined by the variable "time"
+            runtime.reset();
+            holonomicDrive.autoDrive(180,0.8);
+            while (opModeIsActive() && runtime.seconds() < time){
+                // Adding telemetry of the time elapsed
+                telemetry.addData("Path", "TIME: %2.5f S Elapsed", runtime.seconds());
+                telemetry.update();
+            }
+            holonomicDrive.stopMoving();
+            // We should now be parallel to the foundation so we now need to turn to the left and drive to the foundation
+            Gyro.rotate(90,0.5);
+            runtime.reset();
+            holonomicDrive.autoDrive(0,0.8);
+            while (opModeIsActive() && runtime.seconds() < 0.5){
+                // Adding telemetry of the time elapsed
+                telemetry.addData("Path", "TIME: %2.5f S Elapsed", runtime.seconds());
+                telemetry.update();
+            }
+            holonomicDrive.stopMoving();
+            sleep(500);
+            left_hook.setPosition(lActive);
+            right_hook.setPosition(rActive);
+            sleep(500);
+            // Now we will want to backup with the foundation before turning to the left
+            runtime.reset();
+            holonomicDrive.autoDrive(0,0.8);
+            while (opModeIsActive() && runtime.seconds() < 1.2){
+                // Adding telemetry of the time elapsed
+                telemetry.addData("Path", "TIME: %2.5f S Elapsed", runtime.seconds());
+                telemetry.update();
+            }
+            holonomicDrive.stopMoving();
+            sleep(200);
+            Gyro.rotate(90,0.5);
+            // We should now be perpendicular with alliance bridge, next we will drive the foundation into the building site
+            runtime.reset();
+            holonomicDrive.autoDrive(0,0.8);
+            while (opModeIsActive() && runtime.seconds() < 0.6){
+                // Adding telemetry of the time elapsed
+                telemetry.addData("Path", "TIME: %2.5f S Elapsed", runtime.seconds());
+                telemetry.update();
+            }
+            holonomicDrive.stopMoving();
+            sleep(200);
+            // we will now retract the servos
+            left_hook.setPosition(lStored);
+            right_hook.setPosition(rStored);
+            /**
+                The following code will eject the skystone as we drive away from the foundation
+                If the scissor lift can place the stone on the foundation, that code will go here
+             */
+            deploy = true;
+            runtime.reset();
+            // Now we have started deploying the skystone, next we will drive back to the quarry
+            holonomicDrive.autoDrive(180,0.8);
+            while (opModeIsActive() && runtime.seconds() < r_time){
+                // Adding telemetry of the time elapsed
+                telemetry.addData("Path", "TIME: %2.5f S Elapsed", runtime.seconds());
+                telemetry.update();
+            }
+            holonomicDrive.stopMoving();
+            deploy = false;
+            sleep(200);
+            // Now we are back in the quarry so we will want to test which skystone we need to aim for.
+            // Since the last skystone is along the wall, we will need to approach it at a different angle
+            // than the other two, that is what the following if statements do.
+            if(pos == 3 && !sky2Found){
+                sky2Found = true;
+                Gyro.rotate(-135,0.5);
+                collect = true;
+                runtime.reset();
+                holonomicDrive.autoDrive(0,0.8);
+                while (opModeIsActive() && runtime.seconds() < intake_time){
+                    // Adding telemetry of the time elapsed
+                    telemetry.addData("Path", "TIME: %2.5f S Elapsed", runtime.seconds());
+                    telemetry.update();
+                }
+                holonomicDrive.stopMoving();
+                sleep(500);
+                runtime.reset();
+                holonomicDrive.autoDrive(180,0.8);
+                while (opModeIsActive() && runtime.seconds() < intake_time){
+                    // Adding telemetry of the time elapsed
+                    telemetry.addData("Path", "TIME: %2.5f S Elapsed", runtime.seconds());
+                    telemetry.update();
+                }
+                holonomicDrive.stopMoving();
+                Gyro.rotate(135,0.5);
+                collect = false;
+                runtime.reset();
+                // Now we are driving towards the building zone with the skystone.
+                holonomicDrive.autoDrive(0,1.0);
+                while (opModeIsActive() && runtime.seconds() < r_time){
+                    // Adding telemetry of the time elapsed
+                    telemetry.addData("Path", "TIME: %2.5f S Elapsed", runtime.seconds());
+                    telemetry.update();
+                }
+                holonomicDrive.stopMoving();
+                deploy = true;
+                sleep(100);
+                holonomicDrive.autoDrive(180,1.0);
+                while (opModeIsActive() && runtime.seconds() < 1.5 ){
+                    // Adding telemetry of the time elapsed
+                    telemetry.addData("Path", "TIME: %2.5f S Elapsed", runtime.seconds());
+                    telemetry.update();
+                }
+                holonomicDrive.stopMoving();
+            }
+            // We should be with our intake facing the building site  but infront of the skystone
+            else if(pos != 3 && !sky2Found){
+                sky2Found = true;
+                Gyro.rotate(-90, 0.5);
+                collect = true;
+                // we should now be with our intake pointed at the second skystone.
+                runtime.reset();
+                holonomicDrive.autoDrive(0,0.8);
+                while (opModeIsActive() && runtime.seconds() < intake_time){
+                    // Adding telemetry of the time elapsed
+                    telemetry.addData("Path", "TIME: %2.5f S Elapsed", runtime.seconds());
+                    telemetry.update();
+                }
+                holonomicDrive.stopMoving();
+                sleep(200);
+                runtime.reset();
+                holonomicDrive.autoDrive(180,0.8);
+                while (opModeIsActive() && runtime.seconds() < intake_time){
+                    // Adding telemetry of the time elapsed
+                    telemetry.addData("Path", "TIME: %2.5f S Elapsed", runtime.seconds());
+                    telemetry.update();
+                }
+                holonomicDrive.stopMoving();
+                Gyro.rotate(90, 0.5);
+                collect = false;
+                runtime.reset();
+                // Now we are driving towards the building zone with the skystone.
+                holonomicDrive.autoDrive(0,1.0);
+                while (opModeIsActive() && runtime.seconds() < r_time){
+                    // Adding telemetry of the time elapsed
+                    telemetry.addData("Path", "TIME: %2.5f S Elapsed", runtime.seconds());
+                    telemetry.update();
+                }
+                holonomicDrive.stopMoving();
+                deploy = true;
+                sleep(100);
+                holonomicDrive.autoDrive(180,1.0);
+                while (opModeIsActive() && runtime.seconds() < 1.5 ){
+                    // Adding telemetry of the time elapsed
+                    telemetry.addData("Path", "TIME: %2.5f S Elapsed", runtime.seconds());
+                    telemetry.update();
+                }
+                holonomicDrive.stopMoving();
+
+
+            }
+
+
+
+
         }
 
-        /**
-         *   Currently pointing towards foundation hopefully
-         *   need to drive towards foundation w/ time variable,
-         *   turn to the left
-         *   drive forward
-         *   grab foundation
-         *   use gyro to rotate
-         *   maybe drive forward & eject skystone;
-         */
+
     }
 
     //detection pipeline
