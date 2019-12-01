@@ -34,9 +34,10 @@ public class ScissorLift {
             if(activate) {
                 ScissorLiftMotor.setTargetPosition(newPos);
                 ScissorLiftMotor.setPower(0.95);
+                while(ScissorLiftMotor.isBusy()){}
+                ScissorLiftMotor.setPower(0);
             }
-            while(ScissorLiftMotor.isBusy()){}
-            ScissorLiftMotor.setPower(0);
+
             int pos2 = ScissorLiftMotor.getTargetPosition() - newPos;
             if(reset){
                 ScissorLiftMotor.setTargetPosition(pos2);
