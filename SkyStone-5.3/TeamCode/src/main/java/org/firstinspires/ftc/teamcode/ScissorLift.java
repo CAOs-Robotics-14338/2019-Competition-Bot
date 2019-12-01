@@ -8,7 +8,7 @@ import com.qualcomm.robotcore.util.Range;
 import org.firstinspires.ftc.robotcore.external.Telemetry;
 
 public class ScissorLift {
-    static final double MOTOR_TICK_COUNT = 1120; //1440
+    static final double MOTOR_TICK_COUNT = 723.4; //1440
     private DcMotor ScissorLiftMotor;
     int initial = 560; //This is the amount that we need to raise the scissor lift to compensate for the foundation height
     int block = 1120; //This is the amount that the scissor lift must rise for 1 block
