@@ -62,7 +62,7 @@ public class SkyProto extends LinearOpMode {
     private static float rectWidth = 1.5f/8f;
 
     private static float offsetX = 0f/8f;//changing this moves the three rects and the three circles left or right, range : (-2, 2) not inclusive
-    private static float offsetY = 0f/8f;//changing this moves the three rects and circles up or down, range: (-4, 4) not inclusive
+    private static float offsetY = 1.5f/8f;//changing this moves the three rects and circles up or down, range: (-4, 4) not inclusive
 
     private static float[] midPos = {4f/8f+offsetX, 4f/8f+offsetY};//0 = col, 1 = row
     private static float[] leftPos = {2f/8f+offsetX, 4f/8f+offsetY};
@@ -136,10 +136,7 @@ public class SkyProto extends LinearOpMode {
                 time -= 0.5;
                 r_time -= 0.5;
                 runtime.reset();
-                FrontRightMotor.setPower(-1.0);
-                FrontLeftMotor.setPower(-1.0);
-                BackRightMotor.setPower(-1.0);
-                BackLeftMotor.setPower(-1.0);
+                holonomicDrive.autoDrive(270,0.6);
                 while (opModeIsActive() && runtime.seconds() < 0.5){
                     // Adding telemetry of the time elapsed
                     telemetry.addData("Path", "TIME: %2.5f S Elapsed", runtime.seconds());
@@ -154,10 +151,7 @@ public class SkyProto extends LinearOpMode {
                 time += 0.5;
                 r_time += 0.5;
                 runtime.reset();
-                FrontRightMotor.setPower(1.0);
-                FrontLeftMotor.setPower(1.0);
-                BackRightMotor.setPower(1.0);
-                BackLeftMotor.setPower(1.0);
+                holonomicDrive.autoDrive(90,0.6);
                 while (opModeIsActive() && runtime.seconds() < 0.5){
                     // Adding telemetry of the time elapsed
                     telemetry.addData("Path", "TIME: %2.5f S Elapsed", runtime.seconds());

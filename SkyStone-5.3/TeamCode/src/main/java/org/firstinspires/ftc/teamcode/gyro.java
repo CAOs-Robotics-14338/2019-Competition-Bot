@@ -180,15 +180,15 @@ public class gyro
         {   // turn right.
             FLPOW = power;
             BLPOW = power;
-            FRPOW = -power;
-            BRPOW = -power;
+            FRPOW = power;
+            BRPOW = power;
         }
         else if (degrees > 0)
         {   // turn left.
             FLPOW = -power;
             BLPOW = -power;
-            FRPOW = power;
-            BRPOW = power;
+            FRPOW = -power;
+            BRPOW = -power;
         }
         else return;
 

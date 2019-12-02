@@ -73,7 +73,7 @@ public class Foundation_Auto_Blue extends LinearOpMode {
         left_hook.setPosition(lActive);
         right_hook.setPosition(rActive);
         // Running a while loop that will wait for 1 second before moving
-        while (opModeIsActive() && runtime.seconds() < 1.0) {
+        while (opModeIsActive() && runtime.seconds() < 0.8) {
             // Adding telemetry data with the time elapsed
             telemetry.addData("Path", "TIME: %2.5f S Elapsed", runtime.seconds());
             telemetry.update();
@@ -104,7 +104,7 @@ public class Foundation_Auto_Blue extends LinearOpMode {
             telemetry.update();
         }*/
         holonomicDrive.autoDrive(90,0.95);
-        while (opModeIsActive() && runtime.seconds() < 3.3){
+        while (opModeIsActive() && runtime.seconds() < 3.){
             // Adding telemetry of the time elapsed
             telemetry.addData("Path", "TIME: %2.5f S Elapsed", runtime.seconds());
             telemetry.update();
