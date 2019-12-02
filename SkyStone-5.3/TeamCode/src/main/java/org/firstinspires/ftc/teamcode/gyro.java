@@ -22,7 +22,7 @@ import org.firstinspires.ftc.robotcore.external.navigation.Orientation;
 import org.firstinspires.ftc.robotcore.external.navigation.Position;
 import org.firstinspires.ftc.robotcore.external.navigation.Velocity;
 
-public class gyro extends LinearOpMode
+public class gyro
 {
     private DcMotor  FrontRightMotor, FrontLeftMotor, BackRightMotor, BackLeftMotor;
     BNO055IMU               imu;
@@ -30,9 +30,20 @@ public class gyro extends LinearOpMode
     double                  globalAngle, power = .30, correction;
 
     // called when init button is  pressed.
-    @Override
-    public void runOpMode() throws InterruptedException
-    {
+    public gyro(DcMotor FrontRight, DcMotor FrontLeft, DcMotor BackRight, DcMotor BackLeft, BNO055IMU IMU){
+        FrontRightMotor = FrontRight;
+        FrontLeftMotor = FrontLeft;
+        BackRightMotor = BackRight;
+        BackLeftMotor = BackLeft;
+        imu = IMU;
+
+
+
+    }
+    /*@Override
+    public void runOpMode() throws InterruptedException*/
+
+/*    private void calibrate{
         BNO055IMU.Parameters parameters = new BNO055IMU.Parameters();
 
         parameters.mode                = BNO055IMU.SensorMode.IMU;
@@ -85,7 +96,7 @@ public class gyro extends LinearOpMode
             telemetry.update();
 
         }
-    }
+    }*/
 
     /**
      * Resets the cumulative angle tracking to zero.
@@ -154,10 +165,10 @@ public class gyro extends LinearOpMode
     public void rotate(int degrees, double power)
     {
         double  FLPOW, FRPOW, BLPOW, BRPOW;
-        FrontRightMotor  = hardwareMap.get(DcMotor.class, "front_right_drive");
+/*        FrontRightMotor  = hardwareMap.get(DcMotor.class, "front_right_drive");
         FrontLeftMotor = hardwareMap.get(DcMotor.class, "front_left_drive");
         BackRightMotor  = hardwareMap.get(DcMotor.class, "back_right_drive");
-        BackLeftMotor = hardwareMap.get(DcMotor.class, "back_left_drive");
+        BackLeftMotor = hardwareMap.get(DcMotor.class, "back_left_drive");*/
 
         // restart imu movement tracking.
         resetAngle();
@@ -191,12 +202,12 @@ public class gyro extends LinearOpMode
         if (degrees < 0)
         {
             // On right turn we have to get off zero first.
-            while (opModeIsActive() && getAngle() == 0) {}
+            while (getAngle() == 0) {}
 
-            while (opModeIsActive() && getAngle() > degrees) {}
+            while (getAngle() > degrees) {}
         }
         else    // left turn.
-            while (opModeIsActive() && getAngle() < degrees) {}
+            while (getAngle() < degrees) {}
 
         // turn the motors off.
         FrontRightMotor.setPower(0);
@@ -204,8 +215,7 @@ public class gyro extends LinearOpMode
         BackRightMotor.setPower(0);
         FrontLeftMotor.setPower(0);
 
-        // wait for rotation to stop.
-        sleep(1000);
+
 
         // reset angle tracking on new heading.
         resetAngle();

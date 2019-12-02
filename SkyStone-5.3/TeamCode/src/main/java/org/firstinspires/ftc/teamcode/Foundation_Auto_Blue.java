@@ -12,10 +12,10 @@ import com.qualcomm.robotcore.util.ElapsedTime;
 // Creating class named servo autonomous that uses linear op mode
 public class Foundation_Auto_Blue extends LinearOpMode {
 
-    double lStored = 0.9;
-    double rStored = 0.3;
-    double lActive = 0.5;
-    double rActive = 0.1;
+    double lStored = 0;
+    double rStored = 1;
+    double lActive = 0.6;
+    double rActive = 0.4;
 
 
     // Declaring servos attached/required for this autonomous class
@@ -58,9 +58,9 @@ public class Foundation_Auto_Blue extends LinearOpMode {
         runtime.reset();
 
         // Using the autodrive function from holonomic drive to drive the robot forwards at a max speed of 50%
-        holonomicDrive.autoDrive(0, 0.75);
+        holonomicDrive.autoDrive(0, 0.95);
         // Running a while loop that is active for our set amount of time which is 1.4 seconds in this case
-        while (opModeIsActive() && runtime.seconds() < 2.0){
+        while (opModeIsActive() && runtime.seconds() < 1.5){
             // Adding telemetry data of our direction and run time
             telemetry.addData("Path", "TIME: %2.5f S Elapsed", runtime.seconds());
             telemetry.update();
@@ -82,10 +82,10 @@ public class Foundation_Auto_Blue extends LinearOpMode {
         // Resetting the time again
         runtime.reset();
         // Driving backwards at a max speed of 50% for 1.9 seconds
-        holonomicDrive.autoDrive(180, 0.75);
+        holonomicDrive.autoDrive(180, 0.95);
         // Running a while loop so the robot will not try to do anything until it has moved
         // backwards for 1.9 seconds
-        while (opModeIsActive() && runtime.seconds() < 3.0){
+        while (opModeIsActive() && runtime.seconds() < 2.0){
             // Adding telemetry of the time elapsed
             telemetry.addData("Path", "TIME: %2.5f S Elapsed", runtime.seconds());
             telemetry.update();
@@ -97,17 +97,14 @@ public class Foundation_Auto_Blue extends LinearOpMode {
         // Moving the hooks so they will not collide with the foundation
         left_hook.setPosition(lStored);
         right_hook.setPosition(rStored);
-        //  Running a while look to prevent the robot from moving while we reset the hooks
+/*        //  Running a while look to prevent the robot from moving while we reset the hooks
         while (opModeIsActive() && runtime.seconds() < 1.0){
             // Adding telemetry data for the time elapsed
             telemetry.addData("Path", "TIME: %2.5f S Elapsed", runtime.seconds());
             telemetry.update();
-        }
-        FrontRightMotor.setPower(0.8);
-        FrontLeftMotor.setPower(0.8);
-        BackRightMotor.setPower(0.8);
-        BackLeftMotor.setPower(0.8);
-        while (opModeIsActive() && runtime.seconds() < 3.2){
+        }*/
+        holonomicDrive.autoDrive(90,0.95);
+        while (opModeIsActive() && runtime.seconds() < 3.3){
             // Adding telemetry of the time elapsed
             telemetry.addData("Path", "TIME: %2.5f S Elapsed", runtime.seconds());
             telemetry.update();

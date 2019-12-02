@@ -30,13 +30,16 @@ public class Claw_Auto extends LinearOpMode {
         holonomicDrive = new HolonomicDrive(FrontRightMotor, FrontLeftMotor, BackRightMotor, BackLeftMotor);
 
         // Classifying our servos with their names on the expansion hub
-        Sky_Claw = hardwareMap.servo.get("sky_claw");
-
-        Sky_Claw.setPosition(0.9);
-
-        waitForStart();
-        Sky_Claw.setPosition(0.3);
+        FrontRightMotor.setPower(0.5);
         sleep(2000);
+        FrontLeftMotor.setPower(0.5);
+        sleep(2000);
+        BackRightMotor.setPower(0.5);
+        sleep(2000);
+        BackLeftMotor.setPower(0.5);
+        sleep(2000);
+
+
 
 
     }

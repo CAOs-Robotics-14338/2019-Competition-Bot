@@ -103,10 +103,10 @@ public class HolonomicDrive {
     public void autoDrive(double directionDegrees, double maxSpeed){
         double plusX = (((Math.PI)/4.0) + ((Math.PI)/180 * directionDegrees));
         double minusX = (((Math.PI)/4.0) - ((Math.PI)/180 * directionDegrees)); //(((Math.PI)/4.0) + ((Math.PI)/180 * directionDegrees))
-        double FrontRightMotorPower = maxSpeed * Math.cos(plusX);
-        double FrontLeftMotorPower = -maxSpeed * Math.cos(minusX);
-        double BackRightMotorPower = maxSpeed * Math.cos(minusX);
-        double BackLeftMotorPower = -maxSpeed * Math.cos(plusX);
+        double FrontRightMotorPower = -maxSpeed * Math.cos(plusX);
+        double FrontLeftMotorPower = maxSpeed * Math.cos(minusX);
+        double BackRightMotorPower = -maxSpeed * Math.cos(minusX);
+        double BackLeftMotorPower = maxSpeed * Math.cos(plusX);
 
         FrontRightMotor.setPower(FrontRightMotorPower);
         FrontLeftMotor.setPower(FrontLeftMotorPower);

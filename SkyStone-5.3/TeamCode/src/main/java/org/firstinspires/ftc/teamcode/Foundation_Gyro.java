@@ -4,9 +4,14 @@ package org.firstinspires.ftc.teamcode;
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.hardware.DcMotor;
-import com.qualcomm.robotcore.hardware.Gyroscope;
 import com.qualcomm.robotcore.hardware.Servo;
 import com.qualcomm.robotcore.util.ElapsedTime;
+
+import org.firstinspires.ftc.robotcore.external.navigation.Orientation;
+import org.firstinspires.ftc.teamcode.gyro;
+import com.qualcomm.hardware.bosch.BNO055IMU;
+
+
 /**
  *
  *
@@ -15,14 +20,14 @@ import com.qualcomm.robotcore.util.ElapsedTime;
  *
  * */
 // Declaring autonomous named Servo_Autonomous with the ground test
-@Autonomous(name="Foundation Auto B", group="Blue")
+@Autonomous(name="Foundation Gyro B", group="Blue")
 // Creating class named servo autonomous that uses linear op mode
 public class Foundation_Gyro extends LinearOpMode {
 
-    double lStored = 0.9;
-    double rStored = 0.3;
-    double lActive = 0.5;
-    double rActive = 0.1;
+    double lStored = 0;
+    double rStored = 1;
+    double lActive = 0.6;
+    double rActive = 0.4;
 
 
     // Declaring servos attached/required for this autonomous class
@@ -33,8 +38,10 @@ public class Foundation_Gyro extends LinearOpMode {
 
     // Declaring the DC motors for our holonomic drive base
     private DcMotor FrontRightMotor, FrontLeftMotor, BackRightMotor, BackLeftMotor;
+    BNO055IMU               imu;
+    Orientation lastAngles = new Orientation();
     HolonomicDrive holonomicDrive;
-    gyro Gryo;
+    gyro Gyro;
 
     // Starting OPMode
     @Override
@@ -45,9 +52,22 @@ public class Foundation_Gyro extends LinearOpMode {
         FrontLeftMotor = hardwareMap.get(DcMotor.class, "front_left_drive");
         BackRightMotor  = hardwareMap.get(DcMotor.class, "back_right_drive");
         BackLeftMotor = hardwareMap.get(DcMotor.class, "back_left_drive");
+        BNO055IMU.Parameters parameters = new BNO055IMU.Parameters();
+
+        parameters.mode                = BNO055IMU.SensorMode.IMU;
+        parameters.angleUnit           = BNO055IMU.AngleUnit.DEGREES;
+        parameters.loggingEnabled      = false;
+
+        // Retrieve and initialize the IMU. We expect the IMU to be attached to an I2C port
+        // on a Core Device Interface Module, configured to be a sensor of type "AdaFruit IMU",
+        // and named "imu".
+        imu = hardwareMap.get(BNO055IMU.class, "imu");
+
+        imu.initialize(parameters);
 
         // Setting our holonomic drive to use our 2 front and 2 back motors
         holonomicDrive = new HolonomicDrive(FrontRightMotor, FrontLeftMotor, BackRightMotor, BackLeftMotor);
+        Gyro = new gyro(FrontRightMotor, FrontLeftMotor, BackRightMotor, BackLeftMotor, imu);
 
         // Classifying our servos with their names on the expansion hub
         left_hook = hardwareMap.servo.get("left_hook");
@@ -100,7 +120,19 @@ public class Foundation_Gyro extends LinearOpMode {
         }
         // Stopping the robot so it doesn't continue to drive
         holonomicDrive.stopMoving();
-        Gryo.rotate(90,0.5);
+        //Gyro.rotate(90,0.5);
+        holonomicDrive.autoDrive(90,0.5);
+/*        FrontRightMotor.setPower(-0.8);
+        FrontLeftMotor.setPower(-0.8);
+        BackRightMotor.setPower(0.8);
+        BackLeftMotor.setPower(0.8);*/
+        while (opModeIsActive() && runtime.seconds() < 2.5){
+            // Adding telemetry of the time elapsed
+            telemetry.addData("Path", "TIME: %2.5f S Elapsed", runtime.seconds());
+            telemetry.update();
+        }
+        // Stopping the robot so it doesn't continue to drive into the wall
+        holonomicDrive.stopMoving();
         runtime.reset();
         // We wil now drive towards the wall to push the foundation into the building site
         holonomicDrive.autoDrive(0, 0.75);
