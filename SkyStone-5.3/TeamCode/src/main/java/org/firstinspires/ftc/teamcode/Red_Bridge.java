@@ -3,6 +3,7 @@ package org.firstinspires.ftc.teamcode;
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.hardware.DcMotor;
+import com.qualcomm.robotcore.hardware.Servo;
 import com.qualcomm.robotcore.util.ElapsedTime;
 
 
@@ -16,7 +17,12 @@ public class Red_Bridge extends LinearOpMode {
     private ElapsedTime runtime = new ElapsedTime();
 
     private DcMotor FrontRightMotor, FrontLeftMotor, BackRightMotor, BackLeftMotor;
+    private Servo left_hook, right_hook;
     HolonomicDrive holonomicDrive;
+    BotServos bot_servo;
+    double lStored = 0;
+    double rStored = 1;
+
 
     @Override
     public void runOpMode() {
@@ -27,10 +33,22 @@ public class Red_Bridge extends LinearOpMode {
         BackLeftMotor = hardwareMap.get(DcMotor.class, "back_left_drive");
 
         holonomicDrive = new HolonomicDrive(FrontRightMotor, FrontLeftMotor, BackRightMotor, BackLeftMotor);
+        bot_servo = new BotServos(left_hook, right_hook);
+
+
+        // Classifying our servos with their names on the expansion hub
+        left_hook = hardwareMap.servo.get("left_hook");
+        right_hook = hardwareMap.servo.get("right_hook");
+
+        // Setting servos to the retracted position allowing them to move over the foundation lip
+        left_hook .setPosition(lStored);
+        right_hook.setPosition(rStored);
+
+        waitForStart();
 
         runtime.reset();
         holonomicDrive.autoDrive(270,0.8);
-        while (opModeIsActive() && runtime.seconds() < 1.2){
+        while (opModeIsActive() && runtime.seconds() < 1.0){
             // Adding telemetry of the time elapsed
             telemetry.addData("Path", "TIME: %2.5f S Elapsed", runtime.seconds());
             telemetry.update();
@@ -38,3 +56,4 @@ public class Red_Bridge extends LinearOpMode {
         holonomicDrive.stopMoving();
     }
 }
+
