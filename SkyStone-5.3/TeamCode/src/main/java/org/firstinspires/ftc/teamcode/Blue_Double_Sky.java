@@ -26,8 +26,8 @@ import java.util.List;
 
 
 
-@Autonomous(name= "BlueAuto", group="Sky autonomous")
-public class SkyProto extends LinearOpMode {
+@Autonomous(name= "Blue Double Sky", group="Blue")
+public class Blue_Double_Sky extends LinearOpMode {
     private ElapsedTime runtime = new ElapsedTime();
     private DcMotor  FrontRightMotor, FrontLeftMotor, BackRightMotor, BackLeftMotor, IntakeLeftMotor, IntakeRightMotor, ScissorLiftMotor;
     private Servo left_hook, right_hook, IntakePulley;
@@ -40,17 +40,16 @@ public class SkyProto extends LinearOpMode {
     double                  globalAngle, power = .30, correction;
 
 
-    double lStored = 0.9;
-    double rStored = 0.3;
-    double lActive = 0.5;
-    double rActive = 0.1;
-    double time = 5;
-    double intake_time = 3;
-    double r_time = 7;
+    double lStored = 0;
+    double rStored = 1;
+    double lActive = 0.6;
+    double rActive = 0.4;
+    double time = 4;
+    double intake_time = 2;
+    double r_time = 5.5;
     int pos;
     boolean skyFound = false;
     boolean sky2Found = false;
-    boolean collect = false, deploy;
 
     //0 means skystone, 1 means yellow stone
     //-1 for debug, but we can keep it like this because if it works, it should change to either 0 or 255
@@ -126,9 +125,9 @@ public class SkyProto extends LinearOpMode {
             telemetry.update();
             sleep(100);
 /**          Testing if the skystone is on the left side of the robot
-             If it is, we will strafe left so when we move forward, it will go into the intake
-             If There is an issue with collecting it, then we can add a touch sensor to the inside of the intake which will let us detect
-             when we have captured the skystone */
+ If it is, we will strafe left so when we move forward, it will go into the intake
+ If There is an issue with collecting it, then we can add a touch sensor to the inside of the intake which will let us detect
+ when we have captured the skystone */
 
             if(valLeft == 0 && !skyFound){
                 skyFound = true;
@@ -136,14 +135,14 @@ public class SkyProto extends LinearOpMode {
                 time -= 0.5;
                 r_time -= 0.5;
                 runtime.reset();
-                holonomicDrive.autoDrive(270,0.6);
+                holonomicDrive.autoDrive(315,0.4);
                 while (opModeIsActive() && runtime.seconds() < 0.5){
                     // Adding telemetry of the time elapsed
                     telemetry.addData("Path", "TIME: %2.5f S Elapsed", runtime.seconds());
                     telemetry.addData("Position", pos);
                     telemetry.update();
                 }
-                holonomicDrive.stopMoving();
+
             }
             else if(valRight == 0 && !skyFound){
                 skyFound = true;
@@ -151,7 +150,7 @@ public class SkyProto extends LinearOpMode {
                 time += 0.5;
                 r_time += 0.5;
                 runtime.reset();
-                holonomicDrive.autoDrive(90,0.6);
+                holonomicDrive.autoDrive(45,0.4);
                 while (opModeIsActive() && runtime.seconds() < 0.5){
                     // Adding telemetry of the time elapsed
                     telemetry.addData("Path", "TIME: %2.5f S Elapsed", runtime.seconds());
@@ -159,25 +158,20 @@ public class SkyProto extends LinearOpMode {
 
                     telemetry.update();
                 }
-                holonomicDrive.stopMoving();
+
             }
             else if(valMid == 0 && !skyFound) {
                 skyFound = true;
                 pos = 2;
                 telemetry.addData("Position", pos);
-
             }
-
-
-
             else{
                 telemetry.addData("Sorry!", "I don't see anything!");
                 telemetry.update();
             }
             // After moving the robot infront of the skystone or displaying a message that we do not see one,
             // We will enable the intake and move forward for the amount of time defined by intake_time
-            collect = true;
-            intake_systems.intake(collect, deploy);
+            intake_systems.intake(true, false);
             runtime.reset();
             holonomicDrive.autoDrive(0,0.8);
             while (opModeIsActive() && runtime.seconds() < intake_time){
@@ -188,11 +182,10 @@ public class SkyProto extends LinearOpMode {
             holonomicDrive.stopMoving();
             sleep(500);
             // We will now have the skystone so we must drive back to the starting position and disable the collector
-            collect = false;
-            intake_systems.intake(collect, deploy);
+            intake_systems.intake(false, false);
             runtime.reset();
             holonomicDrive.autoDrive(180,0.8);
-            while (opModeIsActive() && runtime.seconds() < intake_time-1){
+            while (opModeIsActive() && runtime.seconds() < intake_time){
                 // Adding telemetry of the time elapsed
                 telemetry.addData("Path", "TIME: %2.5f S Elapsed", runtime.seconds());
                 telemetry.update();
@@ -210,53 +203,12 @@ public class SkyProto extends LinearOpMode {
                 telemetry.addData("Path", "TIME: %2.5f S Elapsed", runtime.seconds());
                 telemetry.update();
             }
+            intake_systems.intake(false, true);
             holonomicDrive.stopMoving();
             // We should now be parallel to the foundation so we now need to turn to the left and drive to the foundation
-            Gyro.rotate(90,0.5);
-            sleep(1000);
-            runtime.reset();
-            holonomicDrive.autoDrive(0,0.8);
-            while (opModeIsActive() && runtime.seconds() < 0.5){
-                // Adding telemetry of the time elapsed
-                telemetry.addData("Path", "TIME: %2.5f S Elapsed", runtime.seconds());
-                telemetry.update();
-            }
-            holonomicDrive.stopMoving();
+            sleep(1500);
+            intake_systems.intake(false, false);
             sleep(500);
-            left_hook.setPosition(lActive);
-            right_hook.setPosition(rActive);
-            sleep(500);
-            // Now we will want to backup with the foundation before turning to the left
-            runtime.reset();
-            holonomicDrive.autoDrive(0,0.8);
-            while (opModeIsActive() && runtime.seconds() < 1.2){
-                // Adding telemetry of the time elapsed
-                telemetry.addData("Path", "TIME: %2.5f S Elapsed", runtime.seconds());
-                telemetry.update();
-            }
-            holonomicDrive.stopMoving();
-            sleep(200);
-            Gyro.rotate(90,0.5);
-            sleep(1000);
-            // We should now be perpendicular with alliance bridge, next we will drive the foundation into the building site
-            runtime.reset();
-            holonomicDrive.autoDrive(0,0.8);
-            while (opModeIsActive() && runtime.seconds() < 0.6){
-                // Adding telemetry of the time elapsed
-                telemetry.addData("Path", "TIME: %2.5f S Elapsed", runtime.seconds());
-                telemetry.update();
-            }
-            holonomicDrive.stopMoving();
-            sleep(200);
-            // we will now retract the servos
-            left_hook.setPosition(lStored);
-            right_hook.setPosition(rStored);
-            /**
-                The following code will eject the skystone as we drive away from the foundation
-                If the scissor lift can place the stone on the foundation, that code will go here
-             */
-            deploy = true;
-            intake_systems.intake(collect, deploy);
 
             runtime.reset();
             // Now we have started deploying the skystone, next we will drive back to the quarry
@@ -267,8 +219,7 @@ public class SkyProto extends LinearOpMode {
                 telemetry.update();
             }
             holonomicDrive.stopMoving();
-            deploy = false;
-            intake_systems.intake(collect, deploy);
+
 
             sleep(200);
             // Now we are back in the quarry so we will want to test which skystone we need to aim for.
@@ -278,8 +229,7 @@ public class SkyProto extends LinearOpMode {
                 sky2Found = true;
                 Gyro.rotate(-135,0.5);
                 sleep(1000);
-                collect = true;
-                intake_systems.intake(collect, deploy);
+                intake_systems.intake(true, false);
                 runtime.reset();
                 holonomicDrive.autoDrive(0,0.8);
                 while (opModeIsActive() && runtime.seconds() < intake_time){
@@ -291,7 +241,7 @@ public class SkyProto extends LinearOpMode {
                 sleep(500);
                 runtime.reset();
                 holonomicDrive.autoDrive(180,0.8);
-                while (opModeIsActive() && runtime.seconds() < intake_time-1){
+                while (opModeIsActive() && runtime.seconds() < intake_time){
                     // Adding telemetry of the time elapsed
                     telemetry.addData("Path", "TIME: %2.5f S Elapsed", runtime.seconds());
                     telemetry.update();
@@ -299,8 +249,7 @@ public class SkyProto extends LinearOpMode {
                 holonomicDrive.stopMoving();
                 Gyro.rotate(135,0.5);
                 sleep(100);
-                collect = false;
-                intake_systems.intake(collect, deploy);
+                intake_systems.intake(false, false);
 
                 runtime.reset();
                 // Now we are driving towards the building zone with the skystone.
@@ -311,9 +260,7 @@ public class SkyProto extends LinearOpMode {
                     telemetry.update();
                 }
                 holonomicDrive.stopMoving();
-                deploy = true;
-                intake_systems.intake(collect, deploy);
-
+                intake_systems.intake(false, true);
                 sleep(100);
                 holonomicDrive.autoDrive(180,1.0);
                 while (opModeIsActive() && runtime.seconds() < 1.5 ){
@@ -328,9 +275,7 @@ public class SkyProto extends LinearOpMode {
                 sky2Found = true;
                 Gyro.rotate(-90, 0.5);
                 sleep(1000);
-                collect = true;
-                intake_systems.intake(collect, deploy);
-
+                intake_systems.intake(true, false);
                 // we should now be with our intake pointed at the second skystone.
                 runtime.reset();
                 holonomicDrive.autoDrive(0,0.8);
@@ -350,9 +295,7 @@ public class SkyProto extends LinearOpMode {
                 }
                 holonomicDrive.stopMoving();
                 Gyro.rotate(90, 0.5);
-                collect = false;
-                intake_systems.intake(collect, deploy);
-
+                intake_systems.intake(false, false);
                 runtime.reset();
                 // Now we are driving towards the building zone with the skystone.
                 holonomicDrive.autoDrive(0,1.0);
@@ -362,8 +305,8 @@ public class SkyProto extends LinearOpMode {
                     telemetry.update();
                 }
                 holonomicDrive.stopMoving();
-                deploy = true;
-                intake_systems.intake(collect, deploy);
+                intake_systems.intake(false, true);
+
 
                 sleep(100);
                 holonomicDrive.autoDrive(180,1.0);
@@ -373,6 +316,8 @@ public class SkyProto extends LinearOpMode {
                     telemetry.update();
                 }
                 holonomicDrive.stopMoving();
+                intake_systems.intake(false, false);
+
 
 
             }

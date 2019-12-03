@@ -56,11 +56,12 @@ public class HolonomicOpMode extends OpMode
     // Declare OpMode members.
     private ElapsedTime runtime = new ElapsedTime();
     private DcMotor  FrontRightMotor, FrontLeftMotor, BackRightMotor, BackLeftMotor, IntakeLeftMotor, IntakeRightMotor, ScissorLiftMotor;
-    private Servo IntakePulley;
+    private Servo IntakePulley, left_hook, right_hook;
 
     HolonomicDrive holonomicDrive;
     ScissorLift scissorLift;
     Intake_Systems intake_systems;
+    BotServos bot_servo;
 
     /*
      * Code to run ONCE when the driver hits INIT
@@ -80,10 +81,13 @@ public class HolonomicOpMode extends OpMode
         IntakeRightMotor = hardwareMap.get(DcMotor.class, "right_intake");
         ScissorLiftMotor =  hardwareMap.get(DcMotor.class, "scissor");
         IntakePulley = hardwareMap.servo.get("intake_pulley");
+        left_hook = hardwareMap.servo.get("left_hook");
+        right_hook = hardwareMap.servo.get("right_hook");
 
         holonomicDrive = new HolonomicDrive(FrontRightMotor, FrontLeftMotor, BackRightMotor, BackLeftMotor);
         scissorLift = new ScissorLift(ScissorLiftMotor);
         intake_systems = new Intake_Systems(IntakeRightMotor, IntakeLeftMotor, IntakePulley);
+        bot_servo = new BotServos(left_hook, right_hook);
 
         // Tell the driver that initialization is complete.
         telemetry.addData("Status", "Initialized");
@@ -118,15 +122,21 @@ public class HolonomicOpMode extends OpMode
         double y2 = gamepad2.left_stick_y;
         boolean collect = gamepad1.a;
         boolean deploy = gamepad1.b;
-/*        boolean activate = gamepad2.right_bumper;
+        boolean activate = gamepad2.right_bumper;
         boolean reset = gamepad2.left_bumper;
-        boolean scissorUp = gamepad2.dpad_up;
+        boolean lb = gamepad1.right_bumper;
+        boolean rb = gamepad1.left_bumper;
+        boolean button_a = gamepad1.y;
+        boolean button_b = gamepad2.y;
+        /*boolean scissorUp = gamepad2.dpad_up;
         boolean scissorDown = gamepad2.dpad_down;*/
 
 
         holonomicDrive.teleopDrive(x,y,z);
         intake_systems.intake(collect, deploy);
         scissorLift.LiftControl(y2);
+        bot_servo.retract(lb, rb, reset, activate);
+        bot_servo.activate(button_a, button_b);
         //scissorLift.LiftMovement(scissorUp, scissorDown, reset, activate);
         // Show the elapsed game time and wheel power.
         telemetry.addData("Status", "Run Time: " + runtime.toString());
