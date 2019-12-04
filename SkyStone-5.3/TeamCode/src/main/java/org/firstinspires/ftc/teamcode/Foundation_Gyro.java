@@ -112,7 +112,7 @@ public class Foundation_Gyro extends LinearOpMode {
         holonomicDrive.autoDrive(180, 0.90);
         // Running a while loop so the robot will not try to do anything until it has moved
         // backwards for 1.0 second
-        while (opModeIsActive() && runtime.seconds() < 1.0){
+        while (opModeIsActive() && runtime.seconds() < 1.5){
             // Adding telemetry of the time elapsed
             telemetry.addData("Path", "TIME: %2.5f S Elapsed", runtime.seconds());
             telemetry.update();

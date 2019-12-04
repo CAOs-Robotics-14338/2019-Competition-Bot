@@ -45,7 +45,8 @@ public class Blue_Double_Sky extends LinearOpMode {
     double lActive = 0.6;
     double rActive = 0.4;
     double time = 4;
-    double intake_time = 2;
+    double intake_time = 0.50;
+    double moveTime = 1.6;
     double r_time = 5.5;
     int pos;
     boolean skyFound = false;
@@ -56,16 +57,17 @@ public class Blue_Double_Sky extends LinearOpMode {
     private static int valMid = -1;
     private static int valLeft = -1;
     private static int valRight = -1;
+    boolean posfound = false;
 
     private static float rectHeight = .6f/8f;
     private static float rectWidth = 1.5f/8f;
 
-    private static float offsetX = 0f/8f;//changing this moves the three rects and the three circles left or right, range : (-2, 2) not inclusive
-    private static float offsetY = 1.5f/8f;//changing this moves the three rects and circles up or down, range: (-4, 4) not inclusive
+    private static float offsetX = 1.5f/8f;//changing this moves the three rects and the three circles left or right, range : (-2, 2) not inclusive
+    private static float offsetY = 2.5f/8f;//changing this moves the three rects and circles up or down, range: (-4, 4) not inclusive
 
     private static float[] midPos = {4f/8f+offsetX, 4f/8f+offsetY};//0 = col, 1 = row
-    private static float[] leftPos = {2f/8f+offsetX, 4f/8f+offsetY};
-    private static float[] rightPos = {6f/8f+offsetX, 4f/8f+offsetY};
+    private static float[] leftPos = {1f/8f+offsetX, 4f/8f+offsetY};
+    private static float[] rightPos = {7f/8f+offsetX, 4f/8f+offsetY};
     //moves all rectangles right or left by amount. units are in ratio to monitor
 
     private final int rows = 640;
@@ -114,7 +116,7 @@ public class Blue_Double_Sky extends LinearOpMode {
         webcam = OpenCvCameraFactory.getInstance().createWebcam(hardwareMap.get(WebcamName.class, "Webcam 1"), cameraMonitorViewId);
         webcam.openCameraDevice();//open camera
         webcam.setPipeline(new StageSwitchingPipeline());//different stages
-        webcam.startStreaming(rows, cols, OpenCvCameraRotation.UPRIGHT);//display on RC
+        webcam.startStreaming(rows, cols, OpenCvCameraRotation.SIDEWAYS_RIGHT);//display on RC
         //width, height
         //width = height in this case, because camera is in portrait mode.
 
@@ -124,33 +126,38 @@ public class Blue_Double_Sky extends LinearOpMode {
             telemetry.addData("Values", valLeft+"   "+valMid+"   "+valRight);
             telemetry.update();
             sleep(100);
+            if(valMid == 0 && !posfound){pos = 1; posfound = true;}
+            else if(valRight == 0 && !posfound){pos = 2; posfound = true;}
+            else{pos = 3; posfound = true;}
 /**          Testing if the skystone is on the left side of the robot
  If it is, we will strafe left so when we move forward, it will go into the intake
  If There is an issue with collecting it, then we can add a touch sensor to the inside of the intake which will let us detect
  when we have captured the skystone */
 
-            if(valLeft == 0 && !skyFound){
+            if(pos == 1 && !skyFound){
                 skyFound = true;
-                pos = 1;
                 time -= 0.5;
                 r_time -= 0.5;
                 runtime.reset();
-                holonomicDrive.autoDrive(315,0.4);
-                while (opModeIsActive() && runtime.seconds() < 0.5){
+                holonomicDrive.autoDrive(0,0.85);
+                while (opModeIsActive() && runtime.seconds() < moveTime){
                     // Adding telemetry of the time elapsed
                     telemetry.addData("Path", "TIME: %2.5f S Elapsed", runtime.seconds());
                     telemetry.addData("Position", pos);
                     telemetry.update();
                 }
+                holonomicDrive.stopMoving();
+                Gyro.rotate(-30,0.4);
+                sleep(300);
 
             }
-            else if(valRight == 0 && !skyFound){
+            else if(pos == 2 && !skyFound){
+
                 skyFound = true;
-                pos = 3;
                 time += 0.5;
                 r_time += 0.5;
                 runtime.reset();
-                holonomicDrive.autoDrive(45,0.4);
+                holonomicDrive.autoDrive(0, 0.85);
                 while (opModeIsActive() && runtime.seconds() < 0.5){
                     // Adding telemetry of the time elapsed
                     telemetry.addData("Path", "TIME: %2.5f S Elapsed", runtime.seconds());
@@ -158,11 +165,63 @@ public class Blue_Double_Sky extends LinearOpMode {
 
                     telemetry.update();
                 }
+                holonomicDrive.stopMoving();
+                runtime.reset();
+                holonomicDrive.autoDrive(90,0.85);
+                while (opModeIsActive() && runtime.seconds() < 0.3){
+                    // Adding telemetry of the time elapsed
+                    telemetry.addData("Path", "TIME: %2.5f S Elapsed", runtime.seconds());
+                    telemetry.addData("Position", pos);
+
+                    telemetry.update();
+                }
+                holonomicDrive.stopMoving();
+
+                runtime.reset();
+                holonomicDrive.autoDrive(0,0.85);
+                while (opModeIsActive() && runtime.seconds() < moveTime-0.5){
+                    // Adding telemetry of the time elapsed
+                    telemetry.addData("Path", "TIME: %2.5f S Elapsed", runtime.seconds());
+                    telemetry.addData("Position", pos);
+
+                    telemetry.update();
+                }
+                holonomicDrive.stopMoving();
+
+                Gyro.rotate(-30,0.8);
+                sleep(200);
+
 
             }
-            else if(valMid == 0 && !skyFound) {
+            else if(pos == 3 && !skyFound) {
                 skyFound = true;
-                pos = 2;
+                runtime.reset();
+                holonomicDrive.autoDrive(90, 0.85);
+                while (opModeIsActive() && runtime.seconds() < 0.6){
+                    // Adding telemetry of the time elapsed
+                    telemetry.addData("Path", "TIME: %2.5f S Elapsed", runtime.seconds());
+                    telemetry.addData("Position", pos);
+
+                    telemetry.update();
+                }
+                holonomicDrive.stopMoving();
+
+
+                runtime.reset();
+                holonomicDrive.autoDrive(0, 0.85);
+                while (opModeIsActive() && runtime.seconds() < moveTime){
+                    // Adding telemetry of the time elapsed
+                    telemetry.addData("Path", "TIME: %2.5f S Elapsed", runtime.seconds());
+                    telemetry.addData("Position", pos);
+
+                    telemetry.update();
+                }
+                holonomicDrive.stopMoving();
+                Gyro.rotate(-30,0.85);
+                sleep(200);
+
+
+
                 telemetry.addData("Position", pos);
             }
             else{
