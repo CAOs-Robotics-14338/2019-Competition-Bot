@@ -358,7 +358,10 @@ public class Blue_Double_Sky extends LinearOpMode {
                     telemetry.update();
                 }
                 holonomicDrive.stopMoving();
-                Gyro.rotate(-15,0.5);
+                if(pos == 1){
+                    Gyro.rotate(-15,0.5);
+
+                }
                 sleep(500);
                 intake_systems.intake(true, false);
                 // we should now be with our intake pointed at the second skystone.
