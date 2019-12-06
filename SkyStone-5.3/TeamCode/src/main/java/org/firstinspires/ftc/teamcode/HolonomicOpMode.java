@@ -120,23 +120,29 @@ public class HolonomicOpMode extends OpMode
 
 
         double y2 = gamepad2.left_stick_y;
-        boolean collect = gamepad1.a;
-        boolean deploy = gamepad1.b;
+        boolean collect1 = gamepad1.a;
+        boolean deploy1 = gamepad1.b;
+        boolean collect2 = gamepad2.a;
+        boolean deploy2 = gamepad2.b;
         boolean activate = gamepad2.right_bumper;
         boolean reset = gamepad2.left_bumper;
-        boolean lb = gamepad1.right_bumper;
-        boolean rb = gamepad1.left_bumper;
-        boolean button_a = gamepad1.y;
-        boolean button_b = gamepad2.y;
+        boolean rbl = gamepad1.right_bumper;
+        boolean lb1 = gamepad1.left_bumper;
+        boolean button_y1 = gamepad1.y;
+        boolean button_y2 = gamepad2.y;
+        boolean button_x1 = gamepad1.x;
+        boolean button_x2 = gamepad2.x;
         /*boolean scissorUp = gamepad2.dpad_up;
         boolean scissorDown = gamepad2.dpad_down;*/
 
 
         holonomicDrive.teleopDrive(x,y,z);
-        intake_systems.intake(collect, deploy);
+        intake_systems.intake(collect1, deploy1, collect2, deploy2);
+        intake_systems.pullBackCollectionArms(button_x1, button_x2);
+        intake_systems.releaseCollectionArms(button_y1, button_y2);
         scissorLift.LiftControl(y2);
-        bot_servo.retract(lb, rb, reset, activate);
-        bot_servo.activate(button_a, button_b);
+        bot_servo.retract(lb1, reset);
+        bot_servo.activate(rbl, activate);
         //scissorLift.LiftMovement(scissorUp, scissorDown, reset, activate);
         // Show the elapsed game time and wheel power.
         telemetry.addData("Status", "Run Time: " + runtime.toString());
