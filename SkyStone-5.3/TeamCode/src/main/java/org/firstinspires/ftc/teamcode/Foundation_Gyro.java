@@ -123,10 +123,10 @@ public class Foundation_Gyro extends LinearOpMode {
         sleep(500);
         runtime.reset();
         // We wil now drive towards the wall to push the foundation into the building site
-        holonomicDrive.autoDrive(0, 0.75);
+        holonomicDrive.autoDrive(0, 0.95);
         // Running a while
         // loop so the robot will not try to do anything until it has moved
-        while (opModeIsActive() && runtime.seconds() < 0.5){
+        while (opModeIsActive() && runtime.seconds() < 1.0){
             // Adding telemetry of the time elapsed
             telemetry.addData("Path", "TIME: %2.5f S Elapsed", runtime.seconds());
             telemetry.update();
@@ -140,7 +140,7 @@ public class Foundation_Gyro extends LinearOpMode {
         // We will now want to stafe into our alliance wall to stay out of our alliance partners way
         runtime.reset();
         holonomicDrive.autoDrive(270, 0.95);
-        while (opModeIsActive() && runtime.seconds() < 1.1){
+        while (opModeIsActive() && runtime.seconds() < 1.2){
             // Adding telemetry of the time elapsed
             telemetry.addData("Path", "TIME: %2.5f S Elapsed", runtime.seconds());
             telemetry.update();
@@ -151,7 +151,7 @@ public class Foundation_Gyro extends LinearOpMode {
         runtime.reset();
         holonomicDrive.autoDrive(180, 0.95);
         // Running a while loop so the robot will not try to do anything until it has finished moving
-        while (opModeIsActive() && runtime.seconds() < 3.0){
+        while (opModeIsActive() && runtime.seconds() < 2.2){
             // Adding telemetry of the time elapsed
             telemetry.addData("Path", "TIME: %2.5f S Elapsed", runtime.seconds());
             telemetry.update();

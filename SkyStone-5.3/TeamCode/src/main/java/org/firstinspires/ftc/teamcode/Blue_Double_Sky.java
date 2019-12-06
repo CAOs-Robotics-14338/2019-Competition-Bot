@@ -168,8 +168,8 @@ public class Blue_Double_Sky extends LinearOpMode {
                 }
                 holonomicDrive.stopMoving();
                 runtime.reset();
-                holonomicDrive.autoDrive(90,0.85);
-                while (opModeIsActive() && runtime.seconds() < 0.45){
+                holonomicDrive.autoDrive(90,0.95);
+                while (opModeIsActive() && runtime.seconds() < 0.8){
                     // Adding telemetry of the time elapsed
                     telemetry.addData("Path", "TIME: %2.5f S Elapsed", runtime.seconds());
                     telemetry.addData("Position", pos);
