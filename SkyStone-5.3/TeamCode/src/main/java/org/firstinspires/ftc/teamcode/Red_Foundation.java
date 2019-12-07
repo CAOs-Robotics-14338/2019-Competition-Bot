@@ -8,7 +8,7 @@ import com.qualcomm.robotcore.hardware.Servo;
 import com.qualcomm.robotcore.util.ElapsedTime;
 
 // Declaring autonomous named Servo_Autonomous with the ground test
-@Autonomous(name="Red Foundation w/o Gyro", group="Red")
+@Autonomous(name="Red Foundation", group="Red")
 // Creating class named servo autonomous that uses linear op mode
 public class Red_Foundation extends LinearOpMode {
 
@@ -97,12 +97,7 @@ public class Red_Foundation extends LinearOpMode {
         // Moving the hooks so they will not collide with the foundation
         left_hook.setPosition(lStored);
         right_hook.setPosition(rStored);
-/*        //  Running a while look to prevent the robot from moving while we reset the hooks
-        while (opModeIsActive() && runtime.seconds() < 1.0){
-            // Adding telemetry data for the time elapsed
-            telemetry.addData("Path", "TIME: %2.5f S Elapsed", runtime.seconds());
-            telemetry.update();
-        }*/
+
         holonomicDrive.autoDrive(270,0.95);
         while (opModeIsActive() && runtime.seconds() < 3.){
             // Adding telemetry of the time elapsed

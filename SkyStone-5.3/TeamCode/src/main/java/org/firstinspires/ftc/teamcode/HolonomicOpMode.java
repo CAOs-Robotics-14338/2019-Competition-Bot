@@ -137,7 +137,7 @@ public class HolonomicOpMode extends OpMode
 
 
         holonomicDrive.teleopDrive(x,y,z);
-        intake_systems.intake(collect1, deploy1, collect2, deploy2);
+        intake_systems.intakeTele(collect1, deploy1, collect2, deploy2);
         intake_systems.pullBackCollectionArms(button_x1, button_x2);
         intake_systems.releaseCollectionArms(button_y1, button_y2);
         scissorLift.LiftControl(y2);
