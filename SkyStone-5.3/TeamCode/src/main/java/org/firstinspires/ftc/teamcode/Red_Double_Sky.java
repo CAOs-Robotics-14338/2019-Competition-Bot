@@ -133,7 +133,7 @@ public class Red_Double_Sky extends LinearOpMode {
                 skyFound = true;
 /**                pos = 3;
                 time += 0.5;
-                r_time += 0.5;*/
+                r_time += 0.5;
                 runtime.reset();
                 holonomicDrive.autoDrive(315,0.4);
                 while (opModeIsActive() && runtime.seconds() < 0.5){
