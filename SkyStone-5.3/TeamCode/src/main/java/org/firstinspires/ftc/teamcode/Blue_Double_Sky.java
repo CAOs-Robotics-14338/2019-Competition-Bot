@@ -51,6 +51,9 @@ public class Blue_Double_Sky extends LinearOpMode {
     double numTime = 0.5;
     double postime = 0;
     double pos2time = 0;
+    double movetime = 0;
+    double newtime = 0;
+    double timetime = 0;
     int pos;
     boolean skyFound = false;
     boolean sky2Found = false;
@@ -140,7 +143,7 @@ public class Blue_Double_Sky extends LinearOpMode {
 
             if(pos == 1 && !skyFound){
                 skyFound = true;
-                time -= 0.75;
+                time -= 0.85;
                 r_time -= 0.75;
                 runtime.reset();
                 holonomicDrive.autoDrive(0,0.85);
@@ -263,7 +266,8 @@ public class Blue_Double_Sky extends LinearOpMode {
             runtime.reset();
             // Now we have started deploying the skystone, next we will drive back to the quarry
             if(pos == 1){
-                holonomicDrive.autoDrive(195,0.95);
+                holonomicDrive.autoDrive(200,0.95);
+                newtime += 0.15;
             }
             else if(pos == 2){
                 holonomicDrive.autoDrive(195,0.8);
@@ -273,7 +277,7 @@ public class Blue_Double_Sky extends LinearOpMode {
                 holonomicDrive.autoDrive(190,0.95);
             }
 
-            while (opModeIsActive() && runtime.seconds() < r_time-0.4){
+            while (opModeIsActive() && runtime.seconds() < r_time-0.4-newtime){
                 // Adding telemetry of the time elapsed
                 telemetry.addData("Path", "TIME: %2.5f S Elapsed", runtime.seconds());
                 telemetry.update();
@@ -322,7 +326,7 @@ public class Blue_Double_Sky extends LinearOpMode {
                 sleep(100);
 
                 if(pos == 1){
-                    pos2time += 0.2
+                    pos2time += 0.2;
                 }
                 runtime.reset();
                 // Now we are driving towards the building zone with the skystone.
@@ -338,7 +342,7 @@ public class Blue_Double_Sky extends LinearOpMode {
                 sleep(100);
                 runtime.reset();
                 holonomicDrive.autoDrive(180,0.95);
-                while (opModeIsActive() && runtime.seconds() < 0.5 ){
+                while (opModeIsActive() && runtime.seconds() < 0.5-postime){
                     // Adding telemetry of the time elapsed
                     telemetry.addData("Path", "TIME: %2.5f S Elapsed", runtime.seconds());
                     telemetry.update();
@@ -366,7 +370,8 @@ public class Blue_Double_Sky extends LinearOpMode {
                 }
                 holonomicDrive.stopMoving();
                 if(pos == 1){
-                    Gyro.rotate(-12,0.5);
+                    Gyro.rotate(-10,0.5);
+                    movetime += 0.4;
                 }
                 else if (pos == 2){
                     Gyro.rotate(-10,0.5);
@@ -402,6 +407,7 @@ public class Blue_Double_Sky extends LinearOpMode {
                     Gyro.rotate(99,0.5);
                     sleep(200);
                     r_time += 0.75;
+                    timetime += 0.4;
                 }
                 else if(pos == 2){
                     Gyro.rotate(99, 0.5);
@@ -411,7 +417,7 @@ public class Blue_Double_Sky extends LinearOpMode {
                 runtime.reset();
                 // Now we are driving towards the building zone with the skystone.
                 holonomicDrive.autoDrive(0,0.95);
-                while (opModeIsActive() && runtime.seconds() < r_time-0.9){
+                while (opModeIsActive() && runtime.seconds() < r_time-0.9-newtime-timetime){
                     // Adding telemetry of the time elapsed
                     telemetry.addData("Path", "TIME: %2.5f S Elapsed", runtime.seconds());
                     telemetry.update();
