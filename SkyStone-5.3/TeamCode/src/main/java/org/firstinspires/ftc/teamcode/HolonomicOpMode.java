@@ -55,7 +55,7 @@ public class HolonomicOpMode extends OpMode
 {
     // Declare OpMode members.
     private ElapsedTime runtime = new ElapsedTime();
-    private DcMotor  FrontRightMotor, FrontLeftMotor, BackRightMotor, BackLeftMotor, IntakeLeftMotor, IntakeRightMotor, ScissorLiftMotor;
+    private DcMotor  FrontRightMotor, FrontLeftMotor, BackRightMotor, BackLeftMotor, IntakeLeftMotor, IntakeRightMotor, ScissorLiftMotorLeft, ScissorLiftMotorRight;
     private Servo IntakePulley, left_hook, right_hook;
 
     HolonomicDrive holonomicDrive;
@@ -79,13 +79,14 @@ public class HolonomicOpMode extends OpMode
         BackLeftMotor = hardwareMap.get(DcMotor.class, "back_left_drive");
         IntakeLeftMotor = hardwareMap.get(DcMotor.class, "left_intake");
         IntakeRightMotor = hardwareMap.get(DcMotor.class, "right_intake");
-        ScissorLiftMotor =  hardwareMap.get(DcMotor.class, "scissor");
+        ScissorLiftMotorLeft =  hardwareMap.get(DcMotor.class, "scissor_left");
+        ScissorLiftMotorRight =  hardwareMap.get(DcMotor.class, "scissor_right");
         IntakePulley = hardwareMap.servo.get("intake_pulley");
         left_hook = hardwareMap.servo.get("left_hook");
         right_hook = hardwareMap.servo.get("right_hook");
 
         holonomicDrive = new HolonomicDrive(FrontRightMotor, FrontLeftMotor, BackRightMotor, BackLeftMotor);
-        scissorLift = new ScissorLift(ScissorLiftMotor);
+        scissorLift = new ScissorLift(ScissorLiftMotorLeft, ScissorLiftMotorRight);
         intake_systems = new Intake_Systems(IntakeRightMotor, IntakeLeftMotor, IntakePulley);
         bot_servo = new BotServos(left_hook, right_hook);
 

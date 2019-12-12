@@ -9,24 +9,26 @@ import org.firstinspires.ftc.robotcore.external.Telemetry;
 
 public class ScissorLift {
     static final double MOTOR_TICK_COUNT = 1120; //1440
-    private DcMotor ScissorLiftMotor;
+    private DcMotor ScissorLiftMotorLeft, ScissorLiftMotorRight;
     int initial = 560; //This is the amount that we need to raise the scissor lift to compensate for the foundation height
     int block = 1120; //This is the amount that the scissor lift must rise for 1 block
     int position = 0;
 
 
-        public ScissorLift(DcMotor ScissorLift){
-            ScissorLiftMotor = ScissorLift;
+        public ScissorLift(DcMotor ScissorLiftL, DcMotor ScissorLiftR){
+            ScissorLiftMotorLeft = ScissorLiftL;
+            ScissorLiftMotorRight = ScissorLiftR;
 
 
 
         }
         public  void LiftControl(double y2){
             double ScissorLiftPower = Range.clip( (-y2), -1.0, 1.0);
-            ScissorLiftMotor.setPower(ScissorLiftPower);
+            ScissorLiftMotorLeft.setPower(ScissorLiftPower);
+            ScissorLiftMotorRight.setPower(ScissorLiftPower);
 
         }
-        public void LiftMovement(boolean scissorUp, boolean scissorDown, boolean reset, boolean activate){
+/*        public void LiftMovement(boolean scissorUp, boolean scissorDown, boolean reset, boolean activate){
             if(scissorUp){ position += 1; }
             if(scissorDown && position > 0){position -= 1;}
             ScissorLiftMotor.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
@@ -49,6 +51,6 @@ public class ScissorLift {
             }
 
 
-        }
+        }*/
 
 }

@@ -101,7 +101,7 @@ public class Red_Double_Sky extends LinearOpMode {
 
 
         holonomicDrive = new HolonomicDrive(FrontRightMotor, FrontLeftMotor, BackRightMotor, BackLeftMotor);
-        scissorLift = new ScissorLift(ScissorLiftMotor);
+//        scissorLift = new ScissorLift(ScissorLiftMotor);
         intake_systems = new Intake_Systems(IntakeRightMotor, IntakeLeftMotor, IntakePulley);
         Gyro = new gyro(FrontRightMotor, FrontLeftMotor, BackRightMotor, BackLeftMotor, imu);
 
