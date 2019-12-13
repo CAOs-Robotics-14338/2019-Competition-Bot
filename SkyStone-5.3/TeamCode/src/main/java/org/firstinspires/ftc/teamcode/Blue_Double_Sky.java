@@ -54,6 +54,7 @@ public class Blue_Double_Sky extends LinearOpMode {
     double movetime = 0;
     double newtime = 0;
     double timetime = 0;
+    double newtime2 = 0;
     int pos;
     boolean skyFound = false;
     boolean sky2Found = false;
@@ -163,9 +164,10 @@ public class Blue_Double_Sky extends LinearOpMode {
                 skyFound = true;
                 time += 0;
                 r_time += 0;
+                newtime2 += 0.3;
                 runtime.reset();
                 holonomicDrive.autoDrive(30, 0.85);
-                while (opModeIsActive() && runtime.seconds() < moveTime){
+                while (opModeIsActive() && runtime.seconds() < moveTime-0.15){
                     // Adding telemetry of the time elapsed
                     telemetry.addData("Path", "TIME: %2.5f S Elapsed", runtime.seconds());
                     telemetry.addData("Position", pos);
@@ -229,7 +231,7 @@ public class Blue_Double_Sky extends LinearOpMode {
             if(pos == 1){
                 numTime -= 0.15;
             }
-            while (opModeIsActive() && runtime.seconds() < intake_time+0.3 + numTime){
+            while (opModeIsActive() && runtime.seconds() < intake_time+0.3 + numTime - newtime2){
                 // Adding telemetry of the time elapsed
                 telemetry.addData("Path", "TIME: %2.5f S Elapsed", runtime.seconds());
                 telemetry.update();
@@ -306,7 +308,7 @@ public class Blue_Double_Sky extends LinearOpMode {
                 intake_systems.intake(true, false);
                 runtime.reset();
                 holonomicDrive.autoDrive(0,0.95);
-                while (opModeIsActive() && runtime.seconds() < intake_time){
+                while (opModeIsActive() && runtime.seconds() < intake_time-0.5){
                     // Adding telemetry of the time elapsed
                     telemetry.addData("Path", "TIME: %2.5f S Elapsed", runtime.seconds());
                     telemetry.update();
@@ -315,14 +317,14 @@ public class Blue_Double_Sky extends LinearOpMode {
                 sleep(500);
                 runtime.reset();
                 holonomicDrive.autoDrive(180,0.95);
-                while (opModeIsActive() && runtime.seconds() < intake_time+0.3){
+                while (opModeIsActive() && runtime.seconds() < intake_time-0.2){
                     // Adding telemetry of the time elapsed
                     telemetry.addData("Path", "TIME: %2.5f S Elapsed", runtime.seconds());
                     telemetry.update();
                 }
                 holonomicDrive.stopMoving();
                 intake_systems.intake(false, false);
-                Gyro.rotate(115,0.5);
+                Gyro.rotate(119,0.5);
                 sleep(100);
 
                 if(pos == 1){
@@ -374,7 +376,7 @@ public class Blue_Double_Sky extends LinearOpMode {
                     movetime += 0.4;
                 }
                 else if (pos == 2){
-                    Gyro.rotate(-10,0.5);
+                    Gyro.rotate(-8,0.5);
                 }
                 sleep(250);
                 intake_systems.intake(true, false);
@@ -404,14 +406,15 @@ public class Blue_Double_Sky extends LinearOpMode {
                 intake_systems.intake(false, false);
 
                 if(pos == 1) {
-                    Gyro.rotate(99,0.5);
+                    Gyro.rotate(101,0.5);
                     sleep(200);
                     r_time += 0.75;
                     timetime += 0.4;
                 }
                 else if(pos == 2){
-                    Gyro.rotate(99, 0.5);
+                    Gyro.rotate(96, 0.5);
                     sleep(200);
+                    timetime += 0.4;
                 }
 
                 runtime.reset();
