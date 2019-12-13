@@ -20,9 +20,9 @@ import com.qualcomm.hardware.bosch.BNO055IMU;
  *
  * */
 // Declaring autonomous named Servo_Autonomous with the ground test
-@Autonomous(name="Foundation Gyro B", group="Blue")
+@Autonomous(name="Blue Foundation Gyro", group="Blue")
 // Creating class named servo autonomous that uses linear op mode
-public class Foundation_Gyro extends LinearOpMode {
+public class Blue_Foundation_Gyro extends LinearOpMode {
 
     double lStored = 0;
     double rStored = 1;
