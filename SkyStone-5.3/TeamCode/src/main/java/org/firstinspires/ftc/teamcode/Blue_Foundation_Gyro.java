@@ -112,7 +112,7 @@ public class Blue_Foundation_Gyro extends LinearOpMode {
         holonomicDrive.autoDrive(180, 0.90);
         // Running a while loop so the robot will not try to do anything until it has moved
         // backwards for 1.0 second
-        while (opModeIsActive() && runtime.seconds() < 1.3){
+        while (opModeIsActive() && runtime.seconds() < 1.5){
             // Adding telemetry of the time elapsed
             telemetry.addData("Path", "TIME: %2.5f S Elapsed", runtime.seconds());
             telemetry.update();
@@ -137,10 +137,15 @@ public class Blue_Foundation_Gyro extends LinearOpMode {
         // Moving the hooks so they will not collide with the foundation
         left_hook.setPosition(lStored);
         right_hook.setPosition(rStored);
+        while (opModeIsActive() && runtime.seconds() < 0.7) {
+            // Adding telemetry data with the time elapsed
+            telemetry.addData("Path", "TIME: %2.5f S Elapsed", runtime.seconds());
+            telemetry.update();
+        }
         // We will now want to stafe into our alliance wall to stay out of our alliance partners way
         runtime.reset();
         holonomicDrive.autoDrive(270, 0.95);
-        while (opModeIsActive() && runtime.seconds() < 1.2){
+        while (opModeIsActive() && runtime.seconds() < 0.8){
             // Adding telemetry of the time elapsed
             telemetry.addData("Path", "TIME: %2.5f S Elapsed", runtime.seconds());
             telemetry.update();
