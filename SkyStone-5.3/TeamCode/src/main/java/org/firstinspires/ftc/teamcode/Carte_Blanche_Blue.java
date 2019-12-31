@@ -34,6 +34,7 @@ public class Carte_Blanche_Blue extends LinearOpMode {
     HolonomicDrive holonomicDrive;
     //ScissorLift scissorLift;
     Intake_Systems intake_systems;
+    BotServos botServos;
     gyro Gyro;
     BNO055IMU               imu;
     Orientation lastAngles = new Orientation();
@@ -45,8 +46,14 @@ public class Carte_Blanche_Blue extends LinearOpMode {
     double lActive = 0.6;
     double rActive = 0.4;
     double time = 2;
-    private double intake_time = 0.50;
-    private double moveTime = 1.55;
+    double intake_time = 0.50;
+    double wallToSS1 = 1.55;
+    double wallToSS2 = 1.40;
+    double wallToSS3 = 1.55;
+    double SS1ToFoundation = 1.45;
+    double SS2ToFoundation = 0.0;
+    double SS3ToFoundation = 0.0;
+    double Found2SS2 = 2.5;
     private double r_time = 3.5;
     private double numTime = 0.5;
     private double postime = 0;
@@ -112,6 +119,7 @@ public class Carte_Blanche_Blue extends LinearOpMode {
         //scissorLift = new ScissorLift(ScissorLiftMotor);
         intake_systems = new Intake_Systems(IntakeRightMotor, IntakeLeftMotor, IntakePulley);
         Gyro = new gyro(FrontRightMotor, FrontLeftMotor, BackRightMotor, BackLeftMotor, imu);
+        botServos = new BotServos(left_hook, right_hook);
 
 
         // Setting servos to the retracted position
@@ -136,22 +144,206 @@ public class Carte_Blanche_Blue extends LinearOpMode {
             else if(valRight == 0 && !posfound){pos = 2; posfound = true;}
             else{pos = 3; posfound = true;}
 
+// time = 2 & rtime = 3.5
+
 
             if(pos == 1 && !skyFound){
                 skyFound = true;
                 time -= 0.85;
                 r_time -= 0.75;
                 runtime.reset();
+
+                // Driving from the wall to the first skystone @ position 1
                 holonomicDrive.autoDrive(0,0.85);
-                while (opModeIsActive() && runtime.seconds() < moveTime){
-                    // Adding telemetry of the time elapsed
-                    telemetry.addData("Path", "TIME: %2.5f S Elapsed", runtime.seconds());
-                    telemetry.addData("Position", pos);
+                while (opModeIsActive() && runtime.seconds() < wallToSS1){
+                    telemetry.addLine("Driving to 1st Skystone at position 1");
                     telemetry.update();
                 }
                 holonomicDrive.stopMoving();
+
+                // Rotating to be @ a 30 degree angle to the skystone
                 Gyro.rotate(-30,0.4);
                 sleep(100);
+
+                // Starting our intake wheel to collect the skystone
+                intake_systems.intake(true, false);
+                runtime.reset();
+                holonomicDrive.autoDrive(0,0.8);
+                while (opModeIsActive() && runtime.seconds() < intake_time){
+                    telemetry.addLine("Collecting the Skystone");
+                    telemetry.update();
+                }
+                holonomicDrive.stopMoving();
+                sleep(250);
+
+                // Reversing from collecting so we can drive under the alliance bridge
+                runtime.reset();
+                holonomicDrive.autoDrive(180,0.8);
+                while (opModeIsActive() && runtime.seconds() < intake_time){
+                    telemetry.addLine("Reversing to drive under the bridge");
+                    telemetry.update();
+                }
+                holonomicDrive.stopMoving();
+
+                // Stopping collection wheels and rotating to point towards the building zone
+                intake_systems.intake(false, false);
+                Gyro.rotate(105, 0.5);
+                sleep(150);
+
+                // Driving towards the building site with skystone in intake
+                runtime.reset();
+                holonomicDrive.autoDrive(0,0.8);
+                while (opModeIsActive() && runtime.seconds() < SS1ToFoundation){
+                    telemetry.addLine("Driving to the building site");
+                    telemetry.update();
+                }
+                holonomicDrive.stopMoving();
+
+                /**
+                 * Call function to grab SS w/ claw then lift the scissor lift slightly
+                 */
+
+                // Rotating to face the foundation
+                Gyro.rotate(-90,0.5);
+                sleep(150);
+
+                // Driving into the foundation & grabbing it
+                runtime.reset();
+                holonomicDrive.autoDrive(0,0.8);
+                while (opModeIsActive() && runtime.seconds() < 0.15){
+                    telemetry.addLine("Driving into the foundation");
+                    telemetry.update();
+                }
+                holonomicDrive.stopMoving();
+                botServos.activateAuto(true);
+                runtime.reset();
+                while (opModeIsActive() && runtime.seconds() < 0.6) {
+                    telemetry.addLine("Rotating servos");
+                    telemetry.update();
+                }
+
+                //Reversing with the foundation so it will break the building site plane
+                runtime.reset();
+                holonomicDrive.autoDrive(180,0.9);
+                while (opModeIsActive() && runtime.seconds() < 1.5){
+                    // Adding telemetry of the time elapsed
+                    telemetry.addLine("Reversing with the foundation");
+                    telemetry.update();
+                }
+                holonomicDrive.stopMoving();
+
+                // Rotating and pushing the foundation into the building site
+                Gyro.rotate(90,0.5);
+                sleep(150);
+                runtime.reset();
+                holonomicDrive.autoDrive(0,0.95);
+                while (opModeIsActive() && runtime.seconds() < 1){
+                    // Adding telemetry of the time elapsed
+                    telemetry.addLine("Pushing the foundation");
+                    telemetry.update();
+                }
+                holonomicDrive.stopMoving();
+                botServos.retractAuto(true);
+                /**
+                 * Call function to pull back intake arms, extend linear slides, lower scissor lift, release claw, then retract linear slides
+                 */
+
+                // Moving to the second skystone
+                runtime.reset();
+                holonomicDrive.autoDrive(90, 0.85);
+                while (opModeIsActive() && runtime.seconds() < 0.2){
+                    telemetry.addLine("Returning to second Skystone");
+                    telemetry.update();
+                }
+                holonomicDrive.stopMoving();
+                runtime.reset();
+                holonomicDrive.autoDrive(180, 0.95);
+                while (opModeIsActive() && runtime.seconds() < Found2SS2){}
+                holonomicDrive.stopMoving();
+
+
+
+
+
+
+                intake_systems.intake(false, true);
+
+                sleep(150);
+                intake_systems.intake(false, false);
+                runtime.reset();
+                holonomicDrive.autoDrive(200,0.95);
+                newtime += 0.15;
+                while (opModeIsActive() && runtime.seconds() < r_time-0.4-newtime){
+                    // Adding telemetry of the time elapsed
+                    telemetry.addData("Path", "TIME: %2.5f S Elapsed", runtime.seconds());
+                    telemetry.update();
+                }
+                holonomicDrive.stopMoving();
+                sleep(100);
+                sky2Found = true;
+                Gyro.rotate(-80, 0.5);
+                sleep(250);
+                runtime.reset();
+                holonomicDrive.autoDrive(0,0.95);
+                postime += 1;
+                while (opModeIsActive() && runtime.seconds() < 0.8 + postime){
+                    // Adding telemetry of the time elapsed
+                    telemetry.addData("Path", "TIME: %2.5f S Elapsed", runtime.seconds());
+                    telemetry.update();
+                }
+                holonomicDrive.stopMoving();
+                Gyro.rotate(-10,0.5);
+                movetime += 0.4;
+                sleep(250);
+                intake_systems.intake(true, false);
+                // we should now be with our intake pointed at the second skystone.
+                runtime.reset();
+                holonomicDrive.autoDrive(0,0.95);
+                while (opModeIsActive() && runtime.seconds() < intake_time+0.5){
+                    // Adding telemetry of the time elapsed
+                    telemetry.addData("Path", "TIME: %2.5f S Elapsed", runtime.seconds());
+                    telemetry.update();
+                }
+                holonomicDrive.stopMoving();
+                runtime.reset();
+                holonomicDrive.autoDrive(180,0.95);
+                while (opModeIsActive() && runtime.seconds() < intake_time+.8){
+                    // Adding telemetry of the time elapsed
+                    telemetry.addData("Path", "TIME: %2.5f S Elapsed", runtime.seconds());
+                    telemetry.update();
+                }
+                holonomicDrive.stopMoving();
+                intake_systems.intake(false, false);
+                Gyro.rotate(101,0.5);
+                sleep(200);
+                r_time += 0.75;
+                timetime += 0.4;
+                runtime.reset();
+                // Now we are driving towards the building zone with the skystone.
+                holonomicDrive.autoDrive(0,0.95);
+                while (opModeIsActive() && runtime.seconds() < r_time-0.9-newtime-timetime){
+                    // Adding telemetry of the time elapsed
+                    telemetry.addData("Path", "TIME: %2.5f S Elapsed", runtime.seconds());
+                    telemetry.update();
+                }
+                holonomicDrive.stopMoving();
+                intake_systems.intake(false, true);
+
+
+                sleep(200);
+                runtime.reset();
+                holonomicDrive.autoDrive(180,0.95);
+                while (opModeIsActive() && runtime.seconds() < 0.5 ){
+                    // Adding telemetry of the time elapsed
+                    telemetry.addData("Path", "TIME: %2.5f S Elapsed", runtime.seconds());
+                    telemetry.update();
+                }
+                holonomicDrive.stopMoving();
+
+                intake_systems.intake(false, false);
+                done = true;
+                stop();
+
 
             }
             else if(pos == 2 && !skyFound){
@@ -162,7 +354,7 @@ public class Carte_Blanche_Blue extends LinearOpMode {
                 newtime2 += 0.3;
                 runtime.reset();
                 holonomicDrive.autoDrive(30, 0.85);
-                while (opModeIsActive() && runtime.seconds() < moveTime-0.15){
+                while (opModeIsActive() && runtime.seconds() < wallToSS2){
                     // Adding telemetry of the time elapsed
                     telemetry.addData("Path", "TIME: %2.5f S Elapsed", runtime.seconds());
                     telemetry.addData("Position", pos);
@@ -171,10 +363,115 @@ public class Carte_Blanche_Blue extends LinearOpMode {
                 }
                 holonomicDrive.stopMoving();
                 sleep(100);
-
-
                 Gyro.rotate(-15,0.5);
                 sleep(200);
+                intake_systems.intake(true, false);
+                runtime.reset();
+                holonomicDrive.autoDrive(0,0.8);
+                while (opModeIsActive() && runtime.seconds() < intake_time){
+                    // Adding telemetry of the time elapsed
+                    telemetry.addData("Path", "TIME: %2.5f S Elapsed", runtime.seconds());
+                    telemetry.update();
+                }
+                holonomicDrive.stopMoving();
+                sleep(250);
+                // We will now have the skystone so we must drive back to the starting position and disable the collector
+
+                runtime.reset();
+                while (opModeIsActive() && runtime.seconds() < intake_time+0.3 + numTime - newtime2){
+                    // Adding telemetry of the time elapsed
+                    telemetry.addData("Path", "TIME: %2.5f S Elapsed", runtime.seconds());
+                    telemetry.update();
+                }
+                holonomicDrive.stopMoving();
+                intake_systems.intake(false, false);
+                Gyro.rotate(95, 0.5);
+                sleep(150);
+
+                // Next we will want to drive towards the building zone for the amount of time defined by the variable "time"
+                runtime.reset();
+                holonomicDrive.autoDrive(0,0.8);
+                while (opModeIsActive() && runtime.seconds() < time-0.1){
+                    // Adding telemetry of the time elapsed
+                    telemetry.addData("Path", "TIME: %2.5f S Elapsed", runtime.seconds());
+                    telemetry.update();
+                }
+                intake_systems.intake(false, true);
+                holonomicDrive.stopMoving();
+                sleep(150);
+                intake_systems.intake(false, false);
+                //sleep(500);
+
+                runtime.reset();
+                holonomicDrive.autoDrive(195,0.8);
+                while (opModeIsActive() && runtime.seconds() < r_time-0.4-newtime){
+                    // Adding telemetry of the time elapsed
+                    telemetry.addData("Path", "TIME: %2.5f S Elapsed", runtime.seconds());
+                    telemetry.update();
+                }
+                holonomicDrive.stopMoving();
+                sleep(100);
+                Gyro.rotate(-80, 0.5);
+                sleep(250);
+                runtime.reset();
+                holonomicDrive.autoDrive(0,0.95);
+                while (opModeIsActive() && runtime.seconds() < 0.8 + postime){
+                    // Adding telemetry of the time elapsed
+                    telemetry.addData("Path", "TIME: %2.5f S Elapsed", runtime.seconds());
+                    telemetry.update();
+                }
+                holonomicDrive.stopMoving();
+                Gyro.rotate(-8,0.5);
+                sleep(250);
+                intake_systems.intake(true, false);
+                // we should now be with our intake pointed at the second skystone.
+                runtime.reset();
+                holonomicDrive.autoDrive(0,0.95);
+                while (opModeIsActive() && runtime.seconds() < intake_time+0.5){
+                    // Adding telemetry of the time elapsed
+                    telemetry.addData("Path", "TIME: %2.5f S Elapsed", runtime.seconds());
+                    telemetry.update();
+                }
+                holonomicDrive.stopMoving();
+                runtime.reset();
+                holonomicDrive.autoDrive(180,0.95);
+                while (opModeIsActive() && runtime.seconds() < intake_time+.8){
+                    // Adding telemetry of the time elapsed
+                    telemetry.addData("Path", "TIME: %2.5f S Elapsed", runtime.seconds());
+                    telemetry.update();
+                }
+                holonomicDrive.stopMoving();
+                intake_systems.intake(false, false);
+                Gyro.rotate(96, 0.5);
+                sleep(200);
+                timetime += 0.4;
+                runtime.reset();
+                // Now we are driving towards the building zone with the skystone.
+                holonomicDrive.autoDrive(0,0.95);
+                while (opModeIsActive() && runtime.seconds() < r_time-0.9-newtime-timetime){
+                    // Adding telemetry of the time elapsed
+                    telemetry.addData("Path", "TIME: %2.5f S Elapsed", runtime.seconds());
+                    telemetry.update();
+                }
+                holonomicDrive.stopMoving();
+                intake_systems.intake(false, true);
+
+
+                sleep(200);
+                runtime.reset();
+                holonomicDrive.autoDrive(180,0.95);
+                while (opModeIsActive() && runtime.seconds() < 0.5 ){
+                    // Adding telemetry of the time elapsed
+                    telemetry.addData("Path", "TIME: %2.5f S Elapsed", runtime.seconds());
+                    telemetry.update();
+                }
+                holonomicDrive.stopMoving();
+
+                intake_systems.intake(false, false);
+                done = true;
+                stop();
+
+
 
 
             }
@@ -184,7 +481,7 @@ public class Carte_Blanche_Blue extends LinearOpMode {
                 intake_time += 0.3;
                 r_time -= 0.4;
                 holonomicDrive.autoDrive(40, 0.85);
-                while (opModeIsActive() && runtime.seconds() < moveTime){
+                while (opModeIsActive() && runtime.seconds() < wallToSS3){
                     // Adding telemetry of the time elapsed
                     telemetry.addData("Path", "TIME: %2.5f S Elapsed", runtime.seconds());
                     telemetry.addData("Position", pos);
@@ -195,88 +492,55 @@ public class Carte_Blanche_Blue extends LinearOpMode {
                 sleep(150);
                 Gyro.rotate(-12,0.5);
                 sleep(200);
+                intake_systems.intake(true, false);
+                runtime.reset();
+                holonomicDrive.autoDrive(0,0.8);
+                while (opModeIsActive() && runtime.seconds() < intake_time){
+                    // Adding telemetry of the time elapsed
+                    telemetry.addData("Path", "TIME: %2.5f S Elapsed", runtime.seconds());
+                    telemetry.update();
+                }
+                holonomicDrive.stopMoving();
+                sleep(250);
+                // We will now have the skystone so we must drive back to the starting position and disable the collector
 
+                runtime.reset();
 
-
-            }
-            else{
-                telemetry.addData("Sorry!", "I don't see anything!");
-                telemetry.update();
-            }
-            intake_systems.intake(true, false);
-            runtime.reset();
-            holonomicDrive.autoDrive(0,0.8);
-            while (opModeIsActive() && runtime.seconds() < intake_time){
-                // Adding telemetry of the time elapsed
-                telemetry.addData("Path", "TIME: %2.5f S Elapsed", runtime.seconds());
-                telemetry.update();
-            }
-            holonomicDrive.stopMoving();
-            sleep(250);
-
-            runtime.reset();
-
-            holonomicDrive.autoDrive(180,0.8);
-            if(pos == 3){numTime = 0;
-                time += 0.15;}
-
-            if(pos == 1){
-                numTime -= 0.15;
-            }
-            while (opModeIsActive() && runtime.seconds() < intake_time+0.3 + numTime - newtime2){
-                // Adding telemetry of the time elapsed
-                telemetry.addData("Path", "TIME: %2.5f S Elapsed", runtime.seconds());
-                telemetry.update();
-            }
-            holonomicDrive.stopMoving();
-            intake_systems.intake(false, false);
-            if(pos == 1) {
-                Gyro.rotate(105, 0.5);
-            }
-            else if(pos == 2){
-                Gyro.rotate(95, 0.5);
-            }
-            else if(pos == 3){
+                holonomicDrive.autoDrive(180,0.8);
+                time += 0.15;
+                while (opModeIsActive() && runtime.seconds() < intake_time+0.3 + numTime - newtime2){
+                    // Adding telemetry of the time elapsed
+                    telemetry.addData("Path", "TIME: %2.5f S Elapsed", runtime.seconds());
+                    telemetry.update();
+                }
+                holonomicDrive.stopMoving();
+                intake_systems.intake(false, false);
                 Gyro.rotate(95,0.5);
-            }
-            sleep(150);
+                sleep(150);
 
-            runtime.reset();
-            holonomicDrive.autoDrive(0,0.8);
-            while (opModeIsActive() && runtime.seconds() < time-0.1){
-                // Adding telemetry of the time elapsed
-                telemetry.addData("Path", "TIME: %2.5f S Elapsed", runtime.seconds());
-                telemetry.update();
-            }
-            intake_systems.intake(false, true);
-            holonomicDrive.stopMoving();
-            sleep(150);
-            intake_systems.intake(false, false);
-            //sleep(500);
+                // Next we will want to drive towards the building zone for the amount of time defined by the variable "time"
+                runtime.reset();
+                holonomicDrive.autoDrive(0,0.8);
+                while (opModeIsActive() && runtime.seconds() < time-0.1){
+                    // Adding telemetry of the time elapsed
+                    telemetry.addData("Path", "TIME: %2.5f S Elapsed", runtime.seconds());
+                    telemetry.update();
+                }
+                intake_systems.intake(false, true);
+                holonomicDrive.stopMoving();
+                sleep(150);
+                intake_systems.intake(false, false);
+                //sleep(500);
 
-            runtime.reset();
-            if(pos == 1){
-                holonomicDrive.autoDrive(200,0.95);
-                newtime += 0.15;
-            }
-            else if(pos == 2){
-                holonomicDrive.autoDrive(195,0.8);
-
-            }
-            else if(pos == 3){
+                runtime.reset();
                 holonomicDrive.autoDrive(190,0.95);
-            }
-
-            while (opModeIsActive() && runtime.seconds() < r_time-0.4-newtime){
-                // Adding telemetry of the time elapsed
-                telemetry.addData("Path", "TIME: %2.5f S Elapsed", runtime.seconds());
-                telemetry.update();
-            }
-            holonomicDrive.stopMoving();
-
-
-            sleep(100);
-            if(pos == 3 && !sky2Found && !done){
+                while (opModeIsActive() && runtime.seconds() < r_time-0.4-newtime){
+                    // Adding telemetry of the time elapsed
+                    telemetry.addData("Path", "TIME: %2.5f S Elapsed", runtime.seconds());
+                    telemetry.update();
+                }
+                holonomicDrive.stopMoving();
+                sleep(100);
                 sky2Found = true;
                 Gyro.rotate(-80, 0.5);
                 sleep(250);
@@ -311,10 +575,6 @@ public class Carte_Blanche_Blue extends LinearOpMode {
                 intake_systems.intake(false, false);
                 Gyro.rotate(119,0.5);
                 sleep(100);
-
-                if(pos == 1){
-                    pos2time += 0.2;
-                }
                 runtime.reset();
                 // Now we are driving towards the building zone with the skystone.
                 holonomicDrive.autoDrive(0,1.0);
@@ -339,91 +599,16 @@ public class Carte_Blanche_Blue extends LinearOpMode {
                 done = true;
                 stop();
 
-            }
-            else if(pos != 3 && !sky2Found && !done){
-                sky2Found = true;
-                Gyro.rotate(-80, 0.5);
-                sleep(250);
-                runtime.reset();
-                holonomicDrive.autoDrive(0,0.95);
-                if(pos == 1){
-                    postime += 0.1;
-                }
-                while (opModeIsActive() && runtime.seconds() < 0.8 + postime){
-                    // Adding telemetry of the time elapsed
-                    telemetry.addData("Path", "TIME: %2.5f S Elapsed", runtime.seconds());
-                    telemetry.update();
-                }
-                holonomicDrive.stopMoving();
-                if(pos == 1){
-                    Gyro.rotate(-10,0.5);
-                    movetime += 0.4;
-                }
-                else if (pos == 2){
-                    Gyro.rotate(-8,0.5);
-                }
-                sleep(250);
-                intake_systems.intake(true, false);
-                runtime.reset();
-                holonomicDrive.autoDrive(0,0.95);
-                while (opModeIsActive() && runtime.seconds() < intake_time+0.5){
-                    // Adding telemetry of the time elapsed
-                    telemetry.addData("Path", "TIME: %2.5f S Elapsed", runtime.seconds());
-                    telemetry.update();
-                }
-                holonomicDrive.stopMoving();
-                runtime.reset();
-                holonomicDrive.autoDrive(180,0.95);
-                while (opModeIsActive() && runtime.seconds() < intake_time+.8){
-                    // Adding telemetry of the time elapsed
-                    telemetry.addData("Path", "TIME: %2.5f S Elapsed", runtime.seconds());
-                    telemetry.update();
-                }
-                holonomicDrive.stopMoving();
-                intake_systems.intake(false, false);
-
-                if(pos == 1) {
-                    Gyro.rotate(101,0.5);
-                    sleep(200);
-                    r_time += 0.75;
-                    timetime += 0.4;
-                }
-                else if(pos == 2){
-                    Gyro.rotate(96, 0.5);
-                    sleep(200);
-                    timetime += 0.4;
-                }
-
-                runtime.reset();
-                holonomicDrive.autoDrive(0,0.95);
-                while (opModeIsActive() && runtime.seconds() < r_time-0.9-newtime-timetime){
-                    // Adding telemetry of the time elapsed
-                    telemetry.addData("Path", "TIME: %2.5f S Elapsed", runtime.seconds());
-                    telemetry.update();
-                }
-                holonomicDrive.stopMoving();
-                intake_systems.intake(false, true);
 
 
-                sleep(200);
-                runtime.reset();
-                holonomicDrive.autoDrive(180,0.95);
-                while (opModeIsActive() && runtime.seconds() < 0.5 ){
-                    // Adding telemetry of the time elapsed
-                    telemetry.addData("Path", "TIME: %2.5f S Elapsed", runtime.seconds());
-                    telemetry.update();
-                }
-                holonomicDrive.stopMoving();
-
-                intake_systems.intake(false, false);
-                done = true;
-                stop();
 
 
 
             }
             else{
-                sleep(30000);
+                telemetry.addData("Sorry!", "I don't see anything!");
+                telemetry.update();
+            }
 
             }
 
@@ -434,7 +619,7 @@ public class Carte_Blanche_Blue extends LinearOpMode {
         }
 
 
-    }
+
 
     //detection pipeline
     static class StageSwitchingPipeline extends OpenCvPipeline
