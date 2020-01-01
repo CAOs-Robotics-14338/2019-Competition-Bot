@@ -23,19 +23,18 @@ public class BotServos {
 
 
     }
-         public void retractAuto(boolean b1) {
-             if (b1){
+         public void auto(boolean b1) {
+            if(b1){
+                left_hook.setPosition(lActive);
+                right_hook.setPosition(rActive);
+            }
+             else{
                  left_hook.setPosition(lStored);
                  right_hook.setPosition(rStored);
              }
          }
 
-        public void activateAuto(boolean c1) {
-           if (c1){
-               left_hook.setPosition(lActive);
-               right_hook.setPosition(rActive);
-          }
-        }
+
 
 
         public void activate(boolean y1, boolean y2){
