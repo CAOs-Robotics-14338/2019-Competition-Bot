@@ -6,20 +6,20 @@ import com.qualcomm.robotcore.hardware.Servo;
 public class Intake_Systems {
     private DcMotor IntakeRightMotor, IntakeLeftMotor;
     private Servo IntakePulley;
-    double active = -1;
-    double inactive = -1;
+    double active = 0;
+    double inactive = 1;
 
     public Intake_Systems(DcMotor rightIntake, DcMotor leftIntake, Servo pulley) {
         IntakeLeftMotor = leftIntake;
         IntakeRightMotor = rightIntake;
         IntakePulley = pulley;
     }
-        public void intakeTele(boolean collect1, boolean deploy1, boolean collect2, boolean deploy2){
-        if(collect1 || collect2){
+        public void intakeTele(boolean collect1, boolean deploy1, boolean open, boolean close){
+        if(collect1){
             IntakeLeftMotor.setPower(0.95);
             IntakeRightMotor.setPower(-0.95);
         }
-        else if(deploy1 || deploy2){
+        else if(deploy1){
             IntakeLeftMotor.setPower(-0.95);
             IntakeRightMotor.setPower(0.95);
         }
@@ -27,6 +27,13 @@ public class Intake_Systems {
             IntakeLeftMotor.setPower(0);
             IntakeRightMotor.setPower(0);
         }
+        if(open){
+            IntakePulley.setPosition(inactive);
+        }
+        else if(close){
+            IntakePulley.setPosition(active);
+        }
+
 
     }
     public void intake(boolean collect1, boolean deploy1){

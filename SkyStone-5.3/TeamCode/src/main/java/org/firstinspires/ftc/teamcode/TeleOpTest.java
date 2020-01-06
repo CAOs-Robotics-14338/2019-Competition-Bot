@@ -56,7 +56,7 @@ public class TeleOpTest extends OpMode
     // Declare OpMode members.
     private ElapsedTime runtime = new ElapsedTime();
     private DcMotor  FrontRightMotor, FrontLeftMotor, BackRightMotor, BackLeftMotor, IntakeLeftMotor, IntakeRightMotor, ScissorLiftMotorLeft, ScissorLiftMotorRight;
-    private Servo IntakePulley, left_hook, right_hook;
+    private Servo IntakePulley, left_hook, right_hook, ClawServo, SlideServo1, SlideServo2;
 
     HolonomicDrive holonomicDrive;
     ScissorLift scissorLift;
@@ -68,7 +68,6 @@ public class TeleOpTest extends OpMode
      */
     @Override
     public void init() {
-        telemetry.addData("Status", "Initialized");
 
         // Initialize the hardware variables. Note that the strings used here as parameters
         // to 'get' must correspond to the names assigned during the robot configuration
@@ -84,9 +83,13 @@ public class TeleOpTest extends OpMode
         IntakePulley = hardwareMap.servo.get("intake_pulley");
         left_hook = hardwareMap.servo.get("left_hook");
         right_hook = hardwareMap.servo.get("right_hook");
+        ClawServo = hardwareMap.servo.get("claw");
+        SlideServo1 = hardwareMap.servo.get("slide1");
+        SlideServo2 = hardwareMap.servo.get("slide2");
+
 
         holonomicDrive = new HolonomicDrive(FrontRightMotor, FrontLeftMotor, BackRightMotor, BackLeftMotor);
-        scissorLift = new ScissorLift(ScissorLiftMotorLeft, ScissorLiftMotorRight);
+        scissorLift = new ScissorLift(ScissorLiftMotorLeft, ScissorLiftMotorRight, ClawServo, SlideServo1, SlideServo2);
         intake_systems = new Intake_Systems(IntakeRightMotor, IntakeLeftMotor, IntakePulley);
         bot_servo = new BotServos(left_hook, right_hook);
 
@@ -121,6 +124,7 @@ public class TeleOpTest extends OpMode
 
 
         double y2 = gamepad2.left_stick_y;
+        double g2rt = gamepad2.right_stick_y;
         boolean collect1 = gamepad1.a;
         boolean deploy1 = gamepad1.b;
         boolean a2 = gamepad2.a;
@@ -141,14 +145,13 @@ public class TeleOpTest extends OpMode
         boolean n2 = false;
 
 
+
         holonomicDrive.teleopDrive(x,y,z);
-        intake_systems.intakeTele(collect1, deploy1, a2, b2);
-        intake_systems.pullBackCollectionArms(button_x1, button_x2);
-        intake_systems.releaseCollectionArms(button_y1, button_y2);
-        scissorLift.LiftControlTest(y2, scissorLeft, scissorRight, scissorUp, scissorDown, b2);
+        intake_systems.intakeTele(collect1, deploy1, b2, button_y2);
+        scissorLift.LiftControlTest(y2, scissorLeft, scissorRight, scissorUp, scissorDown, rb2);
+        scissorLift.ClawControl(a2, button_x2, g2rt);
         bot_servo.retract(lb1, n2);
         bot_servo.activate(rbl, n1);
-        //scissorLift.LiftMovement(scissorUp, scissorDown, reset, activate);
         // Show the elapsed game time and wheel power.
         telemetry.addData("Status", "Run Time: " + runtime.toString());
     }
