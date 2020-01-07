@@ -1,14 +1,18 @@
 package org.firstinspires.ftc.teamcode;
 
 
+import com.qualcomm.robotcore.hardware.CRServo;
 import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.DcMotorController;
+import com.qualcomm.robotcore.hardware.DcMotorSimple;
+import com.qualcomm.robotcore.hardware.Servo;
 import com.qualcomm.robotcore.util.Range;
 
 import org.firstinspires.ftc.robotcore.external.Telemetry;
 
 public class ArmCollection {
-    Servo claw, wrist, expansion;
+    private Servo claw, wrist;
+    private CRServo expansion;
 
 
 ///WRIST
@@ -19,7 +23,7 @@ public class ArmCollection {
 
 
 
-    public ArmCollection(Servo claW, Servo wrisT, Servo expansioN){
+    public ArmCollection(Servo claW, Servo wrisT, CRServo expansioN){
         claw = claW;
         wrist = wrisT;
         expansion = expansioN; /*    reel = hardwareMap.get(CRServo.class, "reel_servo");  **Should be continous servo*/
@@ -31,16 +35,15 @@ public class ArmCollection {
         public  void expandControl(double ystick){ //expansion should be continous servo
             double expandRange = Range.clip( (-ystick), -1.0, 1.0);
             if (expandRange > 0){
-                position = 1.0;
+                expansion.setPower(1);
             }
             else {
                 if (expandRange < 0){
-                    position = -1.0;
-                }
+                    expansion.setPower(-1);                }
                 else
-                    position = 0.0;
+                    expansion.setPower(0);
             }
-            expansion.setPosition(position);
+
     }
 
 
@@ -50,15 +53,15 @@ public class ArmCollection {
             claw.setPosition(0.9);
         }
     }
-    public void release() {
+    public void release(boolean button) {
         if (button) {
             claw.setPosition(0.3);
         }
     }
     //wrist
 
-    public void wristControl(double){
-        double wristRange = Range.clip( (-ystick), -1.0, 1.0);
+    public void wristControl(double xstick) {
+        double wristRange = Range.clip( (-xstick), -1.0, 1.0);
         if (wristRange > 0){
             position += INCREMENT ;
             if (position >= MAX_POS ) {
@@ -71,15 +74,11 @@ public class ArmCollection {
                 position -= INCREMENT ;
                 if (position <= MIN_POS ) {
                     position = MIN_POS;
-                    rampUp = !rampUp;  // Switch ramp direction
                 }
             }
         }
-        expansion.setPosition(position);
+        wrist.setPosition(position);
     }
 
-
-}
-/*
 
 }
