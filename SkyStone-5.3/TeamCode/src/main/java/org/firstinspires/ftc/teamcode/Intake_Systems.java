@@ -6,8 +6,8 @@ import com.qualcomm.robotcore.hardware.Servo;
 public class Intake_Systems {
     private DcMotor IntakeRightMotor, IntakeLeftMotor;
     private Servo IntakePulley;
-    double active = -1;
-    double inactive = -1;
+    double active = 1;//-1
+    double inactive = 0; //-1
 
     public Intake_Systems(DcMotor rightIntake, DcMotor leftIntake, Servo pulley) {
         IntakeLeftMotor = leftIntake;
