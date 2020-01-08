@@ -144,8 +144,7 @@ public class TestingOpMode extends OpMode
         boolean release_collection2 = gamepad2.start;
         boolean pullback_collection1 = gamepad1.back; // pull back collection arms
         boolean pullback_collection2 = gamepad2.back;
-        /*boolean scissorUp = gamepad2.dpad_up;
-        boolean scissorDown = gamepad2.dpad_down;*/
+
         double expand_control = gamepad2.right_stick_y;
         boolean grab_control = gamepad2.x;
         boolean stone_release_control = gamepad2.y;
