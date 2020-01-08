@@ -52,12 +52,12 @@ public class ArmCollection {
 //claw
     public void grab(boolean button){
         if (button){
-            claw.setPosition(0.5);   //wnat to try 0.25                //0.4
+            claw.setPosition(0.5);          // preferred set 0.50
         }
     }
     public void release(boolean button) {
         if (button) {
-            claw.setPosition(0.0);        //want to try 0.5                   //0.6
+            claw.setPosition(0.0);        // preferred set 0.0
         }
     }
     //wrist
