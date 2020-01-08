@@ -62,6 +62,38 @@ public class ArmCollection {
     }
     //wrist
 
+    public void wristControl(double xstick, boolean right_bumper, boolean left_bumper) {
+        double wristRange = Range.clip( (-xstick), -1.0, 1.0);
+        if (wristRange > 0){
+            position += INCREMENT ;
+            if (position >= MAX_POS ) {
+                position = MAX_POS;
+            }
+        }
+        else {
+            if (wristRange < 0){
+                //position = -1.0;
+                position -= INCREMENT ;
+                if (position <= MIN_POS ) {
+                    position = MIN_POS;
+                }
+            }
+        }
+        if (right_bumper){
+            position += 0.01*INCREMENT ;
+            if (position >= MAX_POS ) {
+                position = MAX_POS;
+            }
+        }
+        if (left_bumper){
+            position = -1.0;
+            position -= INCREMENT ;
+            if (position <= MIN_POS ) {
+                position = MIN_POS;
+            }
+        }
+        wrist.setPosition(position);
+    }
     public void wristControl(double xstick) {
         double wristRange = Range.clip( (-xstick), -1.0, 1.0);
         if (wristRange > 0){
@@ -72,13 +104,14 @@ public class ArmCollection {
         }
         else {
             if (wristRange < 0){
-                position = -1.0;
+                //position = -1.0;
                 position -= INCREMENT ;
                 if (position <= MIN_POS ) {
                     position = MIN_POS;
                 }
             }
         }
+
         wrist.setPosition(position);
     }
 
