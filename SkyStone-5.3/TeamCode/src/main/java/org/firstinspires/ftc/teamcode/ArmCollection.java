@@ -52,12 +52,12 @@ public class ArmCollection {
 //claw
     public void grab(boolean button){
         if (button){
-            claw.setPosition(0.4); //0.3
+            claw.setPosition(0.5);   //wnat to try 0.25                //0.4
         }
     }
     public void release(boolean button) {
         if (button) {
-            claw.setPosition(0.60); //0.9
+            claw.setPosition(0.0);        //want to try 0.5                   //0.6
         }
     }
     //wrist
@@ -80,13 +80,13 @@ public class ArmCollection {
             }
         }
         if (right_bumper){
-            position += 0.01*INCREMENT ;
+            position += 0.01 ;
             if (position >= MAX_POS ) {
                 position = MAX_POS;
             }
         }
         if (left_bumper){
-            position -= 0.01*INCREMENT ;
+            position -= 0.01;
             if (position <= MIN_POS ) {
                 position = MIN_POS;
             }
