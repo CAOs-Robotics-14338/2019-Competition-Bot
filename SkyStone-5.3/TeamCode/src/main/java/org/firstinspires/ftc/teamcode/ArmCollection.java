@@ -17,9 +17,10 @@ public class ArmCollection {
 
 ///WRIST
     static final double INCREMENT   = 0.01;     // amount to slew servo each CYCLE_MS cycle
-    static final double MAX_POS     =  1.0;     // Maximum rotational position
-    static final double MIN_POS     =  0.0;     // Minimum rotational position
-    double  position = (MAX_POS - MIN_POS) / 2; // Start at halfway position
+    static final double MAX_POS     =  0.55;     // Maximum rotational position
+    static final double MID_POS     = 0.35; //Middle init position
+    static final double MIN_POS     =  0.15;     // Minimum rotational position
+    double position = MID_POS;
 
 
 
@@ -27,6 +28,7 @@ public class ArmCollection {
         claw = claW;
         wrist = wrisT;
         expansion = expansioN; /*    reel = hardwareMap.get(CRServo.class, "reel_servo");  **Should be continous servo*/
+        wrist.setPosition(MID_POS);
     }
 
 
