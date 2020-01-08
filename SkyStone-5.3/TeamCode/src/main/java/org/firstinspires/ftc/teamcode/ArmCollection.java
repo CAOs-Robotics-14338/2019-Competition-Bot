@@ -86,8 +86,7 @@ public class ArmCollection {
             }
         }
         if (left_bumper){
-            position = -1.0;
-            position -= INCREMENT ;
+            position -= 0.01*INCREMENT ;
             if (position <= MIN_POS ) {
                 position = MIN_POS;
             }

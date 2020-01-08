@@ -136,8 +136,8 @@ public class TestingOpMode extends OpMode
         boolean deploy1 = gamepad1.b;
         boolean collect2 = gamepad2.a;
         boolean deploy2 = gamepad2.b;
-        boolean activate = gamepad2.right_bumper;
-        boolean reset = gamepad2.left_bumper;
+      //  boolean activate = gamepad2.right_bumper;
+      //  boolean reset = gamepad2.left_bumper;
         boolean foundation_control1 = gamepad1.right_bumper; //foundation movers
         boolean foundation_control2 = gamepad1.left_bumper;
         boolean release_collection1 = gamepad1.start; //release collection arms
@@ -149,6 +149,8 @@ public class TestingOpMode extends OpMode
         boolean grab_control = gamepad2.x;
         boolean stone_release_control = gamepad2.y;
         double wrist_control = gamepad2.right_stick_x;
+        boolean fineWristRight = gamepad2.right_bumper;
+        boolean fineWristLeft = gamepad2.left_bumper;
 
 
 
@@ -157,8 +159,8 @@ public class TestingOpMode extends OpMode
         intake_systems.pullBackCollectionArms(pullback_collection1, pullback_collection2);
         intake_systems.releaseCollectionArms(release_collection1, release_collection2);
         scissorLift.LiftControl(y2);
-        bot_servo.retract(foundation_control2, reset);
-        bot_servo.activate(foundation_control1, activate);
+        bot_servo.retract(foundation_control2);
+        bot_servo.activate(foundation_control1);
         //scissorLift.LiftMovement(scissorUp, scissorDown, reset, activate);
         // Show the elapsed game time and wheel power.
 
@@ -166,7 +168,7 @@ public class TestingOpMode extends OpMode
         armCollection.expandControl(expand_control);
         armCollection.grab(grab_control);
         armCollection.release(stone_release_control);
-        armCollection.wristControl(wrist_control);
+        armCollection.wristControl(wrist_control, fineWristRight, fineWristLeft);
 
         telemetry.addData("Status", "Run Time: " + runtime.toString());
     }
