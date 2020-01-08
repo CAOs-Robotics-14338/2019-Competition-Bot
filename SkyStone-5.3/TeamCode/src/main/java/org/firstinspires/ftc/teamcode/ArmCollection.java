@@ -16,7 +16,7 @@ public class ArmCollection {
 
 
 ///WRIST
-    static final double INCREMENT   = 0.01;     // amount to slew servo each CYCLE_MS cycle
+    static final double INCREMENT   = 0.001;     // amount to slew servo each CYCLE_MS cycle
     static final double MAX_POS     =  0.55;     // Maximum rotational position
     static final double MID_POS     = 0.35; //Middle init position
     static final double MIN_POS     =  0.15;     // Minimum rotational position
@@ -52,12 +52,12 @@ public class ArmCollection {
 //claw
     public void grab(boolean button){
         if (button){
-            claw.setPosition(0.9);
+            claw.setPosition(0.4); //0.3
         }
     }
     public void release(boolean button) {
         if (button) {
-            claw.setPosition(0.3);
+            claw.setPosition(0.60); //0.9
         }
     }
     //wrist
