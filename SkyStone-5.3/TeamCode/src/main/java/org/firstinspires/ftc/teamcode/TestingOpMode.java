@@ -99,7 +99,7 @@ public class TestingOpMode extends OpMode
         intake_systems = new Intake_Systems(IntakeRightMotor, IntakeLeftMotor, IntakePulley);
         bot_servo = new BotServos(left_hook, right_hook);
 
-        armCollection = new ArmCollection(claw, wrist, expansion);
+        armCollection = new ArmCollection(claw, wrist, expansion, IntakePulley);
 
         // Tell the driver that initialization is complete.
         telemetry.addData("Status", "Initialized");

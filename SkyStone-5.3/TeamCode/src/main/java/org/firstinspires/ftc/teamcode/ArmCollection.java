@@ -14,21 +14,30 @@ public class ArmCollection {
     private Servo claw, wrist;
     private CRServo expansion;
 
+    private Servo IntakePulley;
+    double active = 1;//-1
+    double inactive = 0; //-1
 
 ///WRIST
-    static final double INCREMENT   = 0.001;     // amount to slew servo each CYCLE_MS cycle
-    static final double MAX_POS     =  0.55;     // Maximum rotational position
-    static final double MID_POS     = 0.35; //Middle init position
-    static final double MIN_POS     =  0.15;     // Minimum rotational position
+    static final double INCREMENT   = 0.001;                         // amount to slew servo each CYCLE_MS cycle
+    static final double MAX_POS     =  1.0;      //0.55                  // Maximum rotational position
+    static final double MID_POS     = 0.50;       //0.35                  //Middle init position
+    static final double MIN_POS     =  0.0;      //0.15                  // Minimum rotational position
     double position = MID_POS;
 
 
 
-    public ArmCollection(Servo claW, Servo wrisT, CRServo expansioN){
+
+
+    public ArmCollection(Servo claW, Servo wrisT, CRServo expansioN, Servo pulley){
         claw = claW;
         wrist = wrisT;
         expansion = expansioN; /*    reel = hardwareMap.get(CRServo.class, "reel_servo");  **Should be continous servo*/
         wrist.setPosition(MID_POS);
+
+        IntakePulley = pulley;
+
+
     }
 
 
@@ -52,11 +61,13 @@ public class ArmCollection {
 //claw
     public void grab(boolean button){
         if (button){
+            IntakePulley.setPosition(inactive);
             claw.setPosition(0.0);          // preferred set 0.0
         }
     }
     public void release(boolean button) {
         if (button) {
+            IntakePulley.setPosition(active);
             claw.setPosition(0.50);        // preferred set 0.50
         }
     }
@@ -80,16 +91,12 @@ public class ArmCollection {
             }
         }
         if (right_bumper){
-            position += 0.01 ;
-            if (position >= MAX_POS ) {
-                position = MAX_POS;
-            }
+            position = MAX_POS;
+
         }
         if (left_bumper){
-            position -= 0.01;
-            if (position <= MIN_POS ) {
-                position = MIN_POS;
-            }
+            position = MIN_POS;
+
         }
         wrist.setPosition(position);
     }
@@ -113,6 +120,16 @@ public class ArmCollection {
 
         wrist.setPosition(position);
     }
+
+    public void reset(boolean button){
+        // set wrist to straight ahead and up and collector engaged and ready to collect
+
+        // driver needs to retract expansion and lower the scissor lift possible code for later competition
+
+
+    }
+
+
 
 
 }
