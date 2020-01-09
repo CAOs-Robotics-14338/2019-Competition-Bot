@@ -73,7 +73,7 @@ public class ArmCollection {
     }
     //wrist
 
-    public void wristControl(double xstick, boolean right_bumper, boolean left_bumper) {
+    public void wristControl(double xstick, boolean right_bumper, boolean left_bumper, boolean start) {
         double wristRange = Range.clip( (-xstick), -1.0, 1.0);
         if (wristRange > 0){
             position += INCREMENT ;
@@ -91,12 +91,14 @@ public class ArmCollection {
             }
         }
         if (right_bumper){
-            position = MAX_POS;
+            position = MIN_POS;
 
         }
         if (left_bumper){
-            position = MIN_POS;
-
+            position = MAX_POS;
+        }
+        if (start){
+            position = MID_POS;
         }
         wrist.setPosition(position);
     }

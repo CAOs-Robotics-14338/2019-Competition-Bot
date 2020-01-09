@@ -151,6 +151,7 @@ public class TestingOpMode extends OpMode
         double wrist_control = gamepad2.right_stick_x;
         boolean fineWristRight = gamepad2.right_bumper;
         boolean fineWristLeft = gamepad2.left_bumper;
+        boolean fineWristMiddle = gamepad2.start;
 
 
 
