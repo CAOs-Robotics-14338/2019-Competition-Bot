@@ -158,7 +158,7 @@ public class TestingOpMode extends OpMode
         intake_systems.intake(collect1, deploy1);
         intake_systems.pullBackCollectionArms(pullback_collection2);
         intake_systems.releaseCollectionArms(release_collection2);
-        scissorLift.LiftControl(y2);
+        scissorLift.LiftControl(-y2);
         bot_servo.retract(foundation_control2);
         bot_servo.activate(foundation_control1);
         //scissorLift.LiftMovement(scissorUp, scissorDown, reset, activate);
