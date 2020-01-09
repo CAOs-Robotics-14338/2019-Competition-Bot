@@ -15,8 +15,8 @@ public class ArmCollection {
     private CRServo expansion;
 
     private Servo IntakePulley;
-    double active = 1;//-1
-    double inactive = 0; //-1
+    double active = 0;//1
+    double inactive = 1; //0
 
 ///WRIST
     static final double INCREMENT   = 0.001;                         // amount to slew servo each CYCLE_MS cycle
