@@ -169,7 +169,7 @@ public class TestingOpMode extends OpMode
         armCollection.expandControl(expand_control);
         armCollection.grab(grab_control);
         armCollection.release(stone_release_control);
-        armCollection.wristControl(wrist_control, fineWristRight, fineWristLeft);
+        armCollection.wristControl(wrist_control, fineWristRight, fineWristLeft, fineWristMiddle);
 
         telemetry.addData("Status", "Run Time: " + runtime.toString());
     }
