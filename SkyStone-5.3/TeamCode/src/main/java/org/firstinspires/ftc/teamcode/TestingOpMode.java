@@ -140,10 +140,10 @@ public class TestingOpMode extends OpMode
       //  boolean reset = gamepad2.left_bumper;
         boolean foundation_control1 = gamepad1.right_bumper; //foundation movers
         boolean foundation_control2 = gamepad1.left_bumper;
-        boolean release_collection1 = gamepad1.start; //release collection arms
-        boolean release_collection2 = gamepad2.start;
-        boolean pullback_collection1 = gamepad1.back; // pull back collection arms
-        boolean pullback_collection2 = gamepad2.back;
+      //  boolean release_collection1 = gamepad1.start; //release collection arms
+        boolean release_collection2 = gamepad2.a;
+      //  boolean pullback_collection1 = gamepad1.back; // pull back collection arms
+        boolean pullback_collection2 = gamepad2.b;
 
         double expand_control = gamepad2.right_stick_y;
         boolean grab_control = gamepad2.x;
@@ -155,9 +155,9 @@ public class TestingOpMode extends OpMode
 
 
         holonomicDrive.teleopDrive(x,y,z);
-        intake_systems.intakeTele(collect1, deploy1, collect2, deploy2);
-        intake_systems.pullBackCollectionArms(pullback_collection1, pullback_collection2);
-        intake_systems.releaseCollectionArms(release_collection1, release_collection2);
+        intake_systems.intake(collect1, deploy1);
+        intake_systems.pullBackCollectionArms(pullback_collection2);
+        intake_systems.releaseCollectionArms(release_collection2);
         scissorLift.LiftControl(y2);
         bot_servo.retract(foundation_control2);
         bot_servo.activate(foundation_control1);

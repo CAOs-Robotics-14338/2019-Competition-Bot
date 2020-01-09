@@ -49,13 +49,22 @@ public class Intake_Systems {
                 IntakePulley.setPosition(inactive);}
 
         }
+    public void pullBackCollectionArms(boolean retract1){
+        if(retract1 ){
+            IntakePulley.setPosition(inactive);}
+
+    }
 
         public void releaseCollectionArms(boolean release1, boolean release2){
             if(release1 || release2){
                 IntakePulley.setPosition(active);}
 
         }
+    public void releaseCollectionArms(boolean release1){
+        if(release1){
+            IntakePulley.setPosition(active);}
 
+    }
         public void stopCollection(){
             IntakeLeftMotor.setPower(0);
             IntakeRightMotor.setPower(0);
