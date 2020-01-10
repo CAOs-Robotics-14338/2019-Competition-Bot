@@ -18,7 +18,9 @@ public class ArmCollection {
     double active = 0;//1
     double inactive = 1; //0
 
-    ///WRIST
+
+///WRIST
+
     static final double INCREMENT   = 0.001;                         // amount to slew servo each CYCLE_MS cycle
     static final double MAX_POS     =  1.0;      //0.55                  // Maximum rotational position
     static final double MID_POS     = 0.45;       //0.35                  //Middle init position
@@ -43,17 +45,17 @@ public class ArmCollection {
 
 //expansion
 
-    public  void expandControl(double ystick){ //expansion should be continous servo
-        double expandRange = Range.clip( (-ystick), -1.0, 1.0);
-        if (expandRange > 0){
-            expansion.setPower(1);
-        }
-        else {
-            if (expandRange < 0){
-                expansion.setPower(-1);                }
-            else
-                expansion.setPower(0);
-        }
+        public  void expandControl(double ystick){ //expansion should be continous servo
+            double expandRange = Range.clip( (-ystick), -1.0, 1.0);
+            if (expandRange > 0){
+                expansion.setPower(1);
+            }
+            else {
+                if (expandRange < 0){
+                    expansion.setPower(-1);                }
+                else
+                    expansion.setPower(0);
+            }
 
     }
 
@@ -66,6 +68,8 @@ public class ArmCollection {
         else {
 
             if (down){
+
+                IntakePulley.setPosition(inactive);
                 expansion.setPower(-1);                }
             else
                 expansion.setPower(0);
@@ -74,7 +78,9 @@ public class ArmCollection {
     }
 
 
-    //claw
+
+//claw
+
     public void grab(boolean button){
         if (button){
             IntakePulley.setPosition(inactive);

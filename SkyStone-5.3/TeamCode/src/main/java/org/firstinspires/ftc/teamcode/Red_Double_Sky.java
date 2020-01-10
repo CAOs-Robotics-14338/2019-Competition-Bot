@@ -155,7 +155,7 @@ public class Red_Double_Sky extends LinearOpMode {
                     telemetry.update();
                 }
                 holonomicDrive.stopMoving();
-                Gyro.rotate(30,0.4);
+                Gyro.rotate(27,0.4);
                 sleep(100);
 
             }

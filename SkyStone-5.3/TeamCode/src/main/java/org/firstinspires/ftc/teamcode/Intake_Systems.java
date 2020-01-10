@@ -32,6 +32,7 @@ public class Intake_Systems {
     }
     public void intake(boolean collect1, boolean deploy1){
         if(collect1){
+            IntakePulley.setPosition(active);
             IntakeLeftMotor.setPower(0.95);
             IntakeRightMotor.setPower(-0.95);
         }
@@ -49,29 +50,26 @@ public class Intake_Systems {
         if(retract1 || retract2){
             IntakePulley.setPosition(inactive);}
 
-    }
+        }
     public void pullBackCollectionArms(boolean retract1){
         if(retract1 ){
             IntakePulley.setPosition(inactive);}
 
     }
 
-    public void releaseCollectionArms(boolean release1, boolean release2){
-        if(release1 || release2){
-            IntakePulley.setPosition(active);}
 
     }
+
+        }
     public void releaseCollectionArms(boolean release1){
         if(release1){
             IntakePulley.setPosition(active);}
 
     }
-    public void stopCollection(){
-        IntakeLeftMotor.setPower(0);
-        IntakeRightMotor.setPower(0);
-    }
-
-
+        public void stopCollection(){
+            IntakeLeftMotor.setPower(0);
+            IntakeRightMotor.setPower(0);
+        }
 
 
 }
