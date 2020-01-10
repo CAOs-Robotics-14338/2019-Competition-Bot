@@ -84,6 +84,17 @@ public class Blue_Foundation_Gyro extends LinearOpMode {
 
         // Resetting our runtime variable which we will use to measure how long a process has been running
         runtime.reset();
+        // Using the autodrive function from holonomic drive to drive the robot forwards at a max speed of 50%
+        holonomicDrive.autoDrive(270, 0.75);
+        // Running a while loop that is active for our set amount of time which is 1.4 seconds in this case
+        while (opModeIsActive() && runtime.seconds() < 0.75){
+            // Adding telemetry data of our direction and run time
+            telemetry.addData("Path", "TIME: %2.5f S Elapsed", runtime.seconds());
+            telemetry.update();
+        }
+        // Stopping the robot so the servos can activate before we return to the starting position
+        holonomicDrive.stopMoving();
+        runtime.reset();
 
         // Using the autodrive function from holonomic drive to drive the robot forwards at a max speed of 50%
         holonomicDrive.autoDrive(0, 0.75);

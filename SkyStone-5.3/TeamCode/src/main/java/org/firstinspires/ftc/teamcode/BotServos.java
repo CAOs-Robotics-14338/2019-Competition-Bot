@@ -14,6 +14,7 @@ public class BotServos {
         right_hook = rHook;
 
     }
+
         public void retract(boolean a1, boolean b1) {
             if (a1 || b1) {
                 left_hook.setPosition(lStored);
@@ -27,7 +28,6 @@ public class BotServos {
                     right_hook.setPosition(rStored);
 
                 }
-
 
             }
             public void activate ( boolean y1, boolean y2){
