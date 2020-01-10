@@ -25,7 +25,7 @@ package org.firstinspires.ftc.teamcode;
 
 @TeleOp(name="Testing DPAD OpMode", group="Iterative Opmode")
 //@Disabled
-public class TestingOpModeDPAD extends OpMode
+public class TestingOPModeDPAD extends OpMode
 {
     // Declare OpMode members.
     private ElapsedTime runtime = new ElapsedTime();
