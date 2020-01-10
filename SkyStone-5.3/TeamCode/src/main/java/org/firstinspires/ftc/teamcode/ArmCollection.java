@@ -66,6 +66,7 @@ public class ArmCollection {
         else {
 
             if (down){
+                IntakePulley.setPosition(inactive);
                 expansion.setPower(-1);                }
             else
                 expansion.setPower(0);
