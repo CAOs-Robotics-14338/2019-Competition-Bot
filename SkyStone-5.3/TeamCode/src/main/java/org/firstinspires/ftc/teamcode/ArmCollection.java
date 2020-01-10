@@ -57,6 +57,22 @@ public class ArmCollection {
 
     }
 
+    public  void expandControlDPAD(boolean up, boolean down){ //expansion should be continous servo
+
+        if (up){
+            IntakePulley.setPosition(inactive);
+            expansion.setPower(1);
+        }
+        else {
+
+            if (down){
+                expansion.setPower(-1);                }
+            else
+                expansion.setPower(0);
+        }
+
+    }
+
 
 //claw
     public void grab(boolean button){
