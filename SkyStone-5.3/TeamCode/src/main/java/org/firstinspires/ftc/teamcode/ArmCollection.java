@@ -21,7 +21,7 @@ public class ArmCollection {
 ///WRIST
     static final double INCREMENT   = 0.001;                         // amount to slew servo each CYCLE_MS cycle
     static final double MAX_POS     =  1.0;      //0.55                  // Maximum rotational position
-    static final double MID_POS     = 0.50;       //0.35                  //Middle init position
+    static final double MID_POS     = 0.45;       //0.35                  //Middle init position
     static final double MIN_POS     =  0.0;      //0.15                  // Minimum rotational position
     double position = MID_POS;
 
