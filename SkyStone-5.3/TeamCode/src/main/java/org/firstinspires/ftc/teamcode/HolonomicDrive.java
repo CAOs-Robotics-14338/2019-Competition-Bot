@@ -98,7 +98,7 @@ public class HolonomicDrive {
             BackRightMotor.setPower(BackRightMotorPower);
             BackLeftMotor.setPower(BackLeftMotorPower);
         }
-       if (slow_trigger > 0.5){
+       if (slow_trigger>0){
            if(this.getMotorRotationDirection().equals("CLOCKWISE")){
                double FrontRightMotorPower = Range.clip( (x - y + z), -slow_speed , slow_speed);
                double FrontLeftMotorPower = Range.clip( (x + y + z), -slow_speed , slow_speed);
