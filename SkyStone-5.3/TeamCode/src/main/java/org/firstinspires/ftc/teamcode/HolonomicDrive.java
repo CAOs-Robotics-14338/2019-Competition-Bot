@@ -8,6 +8,9 @@ public class HolonomicDrive {
     String motorRotationDirection;
     DcMotor FrontRightMotor, FrontLeftMotor, BackRightMotor, BackLeftMotor;
 
+    double slow_speed = 0.50;
+   // double top_speed = 1.0;
+
     public HolonomicDrive(DcMotor FrontRight, DcMotor FrontLeft, DcMotor BackRight, DcMotor BackLeft){
         motorRotationDirection = "CLOCKWISE";
         FrontRightMotor = FrontRight;
@@ -72,6 +75,55 @@ public class HolonomicDrive {
 
         }
     }
+    public void teleopDrive(double x, double y, double z, double slow_trigger){
+        if(this.getMotorRotationDirection().equals("CLOCKWISE")){
+            double FrontRightMotorPower = Range.clip( (x - y + z), -1.0, 1.0);
+            double FrontLeftMotorPower = Range.clip( (x + y + z), -1.0, 1.0);
+            double BackRightMotorPower = Range.clip( (-x - y + z), -1.0, 1.0);
+            double BackLeftMotorPower = Range.clip( (-x + y + z), -1.0, 1.0);
+
+            FrontRightMotor.setPower(FrontRightMotorPower);
+            FrontLeftMotor.setPower(FrontLeftMotorPower);
+            BackRightMotor.setPower(BackRightMotorPower);
+            BackLeftMotor.setPower(BackLeftMotorPower);
+        }
+        else{//COUNTER-CLOCKWISE
+            double FrontRightMotorPower = Range.clip( -(x - y + z), -1.0, 1.0);
+            double FrontLeftMotorPower = Range.clip( -(x + y + z), -1.0, 1.0);
+            double BackRightMotorPower = Range.clip( -(-x - y + z), -1.0, 1.0);
+            double BackLeftMotorPower = Range.clip( -(-x + y + z), -1.0, 1.0);
+
+            FrontRightMotor.setPower(FrontRightMotorPower);
+            FrontLeftMotor.setPower(FrontLeftMotorPower);
+            BackRightMotor.setPower(BackRightMotorPower);
+            BackLeftMotor.setPower(BackLeftMotorPower);
+        }
+       if (slow_trigger > 0.5){
+           if(this.getMotorRotationDirection().equals("CLOCKWISE")){
+               double FrontRightMotorPower = Range.clip( (x - y + z), -slow_speed , slow_speed);
+               double FrontLeftMotorPower = Range.clip( (x + y + z), -slow_speed , slow_speed);
+               double BackRightMotorPower = Range.clip( (-x - y + z), -slow_speed , slow_speed);
+               double BackLeftMotorPower = Range.clip( (-x + y + z), -slow_speed , slow_speed);
+
+               FrontRightMotor.setPower(FrontRightMotorPower);
+               FrontLeftMotor.setPower(FrontLeftMotorPower);
+               BackRightMotor.setPower(BackRightMotorPower);
+               BackLeftMotor.setPower(BackLeftMotorPower);
+           }
+           else{//COUNTER-CLOCKWISE
+               double FrontRightMotorPower = Range.clip( -(x - y + z), -slow_speed , slow_speed);
+               double FrontLeftMotorPower = Range.clip( -(x + y + z), -slow_speed , slow_speed);
+               double BackRightMotorPower = Range.clip( -(-x - y + z), -slow_speed , slow_speed);
+               double BackLeftMotorPower = Range.clip( -(-x + y + z), -slow_speed , slow_speed);
+
+               FrontRightMotor.setPower(FrontRightMotorPower);
+               FrontLeftMotor.setPower(FrontLeftMotorPower);
+               BackRightMotor.setPower(BackRightMotorPower);
+               BackLeftMotor.setPower(BackLeftMotorPower);
+           }
+       }
+    }
+
 
     public void teleopDriveDEMO(double x, double y, double z){
         if(this.getMotorRotationDirection().equals("CLOCKWISE")){
