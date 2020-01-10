@@ -31,6 +31,7 @@ public class Intake_Systems {
     }
     public void intake(boolean collect1, boolean deploy1){
         if(collect1){
+            IntakePulley.setPosition(active);
             IntakeLeftMotor.setPower(0.95);
             IntakeRightMotor.setPower(-0.95);
         }
