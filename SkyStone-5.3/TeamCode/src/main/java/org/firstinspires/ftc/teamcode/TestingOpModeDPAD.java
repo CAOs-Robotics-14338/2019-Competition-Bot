@@ -129,7 +129,7 @@ public class TestingOpModeDPAD extends OpMode
         double y = -gamepad1.left_stick_y;
         double z = gamepad1.right_stick_x;
 
-        double slow = gamepad2.right_trigger;
+        double slow = gamepad1.right_trigger;
 
         double y2 = gamepad2.left_stick_y;
         boolean collect1 = gamepad1.a;
