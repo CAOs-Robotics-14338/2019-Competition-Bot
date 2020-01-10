@@ -29,7 +29,6 @@ public class Blue_DS_Seperated extends LinearOpMode {
     private DcMotor FrontRightMotor, FrontLeftMotor, BackRightMotor, BackLeftMotor, IntakeLeftMotor, IntakeRightMotor;
     private Servo left_hook, right_hook, IntakePulley;
     HolonomicDrive holonomicDrive;
-    //ScissorLift scissorLift;
     Intake_Systems intake_systems;
     BotServos botServos;
     gyro Gyro;
@@ -199,64 +198,10 @@ public class Blue_DS_Seperated extends LinearOpMode {
                     telemetry.update();
                 }
                 holonomicDrive.stopMoving();
+                intake_systems.intake(false, true);
+                sleep(200);
 
-                /**
-                 * Call function to grab SS w/ claw then lift the scissor lift slightly
-                 */
-
-                // Rotating to face the foundation
-                Gyro.rotate(-90,0.5);
-                sleep(150);
-
-                // Driving into the foundation & grabbing it
-                runtime.reset();
-                holonomicDrive.autoDrive(0,0.9);
-                while (opModeIsActive() && runtime.seconds() < 0.15){
-                    telemetry.addLine("Driving into the foundation");
-                    telemetry.update();
-                }
-                holonomicDrive.stopMoving();
-                botServos.auto(true);
-                runtime.reset();
-                while (opModeIsActive() && runtime.seconds() < servoTime) {
-                    telemetry.addLine("Rotating servos");
-                    telemetry.update();
-                }
-
-                //Reversing with the foundation so it will break the building site plane
-                runtime.reset();
-                holonomicDrive.autoDrive(180,0.9);
-                while (opModeIsActive() && runtime.seconds() < 1.5){
-                    // Adding telemetry of the time elapsed
-                    telemetry.addLine("Reversing with the foundation");
-                    telemetry.update();
-                }
-                holonomicDrive.stopMoving();
-
-                // Rotating and pushing the foundation into the building site
-                Gyro.rotate(90,0.5);
-                sleep(150);
-                runtime.reset();
-                holonomicDrive.autoDrive(0,0.90);
-                while (opModeIsActive() && runtime.seconds() < 1){
-                    // Adding telemetry of the time elapsed
-                    telemetry.addLine("Pushing the foundation");
-                    telemetry.update();
-                }
-                holonomicDrive.stopMoving();
-                botServos.auto(false);
-                /**
-                 * Call function to pull back intake arms, extend linear slides, lower scissor lift, release claw, then retract linear slides, and release intake arms
-                 */
-
-                // Moving to the second skystone
-                runtime.reset();
-                holonomicDrive.autoDrive(90, 0.90);
-                while (opModeIsActive() && runtime.seconds() < 0.2){
-                    telemetry.addLine("Returning to second skystone");
-                    telemetry.update();
-                }
-                holonomicDrive.stopMoving();
+                // Driving to the second skystone
                 runtime.reset();
                 holonomicDrive.autoDrive(180, 0.90);
                 while (opModeIsActive() && runtime.seconds() < pos1FND2SS2){
@@ -302,9 +247,7 @@ public class Blue_DS_Seperated extends LinearOpMode {
                     telemetry.update();
                 }
                 holonomicDrive.stopMoving();
-                /**
-                 *  Call function to pull back intake arms, extend linear slides, lower scissor lift, release claw, then retract linear slides, and release intake arms
-                 */
+
 
                 // Reversing under the skybridge
                 runtime.reset();
@@ -369,64 +312,10 @@ public class Blue_DS_Seperated extends LinearOpMode {
                     telemetry.update();
                 }
                 holonomicDrive.stopMoving();
+                intake_systems.intake(false, true);
 
-                /**
-                 * Call function to grab SS w/ claw then lift the scissor lift slightly
-                 */
-
-                // Rotating to face the foundation
-                Gyro.rotate(-90,0.5);
-                sleep(150);
-
-                // Driving into the foundation & grabbing it
-                runtime.reset();
-                holonomicDrive.autoDrive(0,0.90);
-                while (opModeIsActive() && runtime.seconds() < 0.15){
-                    telemetry.addLine("Driving into the foundation");
-                    telemetry.update();
-                }
-                holonomicDrive.stopMoving();
-                botServos.auto(true);
-                runtime.reset();
-                while (opModeIsActive() && runtime.seconds() < servoTime) {
-                    telemetry.addLine("Rotating servos");
-                    telemetry.update();
-                }
-
-                //Reversing with the foundation so it will break the building site plane
-                runtime.reset();
-                holonomicDrive.autoDrive(180,0.9);
-                while (opModeIsActive() && runtime.seconds() < 1.5){
-                    // Adding telemetry of the time elapsed
-                    telemetry.addLine("Reversing with the foundation");
-                    telemetry.update();
-                }
-                holonomicDrive.stopMoving();
-
-                // Rotating and pushing the foundation into the building site
-                Gyro.rotate(90,0.5);
-                sleep(150);
-                runtime.reset();
-                holonomicDrive.autoDrive(0,0.90);
-                while (opModeIsActive() && runtime.seconds() < 1){
-                    // Adding telemetry of the time elapsed
-                    telemetry.addLine("Pushing the foundation");
-                    telemetry.update();
-                }
-                holonomicDrive.stopMoving();
-                botServos.auto(false);
-                /**
-                 * Call function to pull back intake arms, extend linear slides, lower scissor lift, release claw, then retract linear slides, and release intake arms
-                 */
 
                 // Moving to the second skystone
-                runtime.reset();
-                holonomicDrive.autoDrive(90, 0.85);
-                while (opModeIsActive() && runtime.seconds() < 0.2){
-                    telemetry.addLine("Returning to second skystone");
-                    telemetry.update();
-                }
-                holonomicDrive.stopMoving();
                 runtime.reset();
                 holonomicDrive.autoDrive(180, 0.95);
                 while (opModeIsActive() && runtime.seconds() < pos2FND2SS2){
@@ -472,9 +361,6 @@ public class Blue_DS_Seperated extends LinearOpMode {
                     telemetry.update();
                 }
                 holonomicDrive.stopMoving();
-                /**
-                 *  Call function to pull back intake arms, extend linear slides, lower scissor lift, release claw, then retract linear slides, and release intake arms
-                 */
 
                 // Reversing under the skybridge
                 runtime.reset();
@@ -540,54 +426,7 @@ public class Blue_DS_Seperated extends LinearOpMode {
                 }
                 holonomicDrive.stopMoving();
 
-                /**
-                 * Call function to grab SS w/ claw then lift the scissor lift slightly
-                 */
-
-                // Rotating to face the foundation
-                Gyro.rotate(-90,0.5);
-                sleep(150);
-
-                // Driving into the foundation & grabbing it
-                runtime.reset();
-                holonomicDrive.autoDrive(0,0.90);
-                while (opModeIsActive() && runtime.seconds() < 0.15){
-                    telemetry.addLine("Driving into the foundation");
-                    telemetry.update();
-                }
-                holonomicDrive.stopMoving();
-                botServos.auto(true);
-                runtime.reset();
-                while (opModeIsActive() && runtime.seconds() < servoTime) {
-                    telemetry.addLine("Rotating servos");
-                    telemetry.update();
-                }
-
-                //Reversing with the foundation so it will break the building site plane
-                runtime.reset();
-                holonomicDrive.autoDrive(180,0.9);
-                while (opModeIsActive() && runtime.seconds() < 1.5){
-                    // Adding telemetry of the time elapsed
-                    telemetry.addLine("Reversing with the foundation");
-                    telemetry.update();
-                }
-                holonomicDrive.stopMoving();
-
-                // Rotating and pushing the foundation into the building site
-                Gyro.rotate(90,0.5);
-                sleep(150);
-                runtime.reset();
-                holonomicDrive.autoDrive(0,0.90);
-                while (opModeIsActive() && runtime.seconds() < 1){
-                    // Adding telemetry of the time elapsed
-                    telemetry.addLine("Pushing the foundation");
-                    telemetry.update();
-                }
-                holonomicDrive.stopMoving();
-                botServos.auto(false);
-                /**
-                 * Call function to pull back intake arms, extend linear slides, lower scissor lift, release claw, then retract linear slides, and release intake arms
-                 */
+                intake_systems.intake(false, true);
 
                 // Moving to the second skystone
                 runtime.reset();
@@ -642,9 +481,6 @@ public class Blue_DS_Seperated extends LinearOpMode {
                     telemetry.update();
                 }
                 holonomicDrive.stopMoving();
-                /**
-                 *  Call function to pull back intake arms, extend linear slides, lower scissor lift, release claw, then retract linear slides, and release intake arms
-                 */
 
                 // Reversing under the skybridge
                 runtime.reset();

@@ -11,43 +11,24 @@ import org.firstinspires.ftc.robotcore.external.Telemetry;
 public class ScissorLift {
     static final double MOTOR_TICK_COUNT = 1120; //1440
     private DcMotor ScissorLiftMotorLeft, ScissorLiftMotorRight;
-    private Servo LinearSlideServo1, LinearSlideServo2,  ClawServo;
     int initial = 560; //This is the amount that we need to raise the scissor lift to compensate for the foundation height
     int block = 1120; //This is the amount that the scissor lift must rise for 1 block
     int pos = 0;
     boolean pressed = false;
     int target = 0;
-    double slideServoActive = -1;
-    double slideServoStored = -1;
-    double clawServoActive = -1;
-    double clawServoStored = -1;
 
 
-        public ScissorLift(DcMotor ScissorLiftL, DcMotor ScissorLiftR, Servo Claw, Servo Slide1, Servo Slide2){
+
+        public ScissorLift(DcMotor ScissorLiftL, DcMotor ScissorLiftR){
             ScissorLiftMotorLeft = ScissorLiftL;
             ScissorLiftMotorRight = ScissorLiftR;
-            LinearSlideServo1 = Slide1;
-            LinearSlideServo2 = Slide2;
-            ClawServo = Claw;
+
 
 
 
 
         }
-        public void ClawControl(boolean button1, boolean button2, double C2RTS){
-            double SlidePos = Range.clip( (-C2RTS), slideServoStored, slideServoActive );
-            LinearSlideServo1.setPosition(SlidePos);
-            LinearSlideServo2.setPosition(SlidePos);
-            if(button1){
-                ClawServo.setPosition(clawServoStored);
-            }
-            if(button2){
-                ClawServo.setPosition(clawServoActive);
-            }
 
-
-
-        }
         public  void LiftControl(double y2){
             double ScissorLiftPower = Range.clip( (-y2), -1.0, 1.0);
             ScissorLiftMotorLeft.setPower(ScissorLiftPower);

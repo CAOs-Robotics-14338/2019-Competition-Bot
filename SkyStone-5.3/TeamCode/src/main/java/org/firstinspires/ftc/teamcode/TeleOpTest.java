@@ -56,7 +56,7 @@ public class TeleOpTest extends OpMode
     // Declare OpMode members.
     private ElapsedTime runtime = new ElapsedTime();
     private DcMotor  FrontRightMotor, FrontLeftMotor, BackRightMotor, BackLeftMotor, IntakeLeftMotor, IntakeRightMotor, ScissorLiftMotorLeft, ScissorLiftMotorRight;
-    private Servo IntakePulley, left_hook, right_hook, ClawServo, SlideServo1, SlideServo2;
+    private Servo IntakePulley, left_hook, right_hook;
 
     HolonomicDrive holonomicDrive;
     ScissorLift scissorLift;
@@ -83,13 +83,11 @@ public class TeleOpTest extends OpMode
         IntakePulley = hardwareMap.servo.get("intake_pulley");
         left_hook = hardwareMap.servo.get("left_hook");
         right_hook = hardwareMap.servo.get("right_hook");
-        ClawServo = hardwareMap.servo.get("claw");
-        SlideServo1 = hardwareMap.servo.get("slide1");
-        SlideServo2 = hardwareMap.servo.get("slide2");
+
 
 
         holonomicDrive = new HolonomicDrive(FrontRightMotor, FrontLeftMotor, BackRightMotor, BackLeftMotor);
-        scissorLift = new ScissorLift(ScissorLiftMotorLeft, ScissorLiftMotorRight, ClawServo, SlideServo1, SlideServo2);
+        scissorLift = new ScissorLift(ScissorLiftMotorLeft, ScissorLiftMotorRight);
         intake_systems = new Intake_Systems(IntakeRightMotor, IntakeLeftMotor, IntakePulley);
         bot_servo = new BotServos(left_hook, right_hook);
 
@@ -149,7 +147,6 @@ public class TeleOpTest extends OpMode
         holonomicDrive.teleopDrive(x,y,z);
         intake_systems.intakeTele(collect1, deploy1, b2, button_y2);
         scissorLift.LiftControlTest(y2, scissorLeft, scissorRight, scissorUp, scissorDown, rb2);
-        scissorLift.ClawControl(a2, button_x2, g2rt);
         bot_servo.retract(lb1, n2);
         bot_servo.activate(rbl, n1);
         // Show the elapsed game time and wheel power.
