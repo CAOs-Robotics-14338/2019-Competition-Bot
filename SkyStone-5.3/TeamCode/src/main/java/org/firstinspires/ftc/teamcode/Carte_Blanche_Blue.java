@@ -24,10 +24,10 @@ import org.openftc.easyopencv.OpenCvPipeline;
 import java.util.ArrayList;
 import java.util.List;
 
-@Autonomous(name= "Blue DS Seperated", group="Blue")
+@Autonomous(name= "Carte Blanch Blue", group="Blue")
 public class Carte_Blanche_Blue extends LinearOpMode {
     private ElapsedTime runtime = new ElapsedTime();
-    private DcMotor FrontRightMotor, FrontLeftMotor, BackRightMotor, BackLeftMotor, IntakeLeftMotor, IntakeRightMotor, ScissorLiftMotorLeft, ScissorLiftMotorRight, ;
+    private DcMotor FrontRightMotor, FrontLeftMotor, BackRightMotor, BackLeftMotor, IntakeLeftMotor, IntakeRightMotor, ScissorLiftMotorLeft, ScissorLiftMotorRight;
     private Servo IntakePulley, left_hook, right_hook, claw, wrist;
     private CRServo expansion;
 
@@ -89,9 +89,9 @@ public class Carte_Blanche_Blue extends LinearOpMode {
     private static float offsetX = 1.5f/8f;//changing this moves the three rects and the three circles left or right, range : (-2, 2) not inclusive
     private static float offsetY = 2.5f/8f;//changing this moves the three rects and circles up or down, range: (-4, 4) not inclusive
 
-    private static float[] midPos = {4f/8f+offsetX, 4f/8f+offsetY};//0 = col, 1 = row
-    private static float[] leftPos = {2.5f/8f+offsetX, 4f/8f+offsetY};
-    private static float[] rightPos = {6f/8f+offsetX, 4f/8f+offsetY};
+    private static float[] midPos = {1.5f/8f+offsetX, 4f/8f+offsetY};//0 = col, 1 = row
+    private static float[] leftPos = {-1.5f/8f+offsetX, 4f/8f+offsetY};
+    private static float[] rightPos = {5f/8f+offsetX, 4f/8f+offsetY};
     //moves all rectangles right or left by amount. units are in ratio to monitor
 
     private final int rows = 640;
@@ -140,7 +140,7 @@ public class Carte_Blanche_Blue extends LinearOpMode {
         left_hook .setPosition(lStored);
         right_hook.setPosition(rStored);
         intake_systems.pullBackCollectionArms(true);
-        armCollection.WristAuto(true);
+        armCollection.wristControl(0,false, false, true);
 
 
 
@@ -166,7 +166,7 @@ public class Carte_Blanche_Blue extends LinearOpMode {
 
             if(pos == 1 && !skyFound){
                 skyFound = true;
-
+                armCollection.expandControlDPAD(true, false);
                 // Driving from the wall to the first skystone @ position 1
                 runtime.reset();
                 holonomicDrive.autoDrive(290,0.9);
@@ -175,12 +175,6 @@ public class Carte_Blanche_Blue extends LinearOpMode {
                     telemetry.update();
                 }
                 holonomicDrive.stopMoving();
-
-                /**
-                 *
-                 * Extend linear slides, rotate wrist, and open claw if not already open
-                 *
-                 */
                 sleep(200);
                 // Driving towards the Skystone with the claw ready
                 runtime.reset();
@@ -192,11 +186,8 @@ public class Carte_Blanche_Blue extends LinearOpMode {
                 holonomicDrive.stopMoving();
                 sleep(250);
 
-                /**
-                 *
-                 * Close claw and lift scissor lift up height of foundation
-                 *
-                 */
+                armCollection.expandControlDPAD(false, false);
+                armCollection.grab(true);
 
                 // Reversing from collecting so we can drive under the alliance bridge
                 runtime.reset();
@@ -208,7 +199,6 @@ public class Carte_Blanche_Blue extends LinearOpMode {
                 holonomicDrive.stopMoving();
 
                 // Stopping collection wheels and rotating to point towards the building zone
-                intake_systems.intake(false, false);
                 Gyro.rotate(90, 0.5);
                 sleep(150);
 
@@ -218,12 +208,19 @@ public class Carte_Blanche_Blue extends LinearOpMode {
                 while (opModeIsActive() && runtime.seconds() < SS1ToFoundation){
                     telemetry.addLine("Driving to the building site");
                     telemetry.update();
+                    if(runtime.seconds() > SS1ToFoundation/2 && runtime.seconds() < SS1ToFoundation){
+                        ScissorLiftMotorLeft.setPower(0.6);
+                        ScissorLiftMotorRight.setPower(0.6);
+                    }
                 }
                 holonomicDrive.stopMoving();
 
                 // Turning towards the foundation & driving into it
                 Gyro.rotate(-90,0.5);
-                sleep(200);
+
+                sleep(500);
+                ScissorLiftMotorLeft.setPower(0);
+                ScissorLiftMotorRight.setPower(0);
                 runtime.reset();
                 holonomicDrive.autoDrive(0,0.90);
                 while (opModeIsActive() && runtime.seconds() < 0.75){
@@ -232,6 +229,8 @@ public class Carte_Blanche_Blue extends LinearOpMode {
                 }
                 holonomicDrive.stopMoving();
                 botServos.auto(true);
+                sleep(400);
+
                 /**
                  *
                  * Lower scissor lift, and release claw

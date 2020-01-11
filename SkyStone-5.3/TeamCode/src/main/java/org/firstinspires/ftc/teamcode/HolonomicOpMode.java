@@ -140,7 +140,7 @@ public class HolonomicOpMode extends OpMode
         holonomicDrive.teleopDrive(x,y,z);
         intake_systems.intakeTele(collect1, deploy1, collect2, deploy2);
         intake_systems.pullBackCollectionArms(button_x1, button_x2);
-        intake_systems.releaseCollectionArms(button_y1, button_y2);
+        intake_systems.releaseCollectionArms(button_y1);
         scissorLift.LiftControl(y2);
         bot_servo.retract(lb1, reset);
         bot_servo.activate(rbl, activate);
