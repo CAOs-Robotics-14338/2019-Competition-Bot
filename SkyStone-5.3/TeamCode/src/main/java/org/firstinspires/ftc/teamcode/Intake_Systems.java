@@ -58,9 +58,7 @@ public class Intake_Systems {
     }
 
 
-    }
 
-        }
     public void releaseCollectionArms(boolean release1){
         if(release1){
             IntakePulley.setPosition(active);}
