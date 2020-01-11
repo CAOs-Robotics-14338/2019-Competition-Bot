@@ -166,7 +166,8 @@ public class Carte_Blanche_Blue extends LinearOpMode {
 
             if(pos == 1 && !skyFound){
                 skyFound = true;
-                armCollection.expandControlDPAD(true, false);
+                armCollection.expand(true);
+                sleep(200);
                 // Driving from the wall to the first skystone @ position 1
                 runtime.reset();
                 holonomicDrive.autoDrive(290,0.9);
@@ -186,8 +187,9 @@ public class Carte_Blanche_Blue extends LinearOpMode {
                 holonomicDrive.stopMoving();
                 sleep(250);
 
-                armCollection.expandControlDPAD(false, false);
+                armCollection.expand(false);
                 armCollection.grab(true);
+                sleep(200);
 
                 // Reversing from collecting so we can drive under the alliance bridge
                 runtime.reset();
