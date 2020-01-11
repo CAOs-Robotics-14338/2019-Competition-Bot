@@ -3,6 +3,7 @@ package org.firstinspires.ftc.teamcode;
 import com.qualcomm.hardware.bosch.BNO055IMU;
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
+import com.qualcomm.robotcore.hardware.CRServo;
 import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.Servo;
 import com.qualcomm.robotcore.util.ElapsedTime;
@@ -26,13 +27,17 @@ import java.util.List;
 @Autonomous(name= "Blue DS Seperated", group="Blue")
 public class Carte_Blanche_Blue extends LinearOpMode {
     private ElapsedTime runtime = new ElapsedTime();
-    private DcMotor FrontRightMotor, FrontLeftMotor, BackRightMotor, BackLeftMotor, IntakeLeftMotor, IntakeRightMotor;
-    private Servo left_hook, right_hook, IntakePulley;
+    private DcMotor FrontRightMotor, FrontLeftMotor, BackRightMotor, BackLeftMotor, IntakeLeftMotor, IntakeRightMotor, ScissorLiftMotorLeft, ScissorLiftMotorRight, ;
+    private Servo IntakePulley, left_hook, right_hook, claw, wrist;
+    private CRServo expansion;
+
     HolonomicDrive holonomicDrive;
     Intake_Systems intake_systems;
     BotServos botServos;
     gyro Gyro;
     BNO055IMU imu;
+    ArmCollection armCollection;
+
     Orientation lastAngles = new Orientation();
     double                  globalAngle, power = .30, correction;
 
@@ -102,11 +107,15 @@ public class Carte_Blanche_Blue extends LinearOpMode {
         BackLeftMotor = hardwareMap.get(DcMotor.class, "back_left_drive");
         IntakeLeftMotor = hardwareMap.get(DcMotor.class, "left_intake");
         IntakeRightMotor = hardwareMap.get(DcMotor.class, "right_intake");
-        //ScissorLiftMotor =  hardwareMap.get(DcMotor.class, "scissor");
+        ScissorLiftMotorLeft =  hardwareMap.get(DcMotor.class, "scissor_left");
+        ScissorLiftMotorRight =  hardwareMap.get(DcMotor.class, "scissor_right");
         IntakePulley = hardwareMap.servo.get("intake_pulley");
         left_hook = hardwareMap.servo.get("left_hook");
         right_hook = hardwareMap.servo.get("right_hook");
 
+        claw = hardwareMap.servo.get("claw");
+        wrist = hardwareMap.servo.get("wrist");
+        expansion = hardwareMap.get(CRServo.class,"expansion");
         BNO055IMU.Parameters parameters = new BNO055IMU.Parameters();
 
         parameters.mode                = BNO055IMU.SensorMode.IMU;
@@ -124,11 +133,16 @@ public class Carte_Blanche_Blue extends LinearOpMode {
         intake_systems = new Intake_Systems(IntakeRightMotor, IntakeLeftMotor, IntakePulley);
         Gyro = new gyro(FrontRightMotor, FrontLeftMotor, BackRightMotor, BackLeftMotor, imu);
         botServos = new BotServos(left_hook, right_hook);
+        armCollection = new ArmCollection(claw, wrist, expansion, IntakePulley);
 
 
         // Setting servos to the retracted position
         left_hook .setPosition(lStored);
         right_hook.setPosition(rStored);
+        intake_systems.pullBackCollectionArms(true);
+        armCollection.WristAuto(true);
+
+
 
         int cameraMonitorViewId = hardwareMap.appContext.getResources().getIdentifier("cameraMonitorViewId", "id", hardwareMap.appContext.getPackageName());
         webcam = OpenCvCameraFactory.getInstance().createWebcam(hardwareMap.get(WebcamName.class, "Webcam Blue"), cameraMonitorViewId);

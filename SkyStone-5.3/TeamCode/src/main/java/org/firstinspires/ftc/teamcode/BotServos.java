@@ -30,6 +30,17 @@ public class BotServos {
                 }
 
             }
+
+            public void auto(boolean a2){
+                if(a2){
+                    left_hook.setPosition(lActive);
+                    right_hook.setPosition(rActive);
+                }
+                else{
+                    left_hook.setPosition(lStored);
+                    right_hook.setPosition(rStored);
+                }
+            }
             public void activate ( boolean y1, boolean y2){
                 if (y1 || y2) {
                     left_hook.setPosition(lActive);
