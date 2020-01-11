@@ -269,7 +269,7 @@ public class Blue_Double_Sky extends LinearOpMode {
             // Now we have started deploying the skystone, next we will drive back to the quarry
             if(pos == 1){
                 holonomicDrive.autoDrive(200,0.95);
-                newtime += 0.15;
+                newtime += 0.35; //0.15
             }
             else if(pos == 2){
                 holonomicDrive.autoDrive(195,0.8);
