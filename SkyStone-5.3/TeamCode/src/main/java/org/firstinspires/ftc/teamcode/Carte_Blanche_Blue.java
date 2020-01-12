@@ -162,7 +162,7 @@ public class Carte_Blanche_Blue extends LinearOpMode {
             else if(valRight == 0 && !posfound){pos = 3; posfound = true;}
             else if (valLeft == 0 && !posfound){pos = 3; posfound = true;}
             else{pos = 1; posfound = true;}
-
+            armCollection.expand(true);
 
             if(pos == 1 && !skyFound){
                 skyFound = true;
@@ -188,6 +188,7 @@ public class Carte_Blanche_Blue extends LinearOpMode {
                 sleep(250);
 
                 armCollection.expand(false);
+                sleep(200);
                 armCollection.grab(true);
                 sleep(200);
 
