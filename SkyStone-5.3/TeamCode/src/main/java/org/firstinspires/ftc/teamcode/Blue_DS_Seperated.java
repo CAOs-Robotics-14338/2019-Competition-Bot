@@ -54,7 +54,7 @@ public class Blue_DS_Seperated extends LinearOpMode {
     double pos2FND2SS2 = 2.7;
     double pos3FND2SS2 = 2.9;
     double P1SS2ToFoundation = 2.45;
-    double P2SS2ToFoundation = 2.55;
+    double P2SS2ToFoundation = 2.65;
     double P3SS2ToFoundation = 2.45;
     double Foundation2Skybride = 0.7;
 
@@ -236,7 +236,7 @@ public class Blue_DS_Seperated extends LinearOpMode {
                 intake_systems.intake(false,false);
 
                 // Rotating to face the building site
-                Gyro.rotate(112,0.5);
+                Gyro.rotate(107,0.5);
                 sleep(150);
 
                 // Driving to the building site with the second skystone

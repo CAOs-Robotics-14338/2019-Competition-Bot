@@ -11,7 +11,7 @@ import com.qualcomm.robotcore.util.ElapsedTime;
 
 
 
-@Autonomous(name = "Blue Bridge", group = "Blue")
+@Autonomous(name = "Blue Bridge Inside", group = "Blue")
 public class Blue_Bridge_Inside extends LinearOpMode {
 
     private ElapsedTime runtime = new ElapsedTime();
