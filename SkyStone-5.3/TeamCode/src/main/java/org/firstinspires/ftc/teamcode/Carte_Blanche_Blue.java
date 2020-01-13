@@ -53,8 +53,8 @@ public class Carte_Blanche_Blue extends LinearOpMode {
     double wallToSS2 = 1.40;
     double wallToSS3 = 1.55;
     double SS1ToFoundation = 1.45;
-    double SS2ToFoundation = 0.0;
-    double SS3ToFoundation = 0.0;
+    double SS2ToFoundation = 1.55;
+    double SS3ToFoundation = 1.65;
     double pos1FND2SS2 = 2.5;
     double pos2FND2SS2 = 2.7;
     double pos3FND2SS2 = 2.9;
@@ -63,14 +63,6 @@ public class Carte_Blanche_Blue extends LinearOpMode {
     double P3SS2ToFoundation = 2.45;
     double Foundation2Skybride = 1.0;
 
-    private double r_time = 3.5;
-    private double numTime = 0.5;
-    private double postime = 0;
-    private double pos2time = 0;
-    private double movetime = 0;
-    private double newtime = 0;
-    private double timetime = 0;
-    private double newtime2 = 0;
     int pos;
     boolean skyFound = false;
     boolean sky2Found = false;
