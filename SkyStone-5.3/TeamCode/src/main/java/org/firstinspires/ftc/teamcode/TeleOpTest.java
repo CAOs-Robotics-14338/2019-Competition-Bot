@@ -25,8 +25,7 @@
  * CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY,
  * OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE
  * OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
- *//*
-
+ */
 
 package org.firstinspires.ftc.teamcode;
 
@@ -36,7 +35,6 @@ import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.Servo;
 import com.qualcomm.robotcore.util.ElapsedTime;
 
-*/
 /**
  * This file contains an example of an iterative (Non-Linear) "OpMode".
  * An OpMode is a 'program' that runs in either the autonomous or the teleop period of an FTC match.
@@ -49,12 +47,11 @@ import com.qualcomm.robotcore.util.ElapsedTime;
  *
  * Use Android Studios to Copy this Class, and Paste it into your team's code folder with a new name.
  * Remove or comment out the @Disabled line to add this opmode to the Driver Station OpMode list
- *//*
+ */
 
-
-@TeleOp(name="Holonomic OpMode", group="Iterative Opmode")
+@TeleOp(name="TeleOP Test", group="Iterative Opmode")
 //@Disabled
-public class HolonomicOpMode extends OpMode
+public class TeleOpTest extends OpMode
 {
     // Declare OpMode members.
     private ElapsedTime runtime = new ElapsedTime();
@@ -66,14 +63,11 @@ public class HolonomicOpMode extends OpMode
     Intake_Systems intake_systems;
     BotServos bot_servo;
 
-    */
-/*
+    /*
      * Code to run ONCE when the driver hits INIT
-     *//*
-
+     */
     @Override
     public void init() {
-        telemetry.addData("Status", "Initialized");
 
         // Initialize the hardware variables. Note that the strings used here as parameters
         // to 'get' must correspond to the names assigned during the robot configuration
@@ -90,6 +84,8 @@ public class HolonomicOpMode extends OpMode
         left_hook = hardwareMap.servo.get("left_hook");
         right_hook = hardwareMap.servo.get("right_hook");
 
+
+
         holonomicDrive = new HolonomicDrive(FrontRightMotor, FrontLeftMotor, BackRightMotor, BackLeftMotor);
         scissorLift = new ScissorLift(ScissorLiftMotorLeft, ScissorLiftMotorRight);
         intake_systems = new Intake_Systems(IntakeRightMotor, IntakeLeftMotor, IntakePulley);
@@ -99,30 +95,24 @@ public class HolonomicOpMode extends OpMode
         telemetry.addData("Status", "Initialized");
     }
 
-    */
-/*
+    /*
      * Code to run REPEATEDLY after the driver hits INIT, but before they hit PLAY
-     *//*
-
+     */
     @Override
     public void init_loop() {
     }
 
-    */
-/*
+    /*
      * Code to run ONCE when the driver hits PLAY
-     *//*
-
+     */
     @Override
     public void start() {
         runtime.reset();
     }
 
-    */
-/*
+    /*
      * Code to run REPEATEDLY after the driver hits PLAY but before they hit STOP
-     *//*
-
+     */
     @Override
     public void loop() {
         double x = gamepad1.left_stick_x;
@@ -132,44 +122,42 @@ public class HolonomicOpMode extends OpMode
 
 
         double y2 = gamepad2.left_stick_y;
+        double g2rt = gamepad2.right_stick_y;
         boolean collect1 = gamepad1.a;
         boolean deploy1 = gamepad1.b;
-        boolean collect2 = gamepad2.a;
-        boolean deploy2 = gamepad2.b;
-        boolean activate = gamepad2.right_bumper;
-        boolean reset = gamepad2.left_bumper;
+        boolean a2 = gamepad2.a;
+        boolean b2 = gamepad2.b;
+        boolean rb2 = gamepad2.right_bumper;
+        boolean lb2 = gamepad2.left_bumper;
         boolean rbl = gamepad1.right_bumper;
         boolean lb1 = gamepad1.left_bumper;
         boolean button_y1 = gamepad1.y;
         boolean button_y2 = gamepad2.y;
         boolean button_x1 = gamepad1.x;
         boolean button_x2 = gamepad2.x;
-        */
-/*boolean scissorUp = gamepad2.dpad_up;
-        boolean scissorDown = gamepad2.dpad_down;*//*
+        boolean scissorUp = gamepad2.dpad_up;
+        boolean scissorDown = gamepad2.dpad_down;
+        boolean scissorRight = gamepad2.dpad_right;
+        boolean scissorLeft = gamepad2.dpad_left;
+        boolean n1 = false;
+        boolean n2 = false;
 
 
 
         holonomicDrive.teleopDrive(x,y,z);
-        intake_systems.intakeTele(collect1, deploy1, collect2, deploy2);
-        intake_systems.pullBackCollectionArms(button_x1, button_x2);
-        intake_systems.releaseCollectionArms(button_y1);
-        scissorLift.LiftControl(y2);
-        bot_servo.retract(lb1, reset);
-        bot_servo.activate(rbl, activate);
-        //scissorLift.LiftMovement(scissorUp, scissorDown, reset, activate);
+        intake_systems.intakeTele(collect1, deploy1, b2, button_y2);
+        scissorLift.LiftControlTest(y2, scissorLeft, scissorRight, scissorUp, scissorDown, rb2);
+        bot_servo.retract(lb1, n2);
+        bot_servo.activate(rbl, n1);
         // Show the elapsed game time and wheel power.
         telemetry.addData("Status", "Run Time: " + runtime.toString());
     }
 
-    */
-/*
+    /*
      * Code to run ONCE after the driver hits STOP
-     *//*
-
+     */
     @Override
     public void stop() {
     }
 
 }
-*/

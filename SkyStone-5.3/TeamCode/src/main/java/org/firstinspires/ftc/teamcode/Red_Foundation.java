@@ -2,12 +2,14 @@ package org.firstinspires.ftc.teamcode;
 
 //Importing required classes
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
+import com.qualcomm.robotcore.eventloop.opmode.Disabled;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.Servo;
 import com.qualcomm.robotcore.util.ElapsedTime;
 
 // Declaring autonomous named Servo_Autonomous with the ground test
+@Disabled
 @Autonomous(name="Red Foundation", group="Red")
 // Creating class named servo autonomous that uses linear op mode
 public class Red_Foundation extends LinearOpMode {

@@ -45,16 +45,16 @@ public class Blue_Double_Sky extends LinearOpMode {
     double lActive = 0.6;
     double rActive = 0.4;
     double time = 2;
-    private double intake_time = 0.50;
-    private double moveTime = 1.55;
-    private double r_time = 3.5;
-    private double numTime = 0.5;
-    private double postime = 0;
-    private double pos2time = 0;
-    private double movetime = 0;
-    private double newtime = 0;
-    private double timetime = 0;
-    private double newtime2 = 0;
+    double intake_time = 0.50;
+    double moveTime = 1.55;
+    double r_time = 3.5;
+    double numTime = 0.5;
+    double postime = 0;
+    double pos2time = 0;
+    double movetime = 0;
+    double newtime = 0;
+    double timetime = 0;
+    double newtime2 = 0;
     int pos;
     boolean skyFound = false;
     boolean sky2Found = false;
@@ -269,7 +269,7 @@ public class Blue_Double_Sky extends LinearOpMode {
             // Now we have started deploying the skystone, next we will drive back to the quarry
             if(pos == 1){
                 holonomicDrive.autoDrive(200,0.95);
-                newtime += 0.15;
+                newtime += 0.35; //0.15
             }
             else if(pos == 2){
                 holonomicDrive.autoDrive(195,0.8);
