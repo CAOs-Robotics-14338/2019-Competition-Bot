@@ -2,6 +2,7 @@
 package org.firstinspires.ftc.teamcode;
 
 import com.qualcomm.robotcore.hardware.DcMotor;
+import com.qualcomm.robotcore.hardware.DigitalChannel;
 import com.qualcomm.robotcore.hardware.Servo;
 
 public class Intake_Systems {
@@ -10,10 +11,19 @@ public class Intake_Systems {
     double active = 0;//1
     double inactive = 1; //0
 
+    DigitalChannel touch;
+
+    public Intake_Systems(DcMotor rightIntake, DcMotor leftIntake, Servo pulley, DigitalChannel ttouch) {
+        IntakeLeftMotor = leftIntake;
+        IntakeRightMotor = rightIntake;
+        IntakePulley = pulley;
+        touch = ttouch;
+    }
     public Intake_Systems(DcMotor rightIntake, DcMotor leftIntake, Servo pulley) {
         IntakeLeftMotor = leftIntake;
         IntakeRightMotor = rightIntake;
         IntakePulley = pulley;
+
     }
     public void intakeTele(boolean collect1, boolean deploy1, boolean collect2, boolean deploy2){
         if(collect1 || collect2){
@@ -45,6 +55,14 @@ public class Intake_Systems {
             IntakeRightMotor.setPower(0);
         }
 
+    }
+
+    public boolean getTouch(){ //returns true if it's touched
+        if (touch.getState() == true) {
+            return false;
+        } else {
+            return true;
+        }
     }
     public void pullBackCollectionArms(boolean retract1, boolean retract2){
         if(retract1 || retract2){

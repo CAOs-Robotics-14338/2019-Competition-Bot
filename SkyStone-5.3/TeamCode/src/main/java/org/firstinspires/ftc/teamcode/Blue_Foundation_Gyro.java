@@ -112,7 +112,7 @@ public class Blue_Foundation_Gyro extends LinearOpMode {
         left_hook.setPosition(lActive);
         right_hook.setPosition(rActive);
         // Running a while loop that will wait for 1 second before moving
-        while (opModeIsActive() && runtime.seconds() < 0.7) {
+        while (opModeIsActive() && runtime.seconds() < 0.9) {
             // Adding telemetry data with the time elapsed
             telemetry.addData("Path", "TIME: %2.5f S Elapsed", runtime.seconds());
             telemetry.update();

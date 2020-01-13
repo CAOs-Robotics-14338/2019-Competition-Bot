@@ -6,13 +6,8 @@ import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.Servo;
 import com.qualcomm.robotcore.util.ElapsedTime;
 
-
-
-
-
-
-@Autonomous(name = "Red Bridge Wall", group = "Red")
-public class Red_Bridge extends LinearOpMode {
+@Autonomous(name = "Red Bridge Inside", group = "Red")
+public class Red_Bridge_Inside extends LinearOpMode {
 
     private ElapsedTime runtime = new ElapsedTime();
 
@@ -48,6 +43,21 @@ public class Red_Bridge extends LinearOpMode {
 
         runtime.reset();
         holonomicDrive.autoDrive(270,0.8);
+        while (opModeIsActive() && runtime.seconds() < 1.0){
+            // Adding telemetry of the time elapsed
+            telemetry.addData("Path", "TIME: %2.5f S Elapsed", runtime.seconds());
+            telemetry.update();
+        }
+        holonomicDrive.stopMoving();
+        /**
+         *
+         * Can add delay here so the robot will part under the bridge then drive forward if
+         * alliance partner requests so
+         *
+         */
+
+        runtime.reset();
+        holonomicDrive.autoDrive(0,0.8);
         while (opModeIsActive() && runtime.seconds() < 1.0){
             // Adding telemetry of the time elapsed
             telemetry.addData("Path", "TIME: %2.5f S Elapsed", runtime.seconds());
