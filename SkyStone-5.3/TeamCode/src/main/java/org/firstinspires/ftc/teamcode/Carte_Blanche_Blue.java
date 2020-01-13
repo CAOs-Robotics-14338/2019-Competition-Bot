@@ -132,7 +132,7 @@ public class Carte_Blanche_Blue extends LinearOpMode {
         left_hook .setPosition(lStored);
         right_hook.setPosition(rStored);
         intake_systems.pullBackCollectionArms(true);
-        armCollection.wristControl(0,false, false, true);
+        armCollection.wristDefaut(true);
 
 
 

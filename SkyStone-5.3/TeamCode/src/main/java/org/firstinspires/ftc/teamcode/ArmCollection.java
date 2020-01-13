@@ -134,6 +134,14 @@ public class ArmCollection {
         }
         wrist.setPosition(position);
     }
+
+    public void wristDefaut(boolean start){
+        if(start){
+            position = MID_POS;
+        }
+        wrist.setPosition(position);
+
+    }
     public void wristControl(double xstick) {
         double wristRange = Range.clip( (-xstick), -1.0, 1.0);
         if (wristRange > 0){
