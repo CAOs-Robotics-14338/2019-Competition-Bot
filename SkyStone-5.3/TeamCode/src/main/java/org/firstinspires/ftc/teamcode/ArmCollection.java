@@ -82,6 +82,9 @@ public class ArmCollection {
             expansion.setPower(1);
 
         }
+        else{
+            expansion.setPower(0);
+        }
     }
 
 
