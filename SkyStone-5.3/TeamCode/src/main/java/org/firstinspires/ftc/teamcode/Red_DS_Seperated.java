@@ -23,7 +23,7 @@ import org.openftc.easyopencv.OpenCvPipeline;
 import java.util.ArrayList;
 import java.util.List;
 
-@Autonomous(name= "Red DS Seperated", group="Blue")
+@Autonomous(name= "Red DS Seperated", group="Red")
 public class Red_DS_Seperated extends LinearOpMode {
     private ElapsedTime runtime = new ElapsedTime();
     private DcMotor FrontRightMotor, FrontLeftMotor, BackRightMotor, BackLeftMotor, IntakeLeftMotor, IntakeRightMotor;
@@ -44,7 +44,7 @@ public class Red_DS_Seperated extends LinearOpMode {
     double servoTime = 0.6;
     double time = 2;
     double intake_time = 0.50;
-    double wallToSS1 = 1.45;
+    double wallToSS1 = 1.55;
     double wallToSS2 = 1.35;
     double wallToSS3 = 1.45;
     double SS1ToFoundation = 1.45;
@@ -53,7 +53,7 @@ public class Red_DS_Seperated extends LinearOpMode {
     double pos1FND2SS2 = 2.5;
     double pos2FND2SS2 = 2.7;
     double pos3FND2SS2 = 2.9;
-    double P1SS2ToFoundation = 2.45;
+    double P1SS2ToFoundation = 3.15; //2.55
     double P2SS2ToFoundation = 2.65;
     double P3SS2ToFoundation = 2.45;
     double Foundation2Skybride = 0.5;
@@ -81,11 +81,11 @@ public class Red_DS_Seperated extends LinearOpMode {
     private static float rectHeight = .6f/8f;
     private static float rectWidth = 1.5f/8f;
 
-    private static float offsetX = -1.5f/8f;//changing this moves the three rects and the three circles left or right, range : (-2, 2) not inclusive
-    private static float offsetY = 2.5f/8f;//changing this moves the three rects and circles up or down, range: (-4, 4) not inclusive
+    private static float offsetX = -2f/8f;//changing this moves the three rects and the three circles left or right, range : (-2, 2) not inclusive
+    private static float offsetY = 1.7f/8f;//changing this moves the three rects and circles up or down, range: (-4, 4) not inclusive
 
-    private static float[] midPos = {4f/8f+offsetX, 4f/8f+offsetY};//0 = col, 1 = row
-    private static float[] leftPos = {2.5f/8f+offsetX, 4f/8f+offsetY};
+    private static float[] midPos = {3.5f/8f+offsetX, 4f/8f+offsetY};//0 = col, 1 = row
+    private static float[] leftPos = {2.0f/8f+offsetX, 4f/8f+offsetY};
     private static float[] rightPos = {6f/8f+offsetX, 4f/8f+offsetY};
     //moves all rectangles right or left by amount. units are in ratio to monitor
 
@@ -144,8 +144,8 @@ public class Red_DS_Seperated extends LinearOpMode {
             telemetry.addData("Values", valLeft+"   "+valMid+"   "+valRight);
             telemetry.update();
             sleep(100);
-            if(valMid == 0 && !posfound){pos = 1; posfound = true;}
-            else if(valRight == 0 && !posfound){pos = 2; posfound = true;}
+            if(valMid == 0 && !posfound){pos = 2; posfound = true;}
+            else if(valRight == 0 && !posfound){pos = 1; posfound = true;}
             else{pos = 3; posfound = true;}
 
 
@@ -161,14 +161,14 @@ public class Red_DS_Seperated extends LinearOpMode {
                 }
                 holonomicDrive.stopMoving();
 
-                // Rotating to be @ a 30 degree angle to the skystone
-                Gyro.rotate(27,0.4);
+                // Rotating to be @ a 20 degree angle to the skystone
+                Gyro.rotate(18,0.4);
                 sleep(100);
 
                 // Starting our intake wheel to collect the skystone
                 intake_systems.intake(true, false);
                 runtime.reset();
-                holonomicDrive.autoDrive(0,0.8);
+                holonomicDrive.autoDrive(0,0.9);
                 while (opModeIsActive() && runtime.seconds() < intake_time){
                     telemetry.addLine("Collecting the Skystone");
                     telemetry.update();
@@ -179,7 +179,7 @@ public class Red_DS_Seperated extends LinearOpMode {
                 // Reversing from collecting so we can drive under the alliance bridge
                 runtime.reset();
                 holonomicDrive.autoDrive(180,0.8);
-                while (opModeIsActive() && runtime.seconds() < intake_time+0.2){
+                while (opModeIsActive() && runtime.seconds() < intake_time+0.4){
                     telemetry.addLine("Reversing to drive under the bridge");
                     telemetry.update();
                 }
@@ -187,12 +187,12 @@ public class Red_DS_Seperated extends LinearOpMode {
 
                 // Stopping collection wheels and rotating to point towards the building zone
                 intake_systems.intake(false, false);
-                Gyro.rotate(112, 0.5);
-                sleep(150);
+                Gyro.rotate(-105, 0.5);
+                sleep(200);
 
                 // Driving towards the building site with skystone in intake
                 runtime.reset();
-                holonomicDrive.autoDrive(0,0.90);
+                holonomicDrive.autoDrive(0,0.80);
                 while (opModeIsActive() && runtime.seconds() < SS1ToFoundation){
                     telemetry.addLine("Driving to the building site");
                     telemetry.update();
@@ -203,7 +203,7 @@ public class Red_DS_Seperated extends LinearOpMode {
 
                 // Driving to the second skystone
                 runtime.reset();
-                holonomicDrive.autoDrive(200, 0.90);
+                holonomicDrive.autoDrive(160, 0.90); //200
                 while (opModeIsActive() && runtime.seconds() < pos1FND2SS2){
                     telemetry.addLine("Returning to second skystone");
                     telemetry.update();
@@ -211,7 +211,7 @@ public class Red_DS_Seperated extends LinearOpMode {
                 holonomicDrive.stopMoving();
 
                 // Intaking the second skystone
-                Gyro.rotate(-115,0.5);
+                Gyro.rotate(105,0.5); //115
                 sleep(150);
                 intake_systems.intake(true,false);
                 runtime.reset();
@@ -236,7 +236,7 @@ public class Red_DS_Seperated extends LinearOpMode {
                 intake_systems.intake(false,false);
 
                 // Rotating to face the building site
-                Gyro.rotate(105,0.5);
+                Gyro.rotate(-105,0.5);
                 sleep(150);
 
                 // Driving to the building site with the second skystone
@@ -305,7 +305,7 @@ public class Red_DS_Seperated extends LinearOpMode {
 
                 // Stopping collection wheels and rotating to point towards the building zone
                 intake_systems.intake(false, false);
-                Gyro.rotate(105, 0.5);
+                Gyro.rotate(-105, 0.5);
                 sleep(150);
 
                 // Driving towards the building site with skystone in intake
@@ -509,10 +509,6 @@ public class Red_DS_Seperated extends LinearOpMode {
             }
 
         }
-
-
-
-
 
     }
 
