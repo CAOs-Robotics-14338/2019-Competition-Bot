@@ -45,16 +45,16 @@ public class Red_DS_Seperated extends LinearOpMode {
     double time = 2;
     double intake_time = 0.50;
     double wallToSS1 = 1.55;
-    double wallToSS2 = 1.35;
+    double wallToSS2 = 1.45; //1.35
     double wallToSS3 = 1.45;
     double SS1ToFoundation = 1.45;
-    double SS2ToFoundation = 1.55;
+    double SS2ToFoundation = 1.85;
     double SS3ToFoundation = 1.65;
     double pos1FND2SS2 = 2.5;
-    double pos2FND2SS2 = 2.7;
+    double pos2FND2SS2 = 2.5;
     double pos3FND2SS2 = 2.9;
     double P1SS2ToFoundation = 3.15; //2.55
-    double P2SS2ToFoundation = 2.65;
+    double P2SS2ToFoundation = 2.85;
     double P3SS2ToFoundation = 2.45;
     double Foundation2Skybride = 0.5;
 
@@ -81,7 +81,7 @@ public class Red_DS_Seperated extends LinearOpMode {
     private static float rectHeight = .6f/8f;
     private static float rectWidth = 1.5f/8f;
 
-    private static float offsetX = -2f/8f;//changing this moves the three rects and the three circles left or right, range : (-2, 2) not inclusive
+    private static float offsetX = -2.5f/8f;//changing this moves the three rects and the three circles left or right, range : (-2, 2) not inclusive
     private static float offsetY = 1.7f/8f;//changing this moves the three rects and circles up or down, range: (-4, 4) not inclusive
 
     private static float[] midPos = {3.5f/8f+offsetX, 4f/8f+offsetY};//0 = col, 1 = row
@@ -280,7 +280,7 @@ public class Red_DS_Seperated extends LinearOpMode {
                 holonomicDrive.stopMoving();
 
                 // Rotating to be @ a 15 degree angle to the skystone
-                Gyro.rotate(15,0.5);
+                Gyro.rotate(5,0.5); //10
                 sleep(100);
 
                 // Starting our intake wheel to collect the skystone
@@ -305,7 +305,7 @@ public class Red_DS_Seperated extends LinearOpMode {
 
                 // Stopping collection wheels and rotating to point towards the building zone
                 intake_systems.intake(false, false);
-                Gyro.rotate(-105, 0.5);
+                Gyro.rotate(-95, 0.5); //-105
                 sleep(150);
 
                 // Driving towards the building site with skystone in intake
@@ -321,7 +321,7 @@ public class Red_DS_Seperated extends LinearOpMode {
 
                 // Moving to the second skystone
                 runtime.reset();
-                holonomicDrive.autoDrive(180, 0.95);
+                holonomicDrive.autoDrive(160, 0.95);
                 while (opModeIsActive() && runtime.seconds() < pos2FND2SS2){
                     telemetry.addLine("Returning to second skystone");
                     telemetry.update();
@@ -329,7 +329,7 @@ public class Red_DS_Seperated extends LinearOpMode {
                 holonomicDrive.stopMoving();
 
                 // Intaking the second skystone
-                Gyro.rotate(-115,0.5);
+                Gyro.rotate(105,0.5); //115
                 sleep(150);
                 intake_systems.intake(true,false);
                 runtime.reset();
@@ -353,7 +353,7 @@ public class Red_DS_Seperated extends LinearOpMode {
                 holonomicDrive.stopMoving();
 
                 // Rotating to face the building site
-                Gyro.rotate(115,0.5);
+                Gyro.rotate(-105,0.5);
                 sleep(150);
 
                 // Driving to the building site with the second skystone
@@ -393,7 +393,7 @@ public class Red_DS_Seperated extends LinearOpMode {
                 holonomicDrive.stopMoving();
 
                 // Rotating to be @ a 15 degree angle to the skystone
-                Gyro.rotate(15,0.5);
+                Gyro.rotate(12,0.5);
                 sleep(100);
 
                 // Starting our intake wheel to collect the skystone
