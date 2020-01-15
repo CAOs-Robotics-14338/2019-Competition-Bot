@@ -287,7 +287,7 @@ public class Red_DS_Seperated extends LinearOpMode {
                 intake_systems.intake(true, false);
                 runtime.reset();
                 holonomicDrive.autoDrive(0,0.8);
-                while (opModeIsActive() && runtime.seconds() < intake_time){
+                while (opModeIsActive() && runtime.seconds() < intake_time+0.2){
                     telemetry.addLine("Collecting the Skystone");
                     telemetry.update();
                 }
@@ -297,7 +297,7 @@ public class Red_DS_Seperated extends LinearOpMode {
                 // Reversing from collecting so we can drive under the alliance bridge
                 runtime.reset();
                 holonomicDrive.autoDrive(180,0.8);
-                while (opModeIsActive() && runtime.seconds() < intake_time+0.15){
+                while (opModeIsActive() && runtime.seconds() < intake_time+0.35){
                     telemetry.addLine("Reversing to drive under the bridge");
                     telemetry.update();
                 }
@@ -334,26 +334,25 @@ public class Red_DS_Seperated extends LinearOpMode {
                 intake_systems.intake(true,false);
                 runtime.reset();
                 holonomicDrive.autoDrive(0, 0.85);
-                while (opModeIsActive() && runtime.seconds() < intake_time+0.5){
+                while (opModeIsActive() && runtime.seconds() < intake_time+0.5+0.2){
                     telemetry.addLine("Collecting the second skystone");
                     telemetry.update();
                 }
                 holonomicDrive.stopMoving();
-                intake_systems.intake(false,false);
-
 
                 // Reversing with the second skystone so we can drive under the sky bridge
                 runtime.reset();
                 holonomicDrive.autoDrive(180,0.90);
-                while (opModeIsActive() && runtime.seconds() < intake_time+0.3){
+                while (opModeIsActive() && runtime.seconds() < intake_time+0.3 +0.2){
                     // Adding telemetry of the time elapsed
                     telemetry.addLine("Reversing with the skystone");
                     telemetry.update();
                 }
                 holonomicDrive.stopMoving();
+                intake_systems.intake(false,false);
 
                 // Rotating to face the building site
-                Gyro.rotate(-105,0.5);
+                Gyro.rotate(-95,0.5); //-105
                 sleep(150);
 
                 // Driving to the building site with the second skystone
@@ -365,6 +364,7 @@ public class Red_DS_Seperated extends LinearOpMode {
                     telemetry.update();
                 }
                 holonomicDrive.stopMoving();
+                intake_systems.intake(false,true);
 
                 // Reversing under the skybridge
                 runtime.reset();
