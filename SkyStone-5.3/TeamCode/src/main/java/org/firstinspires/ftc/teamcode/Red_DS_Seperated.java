@@ -329,7 +329,7 @@ public class Red_DS_Seperated extends LinearOpMode {
                 holonomicDrive.stopMoving();
 
                 // Intaking the second skystone
-                Gyro.rotate(107,0.5); // 105 115
+                Gyro.rotate(105,0.5); // 107             105 115
                 sleep(150);
                 intake_systems.intake(true,false);
                 runtime.reset();
