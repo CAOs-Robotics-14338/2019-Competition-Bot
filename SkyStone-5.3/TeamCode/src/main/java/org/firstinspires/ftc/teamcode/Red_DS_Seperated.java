@@ -53,8 +53,8 @@ public class Red_DS_Seperated extends LinearOpMode {
     double pos1FND2SS2 = 2.5;
     double pos2FND2SS2 = 2.5;
     double pos3FND2SS2 = 2.9;
-    double P1SS2ToFoundation = 3.15; //2.55
-    double P2SS2ToFoundation = 2.85;
+    double P1SS2ToFoundation = 3.05; // 3.15      2.55
+    double P2SS2ToFoundation = 2.85; //2.85
     double P3SS2ToFoundation = 2.45;
     double Foundation2Skybride = 0.5;
 
@@ -329,7 +329,7 @@ public class Red_DS_Seperated extends LinearOpMode {
                 holonomicDrive.stopMoving();
 
                 // Intaking the second skystone
-                Gyro.rotate(105,0.5); //115
+                Gyro.rotate(107,0.5); // 105 115
                 sleep(150);
                 intake_systems.intake(true,false);
                 runtime.reset();
