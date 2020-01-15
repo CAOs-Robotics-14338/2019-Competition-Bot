@@ -334,7 +334,7 @@ public class Red_DS_Seperated extends LinearOpMode {
                 intake_systems.intake(true,false);
                 runtime.reset();
                 holonomicDrive.autoDrive(0, 0.85);
-                while (opModeIsActive() && runtime.seconds() < intake_time+0.5+0.2){
+                while (opModeIsActive() && runtime.seconds() < intake_time+0.5+0.4){
                     telemetry.addLine("Collecting the second skystone");
                     telemetry.update();
                 }
@@ -343,7 +343,7 @@ public class Red_DS_Seperated extends LinearOpMode {
                 // Reversing with the second skystone so we can drive under the sky bridge
                 runtime.reset();
                 holonomicDrive.autoDrive(180,0.90);
-                while (opModeIsActive() && runtime.seconds() < intake_time+0.3 +0.2){
+                while (opModeIsActive() && runtime.seconds() < intake_time+0.3 +0.4){
                     // Adding telemetry of the time elapsed
                     telemetry.addLine("Reversing with the skystone");
                     telemetry.update();
