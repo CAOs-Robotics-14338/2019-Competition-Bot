@@ -51,7 +51,7 @@ public class Red_DS_Seperated extends LinearOpMode {
     double SS2ToFoundation = 1.85;
     double SS3ToFoundation = 1.65;
     double pos1FND2SS2 = 2.5;
-    double pos2FND2SS2 = 2.5;
+    double pos2FND2SS2 = 2.4; //2.5
     double pos3FND2SS2 = 2.9;
     double P1SS2ToFoundation = 3.05; // 3.15      2.55
     double P2SS2ToFoundation = 2.85; //2.85
