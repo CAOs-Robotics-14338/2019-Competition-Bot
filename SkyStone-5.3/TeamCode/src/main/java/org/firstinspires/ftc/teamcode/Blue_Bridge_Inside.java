@@ -63,7 +63,7 @@ public class Blue_Bridge_Inside extends LinearOpMode {
 
         runtime.reset();
         holonomicDrive.autoDrive(0,0.8);
-        while (opModeIsActive() && runtime.seconds() < 1.0){
+        while (opModeIsActive() && runtime.seconds() < 1.2){
             // Adding telemetry of the time elapsed
             telemetry.addData("Path", "TIME: %2.5f S Elapsed", runtime.seconds());
             telemetry.update();

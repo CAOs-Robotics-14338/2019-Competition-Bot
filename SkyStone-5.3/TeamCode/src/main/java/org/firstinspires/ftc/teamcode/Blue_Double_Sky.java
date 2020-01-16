@@ -27,6 +27,7 @@ import java.util.List;
 
 
 @Autonomous(name= "Blue Double Sky", group="Blue")
+@Disabled
 public class Blue_Double_Sky extends LinearOpMode {
     private ElapsedTime runtime = new ElapsedTime();
     private DcMotor  FrontRightMotor, FrontLeftMotor, BackRightMotor, BackLeftMotor, IntakeLeftMotor, IntakeRightMotor;
