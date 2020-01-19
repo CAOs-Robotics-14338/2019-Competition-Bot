@@ -17,24 +17,39 @@ public class ScissorLift {
     boolean pressed = false;
     int target = 0;
 
+    Servo IntakePulley;
+    double active = 0;//1
+    double inactive = 1; //0
 
+    public ScissorLift(DcMotor ScissorLiftL, DcMotor ScissorLiftR, Servo inPulley){
+        ScissorLiftMotorLeft = ScissorLiftL;
+        ScissorLiftMotorRight = ScissorLiftR;
+        IntakePulley = inPulley;
 
-        public ScissorLift(DcMotor ScissorLiftL, DcMotor ScissorLiftR){
+    }
+
+    public ScissorLift(DcMotor ScissorLiftL, DcMotor ScissorLiftR){
             ScissorLiftMotorLeft = ScissorLiftL;
             ScissorLiftMotorRight = ScissorLiftR;
-
-
-
-
-
         }
 
-        public  void LiftControl(double y2){
+    public  void LiftControl(double y2){
+        double ScissorLiftPower = Range.clip( (-y2), -1.0, 1.0);
+        ScissorLiftMotorLeft.setPower(ScissorLiftPower);
+        ScissorLiftMotorRight.setPower(ScissorLiftPower);
+        if (ScissorLiftPower > 0){
+            IntakePulley.setPosition(inactive);
+        }
+
+
+    }
+    /*    public  void LiftControl(double y2){
             double ScissorLiftPower = Range.clip( (-y2), -1.0, 1.0);
             ScissorLiftMotorLeft.setPower(ScissorLiftPower);
             ScissorLiftMotorRight.setPower(ScissorLiftPower);
 
-        }
+
+        }*/
         public  void LiftControlTest(double y2, boolean left, boolean right, boolean up, boolean down, boolean b2){
             double ScissorLiftPower = Range.clip( (-y2), -1.0, 1.0);
             if(y2 != 0 && !pressed) {

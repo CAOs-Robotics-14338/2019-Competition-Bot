@@ -7,12 +7,20 @@ import com.qualcomm.robotcore.hardware.Servo;
 
 public class Intake_Systems {
     private DcMotor IntakeRightMotor, IntakeLeftMotor;
-    private Servo IntakePulley;
+    private Servo IntakePulley, Claw;
     double active = 0;//1
     double inactive = 1; //0
 
     DigitalChannel touch;
 
+
+    public Intake_Systems(DcMotor rightIntake, DcMotor leftIntake, Servo pulley, DigitalChannel ttouch, Servo cclaw) {
+        IntakeLeftMotor = leftIntake;
+        IntakeRightMotor = rightIntake;
+        IntakePulley = pulley;
+        touch = ttouch;
+        Claw = cclaw;
+    }
     public Intake_Systems(DcMotor rightIntake, DcMotor leftIntake, Servo pulley, DigitalChannel ttouch) {
         IntakeLeftMotor = leftIntake;
         IntakeRightMotor = rightIntake;
@@ -40,7 +48,26 @@ public class Intake_Systems {
         }
 
     }
+
+
     public void intake(boolean collect1, boolean deploy1){
+        if(collect1){
+            IntakePulley.setPosition(active);
+            Claw.setPosition(0.5);
+            IntakeLeftMotor.setPower(0.95);
+            IntakeRightMotor.setPower(-0.95);
+        }
+        else if(deploy1){
+            IntakeLeftMotor.setPower(-0.95);
+            IntakeRightMotor.setPower(0.95);
+        }
+        else{
+            IntakeLeftMotor.setPower(0);
+            IntakeRightMotor.setPower(0);
+        }
+
+    }
+   /* public void intake(boolean collect1, boolean deploy1){
         if(collect1){
             IntakePulley.setPosition(active);
             IntakeLeftMotor.setPower(0.95);
@@ -55,7 +82,7 @@ public class Intake_Systems {
             IntakeRightMotor.setPower(0);
         }
 
-    }
+    }*/
 
     public boolean getTouch(){ //returns true if it's touched
         if (touch.getState() == true) {

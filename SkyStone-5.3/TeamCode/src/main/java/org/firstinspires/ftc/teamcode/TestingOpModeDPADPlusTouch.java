@@ -101,8 +101,8 @@ public class TestingOpModeDPADPlusTouch extends OpMode
 
 
         holonomicDrive = new HolonomicDrive(FrontRightMotor, FrontLeftMotor, BackRightMotor, BackLeftMotor);
-        scissorLift = new ScissorLift(ScissorLiftMotorLeft, ScissorLiftMotorRight);
-        intake_systems = new Intake_Systems(IntakeRightMotor, IntakeLeftMotor, IntakePulley, touch);
+        scissorLift = new ScissorLift(ScissorLiftMotorLeft, ScissorLiftMotorRight, IntakePulley);
+        intake_systems = new Intake_Systems(IntakeRightMotor, IntakeLeftMotor, IntakePulley, touch, claw);
         bot_servo = new BotServos(left_hook, right_hook);
 
         armCollection = new ArmCollection(claw, wrist, expansion, IntakePulley);
