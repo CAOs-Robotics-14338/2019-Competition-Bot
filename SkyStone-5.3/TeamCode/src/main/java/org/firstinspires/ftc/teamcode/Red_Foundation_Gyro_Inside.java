@@ -20,9 +20,9 @@ import com.qualcomm.hardware.bosch.BNO055IMU;
  *
  * */
 // Declaring autonomous named Servo_Autonomous with the ground test
-@Autonomous(name="Red Foundation Gyro Outside", group="Red")
+@Autonomous(name="Red Foundation Gyro Inside", group="Red")
 // Creating class named servo autonomous that uses linear op mode
-public class Red_Foundation_Gyro extends LinearOpMode {
+public class Red_Foundation_Gyro_Inside extends LinearOpMode {
 
     double lStored = 0;
     double rStored = 1;
@@ -111,7 +111,7 @@ public class Red_Foundation_Gyro extends LinearOpMode {
         left_hook.setPosition(lActive);
         right_hook.setPosition(rActive);
         // Running a while loop that will wait for 1 second before moving
-        while (opModeIsActive() && runtime.seconds() < 0.7) {
+        while (opModeIsActive() && runtime.seconds() < 1.5) {
             // Adding telemetry data with the time elapsed
             telemetry.addData("Path", "TIME: %2.5f S Elapsed", runtime.seconds());
             telemetry.update();
@@ -153,10 +153,10 @@ public class Red_Foundation_Gyro extends LinearOpMode {
             telemetry.addData("Path", "TIME: %2.5f S Elapsed", runtime.seconds());
             telemetry.update();
         }
-        // We will now want to stafe into our alliance wall to stay out of our alliance partners way
+
         runtime.reset();
-        holonomicDrive.autoDrive(90, 0.95);
-        while (opModeIsActive() && runtime.seconds() < 0.8){
+        holonomicDrive.autoDrive(270, 0.95);
+        while (opModeIsActive() && runtime.seconds() < 0.70){
             // Adding telemetry of the time elapsed
             telemetry.addData("Path", "TIME: %2.5f S Elapsed", runtime.seconds());
             telemetry.update();

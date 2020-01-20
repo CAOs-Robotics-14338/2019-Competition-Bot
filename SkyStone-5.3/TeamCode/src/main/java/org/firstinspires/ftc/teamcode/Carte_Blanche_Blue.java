@@ -81,9 +81,9 @@ public class Carte_Blanche_Blue extends LinearOpMode {
     private static float offsetX = 1.5f/8f;//changing this moves the three rects and the three circles left or right, range : (-2, 2) not inclusive
     private static float offsetY = 2.5f/8f;//changing this moves the three rects and circles up or down, range: (-4, 4) not inclusive
 
-    private static float[] midPos = {1.5f/8f+offsetX, 4f/8f+offsetY};//0 = col, 1 = row
-    private static float[] leftPos = {-1.5f/8f+offsetX, 4f/8f+offsetY};
-    private static float[] rightPos = {5f/8f+offsetX, 4f/8f+offsetY};
+    private static float[] midPos = {4f/8f+offsetX, 4f/8f+offsetY};//0 = col, 1 = row
+    private static float[] leftPos = {2.5f/8f+offsetX, 4f/8f+offsetY};
+    private static float[] rightPos = {6f/8f+offsetX, 4f/8f+offsetY};
     //moves all rectangles right or left by amount. units are in ratio to monitor
 
     private final int rows = 640;
@@ -122,7 +122,7 @@ public class Carte_Blanche_Blue extends LinearOpMode {
 
         holonomicDrive = new HolonomicDrive(FrontRightMotor, FrontLeftMotor, BackRightMotor, BackLeftMotor);
         //scissorLift = new ScissorLift(ScissorLiftMotor);
-        intake_systems = new Intake_Systems(IntakeRightMotor, IntakeLeftMotor, IntakePulley);
+        //intake_systems = new Intake_Systems(IntakeRightMotor, IntakeLeftMotor, IntakePulley);
         Gyro = new gyro(FrontRightMotor, FrontLeftMotor, BackRightMotor, BackLeftMotor, imu);
         botServos = new BotServos(left_hook, right_hook);
         armCollection = new ArmCollection(claw, wrist, expansion, IntakePulley);
@@ -131,8 +131,6 @@ public class Carte_Blanche_Blue extends LinearOpMode {
         // Setting servos to the retracted position
         left_hook .setPosition(lStored);
         right_hook.setPosition(rStored);
-        intake_systems.pullBackCollectionArms(true);
-        armCollection.wristDefaut(true);
 
 
 
@@ -162,7 +160,7 @@ public class Carte_Blanche_Blue extends LinearOpMode {
                 sleep(200);
                 // Driving from the wall to the first skystone @ position 1
                 runtime.reset();
-                holonomicDrive.autoDrive(290,0.9);
+                holonomicDrive.autoDrive(30,0.9);
                 while (opModeIsActive() && runtime.seconds() < wallToSS1){
                     telemetry.addLine("Driving to 1st Skystone at position 1");
                     telemetry.update();
@@ -177,10 +175,10 @@ public class Carte_Blanche_Blue extends LinearOpMode {
                     telemetry.update();
                 }
                 holonomicDrive.stopMoving();
-                sleep(250);
+                sleep(1000);
 
                 armCollection.expand(false);
-                sleep(200);
+                sleep(500);
                 armCollection.grab(true);
                 sleep(200);
 

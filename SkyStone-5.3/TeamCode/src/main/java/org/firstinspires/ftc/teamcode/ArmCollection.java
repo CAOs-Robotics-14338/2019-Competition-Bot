@@ -80,6 +80,7 @@ public class ArmCollection {
     public void expand(boolean button4){
         if(button4){
             expansion.setPower(1);
+            IntakePulley.setPosition(inactive);
 
         }
         else{

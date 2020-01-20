@@ -51,7 +51,7 @@ public class Blue_DS_Seperated extends LinearOpMode {
     double SS2ToFoundation = 1.80;
     double SS3ToFoundation = 2.0;
     double pos1FND2SS2 = 2.5;
-    double pos2FND2SS2 = 2.5;
+    double pos2FND2SS2 = 2.25; //2.5
     double pos3FND2SS2 = 2.55;
     double P1SS2ToFoundation = 2.45;
     double P2SS2ToFoundation = 3.0;
@@ -162,14 +162,14 @@ public class Blue_DS_Seperated extends LinearOpMode {
                 holonomicDrive.stopMoving();
 
                 // Rotating to be @ a 30 degree angle to the skystone
-                Gyro.rotate(-30,0.4);
+                Gyro.rotate(-25,0.4); // -30
                 sleep(100);
 
                 // Starting our intake wheel to collect the skystone
                 intake_systems.intake(true, false);
                 runtime.reset();
                 holonomicDrive.autoDrive(0,0.8);
-                while (opModeIsActive() && runtime.seconds() < intake_time){
+                while (opModeIsActive() && runtime.seconds() < intake_time+0.4){ // 0
                     telemetry.addLine("Collecting the Skystone");
                     telemetry.update();
                 }
@@ -179,7 +179,7 @@ public class Blue_DS_Seperated extends LinearOpMode {
                 // Reversing from collecting so we can drive under the alliance bridge
                 runtime.reset();
                 holonomicDrive.autoDrive(180,0.8);
-                while (opModeIsActive() && runtime.seconds() < intake_time+0.2){
+                while (opModeIsActive() && runtime.seconds() < intake_time+0.6){ // .2
                     telemetry.addLine("Reversing to drive under the bridge");
                     telemetry.update();
                 }
@@ -187,7 +187,7 @@ public class Blue_DS_Seperated extends LinearOpMode {
 
                 // Stopping collection wheels and rotating to point towards the building zone
                 intake_systems.intake(false, false);
-                Gyro.rotate(112, 0.5);
+                Gyro.rotate(107, 0.5); //112
                 sleep(150);
 
                 // Driving towards the building site with skystone in intake
@@ -211,12 +211,12 @@ public class Blue_DS_Seperated extends LinearOpMode {
                 holonomicDrive.stopMoving();
 
                 // Intaking the second skystone
-                Gyro.rotate(-115,0.5);
+                Gyro.rotate(-112,0.5); // -115
                 sleep(150);
                 intake_systems.intake(true,false);
                 runtime.reset();
                 holonomicDrive.autoDrive(0, 0.90);
-                while (opModeIsActive() && runtime.seconds() < intake_time+1){
+                while (opModeIsActive() && runtime.seconds() < intake_time+1.5){ // 1
                     telemetry.addLine("Collecting the second skystone");
                     telemetry.update();
                 }
@@ -227,7 +227,7 @@ public class Blue_DS_Seperated extends LinearOpMode {
                 // Reversing with the second skystone so we can drive under the sky bridge
                 runtime.reset();
                 holonomicDrive.autoDrive(180,0.90);
-                while (opModeIsActive() && runtime.seconds() < intake_time+0.5){
+                while (opModeIsActive() && runtime.seconds() < intake_time+1){ //0.5
                     // Adding telemetry of the time elapsed
                     telemetry.addLine("Reversing with the skystone");
                     telemetry.update();
@@ -236,7 +236,7 @@ public class Blue_DS_Seperated extends LinearOpMode {
                 intake_systems.intake(false,false);
 
                 // Rotating to face the building site
-                Gyro.rotate(105,0.5);
+                Gyro.rotate(102,0.5); //105
                 sleep(150);
 
                 // Driving to the building site with the second skystone
@@ -287,7 +287,7 @@ public class Blue_DS_Seperated extends LinearOpMode {
                 intake_systems.intake(true, false);
                 runtime.reset();
                 holonomicDrive.autoDrive(0,0.8);
-                while (opModeIsActive() && runtime.seconds() < intake_time+0.2){
+                while (opModeIsActive() && runtime.seconds() < intake_time+0.7){ // 0.2
                     telemetry.addLine("Collecting the Skystone");
                     telemetry.update();
                 }
@@ -297,7 +297,7 @@ public class Blue_DS_Seperated extends LinearOpMode {
                 // Reversing from collecting so we can drive under the alliance bridge
                 runtime.reset();
                 holonomicDrive.autoDrive(180,0.8);
-                while (opModeIsActive() && runtime.seconds() < intake_time){
+                while (opModeIsActive() && runtime.seconds() < intake_time+0.65){ // 0
                     telemetry.addLine("Reversing to drive under the bridge");
                     telemetry.update();
                 }
@@ -452,7 +452,7 @@ public class Blue_DS_Seperated extends LinearOpMode {
                 intake_systems.intake(true,false);
                 runtime.reset();
                 holonomicDrive.autoDrive(0, 0.85);
-                while (opModeIsActive() && runtime.seconds() < intake_time+0.9){
+                while (opModeIsActive() && runtime.seconds() < intake_time+1.4){
                     telemetry.addLine("Collecting the second skystone");
                     telemetry.update();
                 }
@@ -463,7 +463,7 @@ public class Blue_DS_Seperated extends LinearOpMode {
                 // Reversing with the second skystone so we can drive under the sky bridge
                 runtime.reset();
                 holonomicDrive.autoDrive(180,0.90);
-                while (opModeIsActive() && runtime.seconds() < intake_time+0.6){
+                while (opModeIsActive() && runtime.seconds() < intake_time+0.9){
                     // Adding telemetry of the time elapsed
                     telemetry.addLine("Reversing with the skystone");
                     telemetry.update();
@@ -472,7 +472,7 @@ public class Blue_DS_Seperated extends LinearOpMode {
                 intake_systems.intake(false,false);
 
                 // Rotating to face the building site
-                Gyro.rotate(116,0.5);
+                Gyro.rotate(114,0.5);
                 sleep(150);
 
                 // Driving to the building site with the second skystone

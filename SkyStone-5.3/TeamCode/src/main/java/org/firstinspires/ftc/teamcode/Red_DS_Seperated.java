@@ -329,7 +329,7 @@ public class Red_DS_Seperated extends LinearOpMode {
                 holonomicDrive.stopMoving();
 
                 // Intaking the second skystone
-                Gyro.rotate(105,0.5); // 107             105 115
+                Gyro.rotate(112,0.5); // 107             105 115
                 sleep(150);
                 intake_systems.intake(true,false);
                 runtime.reset();
@@ -400,7 +400,7 @@ public class Red_DS_Seperated extends LinearOpMode {
                 intake_systems.intake(true, false);
                 runtime.reset();
                 holonomicDrive.autoDrive(0,0.8);
-                while (opModeIsActive() && runtime.seconds() < intake_time+0.2){
+                while (opModeIsActive() && runtime.seconds() < intake_time+0.7){
                     telemetry.addLine("Collecting the Skystone");
                     telemetry.update();
                 }
@@ -410,7 +410,7 @@ public class Red_DS_Seperated extends LinearOpMode {
                 // Reversing from collecting so we can drive under the alliance bridge
                 runtime.reset();
                 holonomicDrive.autoDrive(180,0.8);
-                while (opModeIsActive() && runtime.seconds() < intake_time){
+                while (opModeIsActive() && runtime.seconds() < intake_time+0.4){
                     telemetry.addLine("Reversing to drive under the bridge");
                     telemetry.update();
                 }
@@ -456,7 +456,7 @@ public class Red_DS_Seperated extends LinearOpMode {
                 // Reversing with the second skystone so we can drive under the sky bridge
                 runtime.reset();
                 holonomicDrive.autoDrive(180,0.90);
-                while (opModeIsActive() && runtime.seconds() < intake_time+0.4){
+                while (opModeIsActive() && runtime.seconds() < intake_time+0.55){
                     // Adding telemetry of the time elapsed
                     telemetry.addLine("Reversing with the skystone");
                     telemetry.update();
@@ -465,7 +465,7 @@ public class Red_DS_Seperated extends LinearOpMode {
                 intake_systems.intake(false,false);
 
                 // Rotating to face the building site
-                Gyro.rotate(-117,0.5); //-115    -110
+                Gyro.rotate(-120,0.5); //-115    -110
                 sleep(150);
 
                 // Driving to the building site with the second skystone

@@ -52,6 +52,22 @@ public class Intake_Systems {
 
     public void intake(boolean collect1, boolean deploy1){
         if(collect1){
+
+            IntakeLeftMotor.setPower(0.95);
+            IntakeRightMotor.setPower(-0.95);
+        }
+        else if(deploy1){
+            IntakeLeftMotor.setPower(-0.95);
+            IntakeRightMotor.setPower(0.95);
+        }
+        else{
+            IntakeLeftMotor.setPower(0);
+            IntakeRightMotor.setPower(0);
+        }
+
+    }
+   public void inTel(boolean collect1, boolean deploy1){
+        if(collect1){
             IntakePulley.setPosition(active);
             Claw.setPosition(0.5);
             IntakeLeftMotor.setPower(0.95);
@@ -67,22 +83,6 @@ public class Intake_Systems {
         }
 
     }
-   /* public void intake(boolean collect1, boolean deploy1){
-        if(collect1){
-            IntakePulley.setPosition(active);
-            IntakeLeftMotor.setPower(0.95);
-            IntakeRightMotor.setPower(-0.95);
-        }
-        else if(deploy1){
-            IntakeLeftMotor.setPower(-0.95);
-            IntakeRightMotor.setPower(0.95);
-        }
-        else{
-            IntakeLeftMotor.setPower(0);
-            IntakeRightMotor.setPower(0);
-        }
-
-    }*/
 
     public boolean getTouch(){ //returns true if it's touched
         if (touch.getState() == true) {

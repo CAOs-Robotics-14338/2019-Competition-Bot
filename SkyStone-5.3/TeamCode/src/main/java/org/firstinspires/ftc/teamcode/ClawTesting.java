@@ -11,6 +11,7 @@ import com.qualcomm.robotcore.util.ElapsedTime;
 
 // Declaring autonomous named Servo_Autonomous with the ground test
 @Autonomous(name="Claw testing", group="Blue")
+@Disabled
 // Creating class named servo autonomous that uses linear op mode
 public class ClawTesting extends LinearOpMode {
 

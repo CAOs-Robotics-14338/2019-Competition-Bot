@@ -166,7 +166,7 @@ public class TestingOpModeDPADPlusTouch extends OpMode
 
 
         holonomicDrive.teleopDrive(x,y,z, slow);
-        intake_systems.intake(collect1, deploy1);
+        intake_systems.inTel(collect1, deploy1);
         intake_systems.pullBackCollectionArms(pullback_collection2);
         intake_systems.releaseCollectionArms(release_collection2);
         scissorLift.LiftControl(-y2);
