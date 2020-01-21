@@ -2,6 +2,7 @@ package org.firstinspires.ftc.teamcode;
 
 import com.qualcomm.hardware.bosch.BNO055IMU;
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
+import com.qualcomm.robotcore.eventloop.opmode.Disabled;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.hardware.CRServo;
 import com.qualcomm.robotcore.hardware.DcMotor;
@@ -25,6 +26,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 @Autonomous(name= "Carte Blanch Blue", group="Blue")
+@Disabled
 public class Carte_Blanche_Blue extends LinearOpMode {
     private ElapsedTime runtime = new ElapsedTime();
     private DcMotor FrontRightMotor, FrontLeftMotor, BackRightMotor, BackLeftMotor, IntakeLeftMotor, IntakeRightMotor, ScissorLiftMotorLeft, ScissorLiftMotorRight;
@@ -37,6 +39,7 @@ public class Carte_Blanche_Blue extends LinearOpMode {
     gyro Gyro;
     BNO055IMU imu;
     ArmCollection armCollection;
+    ScissorLift scissorLift;
 
     Orientation lastAngles = new Orientation();
     double                  globalAngle, power = .30, correction;
@@ -52,7 +55,7 @@ public class Carte_Blanche_Blue extends LinearOpMode {
     double wallToSS1 = 1.55;
     double wallToSS2 = 1.40;
     double wallToSS3 = 1.55;
-    double SS1ToFoundation = 1.45;
+    double SS1ToFoundation = 3.0; // 1.45
     double SS2ToFoundation = 1.55;
     double SS3ToFoundation = 1.65;
     double pos1FND2SS2 = 2.5;
@@ -121,7 +124,7 @@ public class Carte_Blanche_Blue extends LinearOpMode {
 
 
         holonomicDrive = new HolonomicDrive(FrontRightMotor, FrontLeftMotor, BackRightMotor, BackLeftMotor);
-        //scissorLift = new ScissorLift(ScissorLiftMotor);
+        scissorLift = new ScissorLift(ScissorLiftMotorLeft, ScissorLiftMotorRight);
         //intake_systems = new Intake_Systems(IntakeRightMotor, IntakeLeftMotor, IntakePulley);
         Gyro = new gyro(FrontRightMotor, FrontLeftMotor, BackRightMotor, BackLeftMotor, imu);
         botServos = new BotServos(left_hook, right_hook);
@@ -148,25 +151,69 @@ public class Carte_Blanche_Blue extends LinearOpMode {
             telemetry.addData("Values", valLeft+"   "+valMid+"   "+valRight);
             telemetry.update();
             sleep(100);
-            if(valMid == 0 && !posfound){pos = 2; posfound = true;}
-            else if(valRight == 0 && !posfound){pos = 3; posfound = true;}
-            else if (valLeft == 0 && !posfound){pos = 3; posfound = true;}
-            else{pos = 1; posfound = true;}
-            armCollection.expand(true);
+            if(valMid == 0 && !posfound){pos = 1; posfound = true;}
+            else if(valRight == 0 && !posfound){pos = 2; posfound = true;}
+            else if (valLeft == 0 && !posfound){pos = 1; posfound = true;}
+            else{pos = 3; posfound = true;}
 
-            if(pos == 1 && !skyFound){
+
+            if(pos == 1 && !skyFound) {
                 skyFound = true;
                 armCollection.expand(true);
                 sleep(200);
                 // Driving from the wall to the first skystone @ position 1
                 runtime.reset();
-                holonomicDrive.autoDrive(30,0.9);
-                while (opModeIsActive() && runtime.seconds() < wallToSS1){
+                holonomicDrive.autoDrive(30, 0.9);
+                while (opModeIsActive() && runtime.seconds() < wallToSS1) {
                     telemetry.addLine("Driving to 1st Skystone at position 1");
                     telemetry.update();
                 }
                 holonomicDrive.stopMoving();
+                sleep(1500);
+                armCollection.expand(false);
+                sleep(300);
+                armCollection.grab(true);
                 sleep(200);
+                // Reversing from collecting so we can drive under the alliance bridge
+                runtime.reset();
+                holonomicDrive.autoDrive(180,0.8);
+                while (opModeIsActive() && runtime.seconds() < intake_time - 0.2){
+                    telemetry.addLine("Reversing to drive under the bridge");
+                    telemetry.update();
+                }
+                holonomicDrive.stopMoving();
+
+                // Stopping collection wheels and rotating to point towards the building zone
+                Gyro.rotate(90, 0.5);
+                sleep(150);
+                runtime.reset();
+                holonomicDrive.autoDrive(0,0.8);
+                while (opModeIsActive() && runtime.seconds() < SS1ToFoundation){
+                    telemetry.addLine("Collecting the Skystone");
+                    telemetry.update();
+                }
+                holonomicDrive.stopMoving();
+                scissorLift.LiftControl(0.5);
+                sleep(2000);
+                scissorLift.LiftControl(0);
+                Gyro.rotate(-90, 0.5);
+                sleep(200);
+
+                runtime.reset();
+                holonomicDrive.autoDrive(0,0.8);
+                while (opModeIsActive() && runtime.seconds() < 1){
+                    telemetry.addLine("Collecting the Skystone");
+                    telemetry.update();
+                }
+                holonomicDrive.stopMoving();
+                sleep(200);
+                scissorLift.LiftControl(-0.5);
+                sleep(1500);
+                scissorLift.LiftControl(0);
+                armCollection.grab(false);
+                sleep(200);
+
+                /*
                 // Driving towards the Skystone with the claw ready
                 runtime.reset();
                 holonomicDrive.autoDrive(0,0.8);
@@ -177,9 +224,8 @@ public class Carte_Blanche_Blue extends LinearOpMode {
                 holonomicDrive.stopMoving();
                 sleep(1000);
 
-                armCollection.expand(false);
+
                 sleep(500);
-                armCollection.grab(true);
                 sleep(200);
 
                 // Reversing from collecting so we can drive under the alliance bridge
@@ -224,11 +270,11 @@ public class Carte_Blanche_Blue extends LinearOpMode {
                 botServos.auto(true);
                 sleep(400);
 
-                /**
+                *//**
                  *
                  * Lower scissor lift, and release claw
                  *
-                 */
+                 *//*
 
                 // Reverse with foundation, rotate, and push into wall
                 runtime.reset();
@@ -267,11 +313,11 @@ public class Carte_Blanche_Blue extends LinearOpMode {
                     telemetry.update();
                 }
                 holonomicDrive.stopMoving();
-                /**
+                *//**
                  *
                  * Close claw & raise height of foundation
                  *
-                 */
+                 *//*
 
                 // Reversing with the second skystone so we can drive under the sky bridge
                 runtime.reset();
@@ -296,11 +342,11 @@ public class Carte_Blanche_Blue extends LinearOpMode {
                     telemetry.update();
                 }
                 holonomicDrive.stopMoving();
-                /**
+                *//**
                  *
                  * Lower scissorlift, release claw
                  *
-                 */
+                 *//*
 
 
                 // Reversing under the skybridge
@@ -316,6 +362,7 @@ public class Carte_Blanche_Blue extends LinearOpMode {
                 stop();
 
 
+            */
             }
             else if(pos == 2 && !skyFound){skyFound = true;
 
