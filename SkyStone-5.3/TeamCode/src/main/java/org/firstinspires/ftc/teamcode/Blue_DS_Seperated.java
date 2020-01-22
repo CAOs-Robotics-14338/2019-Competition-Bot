@@ -169,7 +169,7 @@ public class Blue_DS_Seperated extends LinearOpMode {
                 intake_systems.intake(true, false);
                 runtime.reset();
                 holonomicDrive.autoDrive(0,0.8);
-                while (opModeIsActive() && runtime.seconds() < intake_time+0.4){ // 0
+                while (opModeIsActive() && runtime.seconds() < intake_time+0.2){ // 0
                     telemetry.addLine("Collecting the Skystone");
                     telemetry.update();
                 }
@@ -179,7 +179,7 @@ public class Blue_DS_Seperated extends LinearOpMode {
                 // Reversing from collecting so we can drive under the alliance bridge
                 runtime.reset();
                 holonomicDrive.autoDrive(180,0.8);
-                while (opModeIsActive() && runtime.seconds() < intake_time+0.6){ // .2
+                while (opModeIsActive() && runtime.seconds() < intake_time+0.4){ // .2
                     telemetry.addLine("Reversing to drive under the bridge");
                     telemetry.update();
                 }
@@ -216,7 +216,7 @@ public class Blue_DS_Seperated extends LinearOpMode {
                 intake_systems.intake(true,false);
                 runtime.reset();
                 holonomicDrive.autoDrive(0, 0.90);
-                while (opModeIsActive() && runtime.seconds() < intake_time+1.5){ // 1
+                while (opModeIsActive() && runtime.seconds() < intake_time+1.3){ // 1
                     telemetry.addLine("Collecting the second skystone");
                     telemetry.update();
                 }
@@ -227,7 +227,7 @@ public class Blue_DS_Seperated extends LinearOpMode {
                 // Reversing with the second skystone so we can drive under the sky bridge
                 runtime.reset();
                 holonomicDrive.autoDrive(180,0.90);
-                while (opModeIsActive() && runtime.seconds() < intake_time+1){ //0.5
+                while (opModeIsActive() && runtime.seconds() < intake_time+0.8){ //0.5
                     // Adding telemetry of the time elapsed
                     telemetry.addLine("Reversing with the skystone");
                     telemetry.update();
