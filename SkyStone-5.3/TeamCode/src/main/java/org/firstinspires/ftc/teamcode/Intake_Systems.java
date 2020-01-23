@@ -8,8 +8,8 @@ import com.qualcomm.robotcore.hardware.Servo;
 public class Intake_Systems {
     private DcMotor IntakeRightMotor, IntakeLeftMotor;
     private Servo IntakePulley, Claw;
-    double active = 0;//1
-    double inactive = 1; //0
+    double active = 1;//0
+    double inactive = 0; //1
 
     DigitalChannel touch;
 

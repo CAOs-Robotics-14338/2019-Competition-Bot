@@ -15,8 +15,8 @@ public class ArmCollection {
     private CRServo expansion;
 
     private Servo IntakePulley;
-    double active = 0;//1
-    double inactive = 1; //0
+    double active = 1;//0
+    double inactive = 0; //1
 
 
 ///WRIST
