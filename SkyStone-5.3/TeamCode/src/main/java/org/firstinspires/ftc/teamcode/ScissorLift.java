@@ -18,8 +18,8 @@ public class ScissorLift {
     int target = 0;
 
     Servo IntakePulley;
-    double active = 0;//1
-    double inactive = 1; //0
+    double active = 1;//0
+    double inactive = 0; //1
 
     public ScissorLift(DcMotor ScissorLiftL, DcMotor ScissorLiftR, Servo inPulley){
         ScissorLiftMotorLeft = ScissorLiftL;
