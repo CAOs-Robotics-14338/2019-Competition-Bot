@@ -166,7 +166,6 @@ public class Carte_Blanche_Blue extends LinearOpMode {
                     telemetry.update();
                 }
                 holonomicDrive.stopMoving();
-                sleep(200);
                 // Driving towards the Skystone with the claw ready
                 runtime.reset();
                 holonomicDrive.autoDrive(0,0.8);
@@ -175,11 +174,8 @@ public class Carte_Blanche_Blue extends LinearOpMode {
                     telemetry.update();
                 }
                 holonomicDrive.stopMoving();
-                sleep(1000);
-
-                armCollection.expand(false);
-                sleep(500);
                 armCollection.grab(true);
+                armCollection.expand(false);
                 sleep(200);
 
                 // Reversing from collecting so we can drive under the alliance bridge
