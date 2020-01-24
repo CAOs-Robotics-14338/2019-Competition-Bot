@@ -8,7 +8,7 @@ public class HolonomicDrive {
     String motorRotationDirection;
     DcMotor FrontRightMotor, FrontLeftMotor, BackRightMotor, BackLeftMotor;
 
-    double slow_speed = 0.350; //0.5
+    double slow_speed = 0.1; //0.5
    // double top_speed = 1.0;
 
     public HolonomicDrive(DcMotor FrontRight, DcMotor FrontLeft, DcMotor BackRight, DcMotor BackLeft){

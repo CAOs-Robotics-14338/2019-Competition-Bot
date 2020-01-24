@@ -54,7 +54,7 @@ public class Blue_DS_Seperated extends LinearOpMode {
     double pos2FND2SS2 = 2.25; //2.5
     double pos3FND2SS2 = 2.55;
     double P1SS2ToFoundation = 2.45;
-    double P2SS2ToFoundation = 3.0;
+    double P2SS2ToFoundation = 2.75;
     double P3SS2ToFoundation = 2.75;
     double Foundation2Skybride = 0.5;
 
@@ -329,7 +329,7 @@ public class Blue_DS_Seperated extends LinearOpMode {
                 holonomicDrive.stopMoving();
 
                 // Intaking the second skystone
-                Gyro.rotate(-115,0.5);
+                Gyro.rotate(-118,0.5); //115
                 sleep(150);
                 intake_systems.intake(true,false);
                 runtime.reset();
@@ -339,7 +339,7 @@ public class Blue_DS_Seperated extends LinearOpMode {
                     telemetry.update();
                 }
                 holonomicDrive.stopMoving();
-                intake_systems.intake(false,false);
+
 
 
                 // Reversing with the second skystone so we can drive under the sky bridge
@@ -351,9 +351,10 @@ public class Blue_DS_Seperated extends LinearOpMode {
                     telemetry.update();
                 }
                 holonomicDrive.stopMoving();
+                intake_systems.intake(false,false);
 
                 // Rotating to face the building site
-                Gyro.rotate(105,0.5);
+                Gyro.rotate(108,0.5); //105
                 sleep(150);
 
                 // Driving to the building site with the second skystone
