@@ -280,7 +280,7 @@ public class Red_DS_Seperated extends LinearOpMode {
                 holonomicDrive.stopMoving();
 
                 // Rotating to be @ a 15 degree angle to the skystone
-                Gyro.rotate(5,0.5); //10
+                Gyro.rotate(15,0.5); //10
                 sleep(100);
 
                 // Starting our intake wheel to collect the skystone
