@@ -187,7 +187,7 @@ public class Red_DS_Seperated extends LinearOpMode {
 
                 // Stopping collection wheels and rotating to point towards the building zone
                 intake_systems.intake(false, false);
-                Gyro.rotate(-105, 0.5);
+                Gyro.rotate(-107, 0.5);
                 sleep(200);
 
                 // Driving towards the building site with skystone in intake
@@ -305,7 +305,7 @@ public class Red_DS_Seperated extends LinearOpMode {
 
                 // Stopping collection wheels and rotating to point towards the building zone
                 intake_systems.intake(false, false);
-                Gyro.rotate(-95, 0.5); //-105
+                Gyro.rotate(-100, 0.5); //-100  -105
                 sleep(150);
 
                 // Driving towards the building site with skystone in intake
@@ -387,7 +387,7 @@ public class Red_DS_Seperated extends LinearOpMode {
                 runtime.reset();
                 holonomicDrive.autoDrive(320,0.90);
                 while (opModeIsActive() && runtime.seconds() < wallToSS3){
-                    telemetry.addLine("Driving to 1st Skystone at position 2");
+                    telemetry.addLine("Driving to 1st Skystone at position 3");
                     telemetry.update();
                 }
                 holonomicDrive.stopMoving();
@@ -456,7 +456,7 @@ public class Red_DS_Seperated extends LinearOpMode {
                 // Reversing with the second skystone so we can drive under the sky bridge
                 runtime.reset();
                 holonomicDrive.autoDrive(180,0.90);
-                while (opModeIsActive() && runtime.seconds() < intake_time+0.55){
+                while (opModeIsActive() && runtime.seconds() < intake_time+0.45){
                     // Adding telemetry of the time elapsed
                     telemetry.addLine("Reversing with the skystone");
                     telemetry.update();
@@ -465,7 +465,8 @@ public class Red_DS_Seperated extends LinearOpMode {
                 intake_systems.intake(false,false);
 
                 // Rotating to face the building site
-                Gyro.rotate(-120,0.5); //-115    -110
+                Gyro.rotate(-100,0.5); //-120  -115    -110   ::: When the wall is not held in place with a foot or structual rigidity, the robot will turn ~~15 degrees sliding on the wall.
+                // This value is -110 when the wall is held in place/doesn't move &&&&&& -100 when the wall isn't held in place/moves
                 sleep(150);
 
                 // Driving to the building site with the second skystone
