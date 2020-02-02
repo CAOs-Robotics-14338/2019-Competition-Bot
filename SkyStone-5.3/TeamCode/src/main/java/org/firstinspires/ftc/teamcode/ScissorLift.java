@@ -9,6 +9,7 @@ import com.qualcomm.robotcore.util.Range;
 import org.firstinspires.ftc.robotcore.external.Telemetry;
 
 public class ScissorLift {
+    //Set Up Variables and Hardware Devices
     static final double MOTOR_TICK_COUNT = 1120; //1440
     private DcMotor ScissorLiftMotorLeft, ScissorLiftMotorRight;
     int initial = 560; //This is the amount that we need to raise the scissor lift to compensate for the foundation height
@@ -17,39 +18,50 @@ public class ScissorLift {
     boolean pressed = false;
     int target = 0;
 
+    //Set Up IntakePulley for automatic motion
     Servo IntakePulley;
     double active = 1;//0
     double inactive = 0; //1
 
+
+    //Constructor 1 for using the Scissor Lift with Automated Actions
     public ScissorLift(DcMotor ScissorLiftL, DcMotor ScissorLiftR, Servo inPulley){
         ScissorLiftMotorLeft = ScissorLiftL;
         ScissorLiftMotorRight = ScissorLiftR;
         IntakePulley = inPulley;
 
     }
-
+    //Constructor 2 for using the Scissor Lift without the Automated Actions
     public ScissorLift(DcMotor ScissorLiftL, DcMotor ScissorLiftR){
             ScissorLiftMotorLeft = ScissorLiftL;
             ScissorLiftMotorRight = ScissorLiftR;
         }
 
+//Method in order to raise and lower the scissor lift using a joystick
     public  void LiftControl(double y2){
         double ScissorLiftPower = Range.clip( (-y2), -1.0, 1.0);
         ScissorLiftMotorLeft.setPower(ScissorLiftPower);
         ScissorLiftMotorRight.setPower(ScissorLiftPower);
-        if (ScissorLiftPower > 0){
+        if (ScissorLiftPower > 0){ //When the scissor lift is lowered, the position of the intake
+            // pulley will be set to its inactive position moving the collection arms out of the way
+            // so the scissor lift does not hit the collection system.
             IntakePulley.setPosition(inactive);
         }
 
-
     }
-    /*    public  void LiftControl(double y2){
+    /*    public  void LiftControl(double y2){ //lift control for use without the automated parts
             double ScissorLiftPower = Range.clip( (-y2), -1.0, 1.0);
             ScissorLiftMotorLeft.setPower(ScissorLiftPower);
             ScissorLiftMotorRight.setPower(ScissorLiftPower);
 
 
         }*/
+    //In the Process... Working for Total Automation of the Scissor Lift
+    /*
+    If the none of the designated buttons are pressed then run without automation.
+    ......
+    
+     */
         public  void LiftControlTest(double y2, boolean left, boolean right, boolean up, boolean down, boolean b2){
             double ScissorLiftPower = Range.clip( (-y2), -1.0, 1.0);
             if(y2 != 0 && !pressed) {
