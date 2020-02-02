@@ -60,7 +60,7 @@ public class ScissorLift {
     /*
     If the none of the designated buttons are pressed then run without automation.
     ......
-    
+
      */
         public  void LiftControlTest(double y2, boolean left, boolean right, boolean up, boolean down, boolean b2){
             double ScissorLiftPower = Range.clip( (-y2), -1.0, 1.0);
