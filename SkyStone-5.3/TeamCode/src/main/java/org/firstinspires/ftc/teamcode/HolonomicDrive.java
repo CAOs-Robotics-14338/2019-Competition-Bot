@@ -152,6 +152,7 @@ public class HolonomicDrive {
         }
     }
 
+    //Look at Software Section of Engineering Notebook to see how the Math was found.
     public void autoDrive(double directionDegrees, double maxSpeed){
         double plusX = (((Math.PI)/4.0) + ((Math.PI)/180 * directionDegrees));
         double minusX = (((Math.PI)/4.0) - ((Math.PI)/180 * directionDegrees)); //(((Math.PI)/4.0) + ((Math.PI)/180 * directionDegrees))
@@ -165,6 +166,9 @@ public class HolonomicDrive {
         BackRightMotor.setPower(BackRightMotorPower);
         BackLeftMotor.setPower(BackLeftMotorPower);
     }
+
+
+
 
     public void stopMoving(){
         FrontRightMotor.setPower(0);

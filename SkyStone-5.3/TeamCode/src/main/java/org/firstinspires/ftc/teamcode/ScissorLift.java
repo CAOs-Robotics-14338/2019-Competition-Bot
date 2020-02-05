@@ -56,10 +56,12 @@ public class ScissorLift {
 
 
         }*/
+
     //In the Process... Working for Total Automation of the Scissor Lift
     /*
-    If the none of the designated buttons are pressed then run without automation.
+    If  none of the designated buttons are pressed then run without automation.
     ......
+    This way you can select how many stages up or down you want the scissor lift to go and then send it that many stone stages.
 
      */
         public  void LiftControlTest(double y2, boolean left, boolean right, boolean up, boolean down, boolean b2){

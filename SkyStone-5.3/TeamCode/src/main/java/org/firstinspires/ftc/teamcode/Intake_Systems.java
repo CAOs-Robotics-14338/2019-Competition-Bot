@@ -115,7 +115,7 @@ public class Intake_Systems {
 
     }
     //When the designated button is pressed, it will release the collection arms, so they are able
-    //to collect stones again. 
+    //to collect stones again.
     public void releaseCollectionArms(boolean release1){
         if(release1){
             IntakePulley.setPosition(active);}
