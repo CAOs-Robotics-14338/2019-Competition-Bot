@@ -89,8 +89,17 @@ public class ArmCollection {
                 expansion.setPower(0);
         }
     }
+    //Method used in Autonomous 
+    public void expand(boolean button4){
+        if(button4){
+            expansion.setPower(1);
+            IntakePulley.setPosition(inactive);
 
-
+        }
+        else{
+            expansion.setPower(0);
+        }
+    }
 
 //Claw
 
@@ -115,6 +124,7 @@ public class ArmCollection {
             claw.setPosition(0.50);        // preferred set 0.50
         }
     }
+
 
 //Wrist
     // Wrist Control for Teleop with various ways to set the position of the wrist
