@@ -4,24 +4,30 @@ import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.util.Range;
 import java.lang.Math;
 
+//This year we used a holonomic drive in order to be able to move in all directions.
+//To look at all the math caclulations that contributed to the design of the code, check out the Engineering Notebook Section.
+
 public class HolonomicDrive {
+
+    //Set up Hardware Devices and Device Rotation Direction
     String motorRotationDirection;
     DcMotor FrontRightMotor, FrontLeftMotor, BackRightMotor, BackLeftMotor;
-
+    //Motor Speed Variable for the slower setting
     double slow_speed = 0.1; //0.5
    // double top_speed = 1.0;
 
+    //Basic Constructor to Set-Up the Holonomic Drive that sets the motor direction to clockwise.
     public HolonomicDrive(DcMotor FrontRight, DcMotor FrontLeft, DcMotor BackRight, DcMotor BackLeft){
         motorRotationDirection = "CLOCKWISE";
         FrontRightMotor = FrontRight;
         FrontLeftMotor = FrontLeft;
         BackRightMotor = BackRight;
         BackLeftMotor = BackLeft;
-
     }
 
 
-
+//Constructor for Setting the MotorDirection
+    //This one will set the motor direction to either "COUNTER-CLOCKWISE" or "CLOCKWISE"
     public HolonomicDrive(String motorDirection, DcMotor FrontRight, DcMotor FrontLeft, DcMotor BackRight, DcMotor BackLeft){
         if(motorDirection.equals("COUNTER-CLOCKWISE")){
             motorRotationDirection = "COUNTER-CLOCKWISE";
@@ -41,10 +47,11 @@ public class HolonomicDrive {
         }
     }
 
+    //If for some reason, you need to change the motor rotation direction
     public void setMotorRotationDirection(String motorRotationDirection) {
         this.motorRotationDirection = motorRotationDirection;
     }
-
+// If you need to get the Motor Rotation Direction
     public String getMotorRotationDirection() {
         return motorRotationDirection;
     }
