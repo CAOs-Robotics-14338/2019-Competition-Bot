@@ -89,9 +89,11 @@ public class ArmCollection {
                 expansion.setPower(0);
         }
     }
-    //Method used in Autonomous 
-    public void expand(boolean button4){
-        if(button4){
+    //Method used in Autonomous for controlling the expansion
+    //Easy to use in autonomous because you can set it to expand by setting
+    //it to true
+    public void expand(boolean state){
+        if(state){
             expansion.setPower(1);
             IntakePulley.setPosition(inactive);
 
