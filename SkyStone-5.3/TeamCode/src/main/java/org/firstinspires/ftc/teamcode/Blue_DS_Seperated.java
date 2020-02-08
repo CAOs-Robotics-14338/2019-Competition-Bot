@@ -27,9 +27,10 @@ import java.util.List;
 public class Blue_DS_Seperated extends LinearOpMode {
 
 
-    // Setting up our DcMotors and Servos
+    // Setting up our DcMotors, Servos, and webcamera
     private DcMotor FrontRightMotor, FrontLeftMotor, BackRightMotor, BackLeftMotor, IntakeLeftMotor, IntakeRightMotor;
     private Servo left_hook, right_hook, IntakePulley;
+    OpenCvCamera webcam;
 
 
     // Creating instances of our other classes
@@ -44,7 +45,7 @@ public class Blue_DS_Seperated extends LinearOpMode {
     private ElapsedTime runtime = new ElapsedTime();
 
 
-    // Declaring our variables
+    // Declaring our variables so we can adjust timing without having to find the section of the code
     double globalAngle, power = .30, correction;
     double lStored = 0;
     double rStored = 1;
@@ -80,31 +81,38 @@ public class Blue_DS_Seperated extends LinearOpMode {
     boolean skyFound = false;
     boolean done = false;
 
-    //0 means skystone, 1 means yellow stone
-    //-1 for debug, but we can keep it like this because if it works, it should change to either 0 or 255
+
+    // Setting up our variables for our vision processing
+
+
+    //  We start with the values at -1 because the vaiable for the position of the skystone will be set equal to 0
     private static int valMid = -1;
     private static int valLeft = -1;
     private static int valRight = -1;
+    // This variable will ensure that we do not attempt to run two autonomous paths simultaneously.
     boolean posfound = false;
 
+    // Setting variables so we can change the size of our rectangles if we move the web camera
     private static float rectHeight = .6f/8f;
     private static float rectWidth = 1.5f/8f;
 
+    // Specifying the offset so we analyze the correct positions
     private static float offsetX = 1.5f/8f;//changing this moves the three rects and the three circles left or right, range : (-2, 2) not inclusive
     private static float offsetY = 2.5f/8f;//changing this moves the three rects and circles up or down, range: (-4, 4) not inclusive
-
     private static float[] midPos = {4f/8f+offsetX, 4f/8f+offsetY};//0 = col, 1 = row
     private static float[] leftPos = {2.5f/8f+offsetX, 4f/8f+offsetY};
     private static float[] rightPos = {6f/8f+offsetX, 4f/8f+offsetY};
     //moves all rectangles right or left by amount. units are in ratio to monitor
 
+    // Setting the resolution of our screen
     private final int rows = 640;
     private final int cols = 480;
 
-    OpenCvCamera webcam;
 
     @Override
     public void runOpMode() throws InterruptedException {
+
+        // Assigning all of our motors and servos
         FrontRightMotor = hardwareMap.get(DcMotor.class, "front_right_drive");
         FrontLeftMotor = hardwareMap.get(DcMotor.class, "front_left_drive");
         BackRightMotor = hardwareMap.get(DcMotor.class, "back_right_drive");
@@ -115,47 +123,48 @@ public class Blue_DS_Seperated extends LinearOpMode {
         left_hook = hardwareMap.servo.get("left_hook");
         right_hook = hardwareMap.servo.get("right_hook");
 
+        // Initializing our gyro
         BNO055IMU.Parameters parameters = new BNO055IMU.Parameters();
-
         parameters.mode                = BNO055IMU.SensorMode.IMU;
         parameters.angleUnit           = BNO055IMU.AngleUnit.DEGREES;
         parameters.loggingEnabled      = false;
-
-
         imu = hardwareMap.get(BNO055IMU.class, "imu");
-
         imu.initialize(parameters);
 
 
+        // Costructing our subsystems
         holonomicDrive = new HolonomicDrive(FrontRightMotor, FrontLeftMotor, BackRightMotor, BackLeftMotor);
         intake_systems = new Intake_Systems(IntakeRightMotor, IntakeLeftMotor, IntakePulley);
         Gyro = new gyro(FrontRightMotor, FrontLeftMotor, BackRightMotor, BackLeftMotor, imu);
         botServos = new BotServos(left_hook, right_hook);
 
 
-        // Setting servos to the retracted position
+        // Setting servos to the retracted position so we are within the 18x18x18 starting dimensions
         left_hook .setPosition(lStored);
         right_hook.setPosition(rStored);
 
+        // Setting up our webcamera for open cv vision
         int cameraMonitorViewId = hardwareMap.appContext.getResources().getIdentifier("cameraMonitorViewId", "id", hardwareMap.appContext.getPackageName());
         webcam = OpenCvCameraFactory.getInstance().createWebcam(hardwareMap.get(WebcamName.class, "Webcam Blue"), cameraMonitorViewId);
         webcam.openCameraDevice();//open camera
         webcam.setPipeline(new StageSwitchingPipeline());//different stages
         webcam.startStreaming(rows, cols, OpenCvCameraRotation.SIDEWAYS_RIGHT);//display on RC
-        //width, height
-        //width = height in this case, because camera is in portrait mode.
 
+        // Waiting for the play button to be pressed
         waitForStart();
+
+        // Resetting our timer
         runtime.reset();
         while (opModeIsActive()) {
+            // Adding telemetry data about where the vision processing thinks the skystone is
             telemetry.addData("Values", valLeft+"   "+valMid+"   "+valRight);
             telemetry.update();
             sleep(100);
+
+            // Testing for the Cb value of the three positions and setting the variable equal to it's location
             if(valMid == 0 && !posfound){pos = 1; posfound = true;}
             else if(valRight == 0 && !posfound){pos = 2; posfound = true;}
             else{pos = 3; posfound = true;}
-
-
             if(pos == 1 && !skyFound){
                 skyFound = true;
 
@@ -404,7 +413,7 @@ public class Blue_DS_Seperated extends LinearOpMode {
                 }
                 holonomicDrive.stopMoving();
 
-                // Rotating to be @ a 15 degree angle to the skystone
+                // Rotating to be @ a 12 degree angle to the skystone
                 Gyro.rotate(-12,0.5);
                 sleep(100);
 
@@ -526,9 +535,14 @@ public class Blue_DS_Seperated extends LinearOpMode {
     }
 
 
-
-
-    //detection pipeline
+    /**
+     *
+     * This is our pipeline class, it will use parts of easy open cv to intake the webcameras source values so we can analyze our three skystone positions.
+     * This class will process the image from the web camera, add rectangles, dots, and colors so we can align the skystones during debugging.
+     * We created the custom pipelines so we can tap the screen to switch between 2 views, the raw view and processed view.  The raw view is in black and white, it shows what the camera sees and process from.
+     * The processed view shows the video in color with rectangles and circles specifying where we check the cb value.
+     *
+     */
     static class StageSwitchingPipeline extends OpenCvPipeline
     {
         Mat yCbCrChan2Mat = new Mat();
