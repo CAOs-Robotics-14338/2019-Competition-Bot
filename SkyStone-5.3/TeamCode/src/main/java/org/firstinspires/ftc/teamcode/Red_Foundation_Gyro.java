@@ -12,13 +12,7 @@ import org.firstinspires.ftc.teamcode.gyro;
 import com.qualcomm.hardware.bosch.BNO055IMU;
 
 
-/**
- *
- *
- * May add a variable or another class that will park the robot on the left or right half of the alliance bridge
- *
- *
- * */
+
 // Declaring autonomous named Servo_Autonomous with the ground test
 @Autonomous(name="Red Foundation Gyro Outside", group="Red")
 // Creating class named servo autonomous that uses linear op mode
