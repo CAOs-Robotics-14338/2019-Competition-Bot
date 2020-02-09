@@ -6,7 +6,7 @@ import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.Servo;
 import com.qualcomm.robotcore.util.ElapsedTime;
 
-@Autonomous(name = "Blue Bridge", group = "Blue")
+@Autonomous(name = "Blue Bridge inside", group = "Blue")
 public class Blue_Bridge_Inside extends LinearOpMode {
 
     // Starting our timer
