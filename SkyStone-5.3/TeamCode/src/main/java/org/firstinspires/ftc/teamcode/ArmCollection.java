@@ -25,10 +25,10 @@ public class ArmCollection {
 
     ///WRIST
 //Variables for wrist controls
-    static final double INCREMENT   = 0.001;                         // Amount to increase position by
-    static final double MAX_POS     =  1.0;      //0.55                  // Maximum rotational position
-    static final double MID_POS     = 0.45;       //0.35                  //Middle init position
-    static final double MIN_POS     =  0.0;      //0.15                  // Minimum rotational position
+    static final double INCREMENT   = 0.001;          // Amount to increase position by
+    static final double MAX_POS     =  1.0;      //0.55    // Maximum rotational position
+    static final double MID_POS     = 0.45;       //0.35           //Middle init position
+    static final double MIN_POS     =  0.0;      //0.15       // Minimum rotational position
     double position = MID_POS; // set the initial position to the middle position just in case
 
 
