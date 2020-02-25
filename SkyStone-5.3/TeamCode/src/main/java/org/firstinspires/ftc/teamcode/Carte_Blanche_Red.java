@@ -24,8 +24,8 @@ import org.openftc.easyopencv.OpenCvPipeline;
 import java.util.ArrayList;
 import java.util.List;
 
-@Autonomous(name= "Carte Blanch Blue", group="Blue")
-public class Carte_Blanche_Blue extends LinearOpMode {
+@Autonomous(name= "Carte Blanch Red", group="Red")
+public class Carte_Blanche_Red extends LinearOpMode {
     private ElapsedTime runtime = new ElapsedTime();
     private DcMotor FrontRightMotor, FrontLeftMotor, BackRightMotor, BackLeftMotor, IntakeLeftMotor, IntakeRightMotor, ScissorLiftMotorLeft, ScissorLiftMotorRight;
     private Servo IntakePulley, left_hook, right_hook, claw, capstone;
@@ -78,11 +78,10 @@ public class Carte_Blanche_Blue extends LinearOpMode {
     private static float rectHeight = .6f/8f;
     private static float rectWidth = 1.5f/8f;
 
-    private static float offsetX = 1.5f/8f;//changing this moves the three rects and the three circles left or right, range : (-2, 2) not inclusive
-    private static float offsetY = 2.5f/8f;//changing this moves the three rects and circles up or down, range: (-4, 4) not inclusive
-
-    private static float[] midPos = {4f/8f+offsetX, 4f/8f+offsetY};//0 = col, 1 = row
-    private static float[] leftPos = {2.5f/8f+offsetX, 4f/8f+offsetY};
+    private static float offsetX = -2.5f/8f;//changing this moves the three rects and the three circles left or right, range : (-2, 2) not inclusive
+    private static float offsetY = 1.7f/8f;//changing this moves the three rects and circles up or down, range: (-4, 4) not inclusive
+    private static float[] midPos = {3.5f/8f+offsetX, 4f/8f+offsetY};//0 = col, 1 = row
+    private static float[] leftPos = {2.0f/8f+offsetX, 4f/8f+offsetY};
     private static float[] rightPos = {6f/8f+offsetX, 4f/8f+offsetY};
     //moves all rectangles right or left by amount. units are in ratio to monitor
 
@@ -137,7 +136,7 @@ public class Carte_Blanche_Blue extends LinearOpMode {
 
 
         int cameraMonitorViewId = hardwareMap.appContext.getResources().getIdentifier("cameraMonitorViewId", "id", hardwareMap.appContext.getPackageName());
-        webcam = OpenCvCameraFactory.getInstance().createWebcam(hardwareMap.get(WebcamName.class, "Webcam Blue"), cameraMonitorViewId);
+        webcam = OpenCvCameraFactory.getInstance().createWebcam(hardwareMap.get(WebcamName.class, "Webcam Red"), cameraMonitorViewId);
         webcam.openCameraDevice();//open camera
         webcam.setPipeline(new StageSwitchingPipeline());//different stages
         webcam.startStreaming(rows, cols, OpenCvCameraRotation.SIDEWAYS_RIGHT);//display on RC
@@ -152,8 +151,8 @@ public class Carte_Blanche_Blue extends LinearOpMode {
             telemetry.addData("Values", valLeft+"   "+valMid+"   "+valRight);
             telemetry.update();
             sleep(100);
-            if(valMid == 0 && !posfound){pos = 1; posfound = true;}
-            else if(valRight == 0 && !posfound){pos = 2; posfound = true;}
+            if(valMid == 0 && !posfound){pos = 2; posfound = true;}
+            else if(valRight == 0 && !posfound){pos = 1; posfound = true;}
             else{pos = 3; posfound = true;}
             armCollection.expandControl(-1);
             scissorLift.LiftControlAuto(0);
@@ -165,7 +164,7 @@ public class Carte_Blanche_Blue extends LinearOpMode {
                 sleep(200);
                 // Driving from the wall to the first skystone @ position 1
                 runtime.reset();
-                holonomicDrive.autoDrive(30,0.9);
+                holonomicDrive.autoDrive(330,0.9);
                 while (opModeIsActive() && runtime.seconds() < wallToSS1){
                     telemetry.addLine("Driving to 1st Skystone at position 1");
                     telemetry.update();
@@ -195,7 +194,7 @@ public class Carte_Blanche_Blue extends LinearOpMode {
                 armCollection.expandControl(-0.8);
 
                 // Stopping collection wheels and rotating to point towards the building zone
-                Gyro.rotate(87, 0.35);
+                Gyro.rotate(-87, 0.35);
                 armCollection.expandControl(0);
                 sleep(150);
 
@@ -212,7 +211,7 @@ public class Carte_Blanche_Blue extends LinearOpMode {
                 scissorLift.LiftControlAuto(0.7);
 
                 // Turning towards the foundation & driving into it
-                Gyro.rotate(-85,0.5);
+                Gyro.rotate(85,0.5);
 
                 sleep(150);
 
@@ -238,7 +237,7 @@ public class Carte_Blanche_Blue extends LinearOpMode {
                 holonomicDrive.stopMoving();
 
 
-                Gyro.rotate(88,0.75);
+                Gyro.rotate(-88,0.75);
 
                 sleep(150);
                 armCollection.clawAuto(false);
@@ -246,7 +245,7 @@ public class Carte_Blanche_Blue extends LinearOpMode {
                 sleep(400);
 
                 runtime.reset();
-                holonomicDrive.autoDrive(185,0.90);
+                holonomicDrive.autoDrive(175,0.90);
                 while (opModeIsActive() && runtime.seconds() < pos1FND2SS2){
                     if(runtime.seconds() > 0.5 && runtime.seconds() < 2){
                         scissorLift.LiftControlAuto(-0.4);
@@ -257,7 +256,7 @@ public class Carte_Blanche_Blue extends LinearOpMode {
                 }
                 holonomicDrive.stopMoving();
 
-                Gyro.rotate(-83,0.4);
+                Gyro.rotate(83,0.4);
                 sleep(100);
                 runtime.reset();
                 holonomicDrive.autoDrive(0,0.90);
@@ -271,7 +270,7 @@ public class Carte_Blanche_Blue extends LinearOpMode {
                 holonomicDrive.stopMoving();
 
 
-                Gyro.rotate(83, 0.4);
+                Gyro.rotate(-83, 0.4);
                 sleep(150);
 
                 runtime.reset();
@@ -307,7 +306,7 @@ public class Carte_Blanche_Blue extends LinearOpMode {
                 sleep(200);
                 // Driving from the wall to the first skystone @ position 2
                 runtime.reset();
-                holonomicDrive.autoDrive(40,0.9);
+                holonomicDrive.autoDrive(320,0.9);
                 while (opModeIsActive() && runtime.seconds() < wallToSS2){
                     telemetry.addLine("Driving to 1st Skystone at position 2");
                     telemetry.update();
@@ -337,7 +336,7 @@ public class Carte_Blanche_Blue extends LinearOpMode {
                 armCollection.expandControl(-0.7);
 
                 // Stopping collection wheels and rotating to point towards the building zone
-                Gyro.rotate(87, 0.35);
+                Gyro.rotate(-87, 0.35);
                 armCollection.expandControl(0);
                 sleep(150);
 
@@ -354,7 +353,7 @@ public class Carte_Blanche_Blue extends LinearOpMode {
                 scissorLift.LiftControlAuto(0.7);
 
                 // Turning towards the foundation & driving into it
-                Gyro.rotate(-85,0.5);
+                Gyro.rotate(85,0.5);
 
                 sleep(150);
 
@@ -380,7 +379,7 @@ public class Carte_Blanche_Blue extends LinearOpMode {
                 holonomicDrive.stopMoving();
 
 
-                Gyro.rotate(88,0.75);
+                Gyro.rotate(-88,0.75);
 
                 sleep(150);
                 armCollection.clawAuto(false);
@@ -388,7 +387,7 @@ public class Carte_Blanche_Blue extends LinearOpMode {
                 sleep(400);
 
                 runtime.reset();
-                holonomicDrive.autoDrive(185,0.90);
+                holonomicDrive.autoDrive(175,0.90);
                 while (opModeIsActive() && runtime.seconds() < pos2FND2SS2){
                     if(runtime.seconds() > 0.5 && runtime.seconds() < 2){
                         scissorLift.LiftControlAuto(-0.4);
@@ -399,7 +398,7 @@ public class Carte_Blanche_Blue extends LinearOpMode {
                 }
                 holonomicDrive.stopMoving();
 
-                Gyro.rotate(-83,0.4);
+                Gyro.rotate(83,0.4);
                 sleep(100);
                 runtime.reset();
                 holonomicDrive.autoDrive(0,0.90);
@@ -413,7 +412,7 @@ public class Carte_Blanche_Blue extends LinearOpMode {
                 holonomicDrive.stopMoving();
 
 
-                Gyro.rotate(83, 0.4);
+                Gyro.rotate(-83, 0.4);
                 sleep(150);
 
                 runtime.reset();
@@ -448,7 +447,7 @@ public class Carte_Blanche_Blue extends LinearOpMode {
                 sleep(200);
                 // Driving from the wall to the first skystone @ position 1
                 runtime.reset();
-                holonomicDrive.autoDrive(50,0.9);
+                holonomicDrive.autoDrive(310,0.9);
                 while (opModeIsActive() && runtime.seconds() < wallToSS3){
                     telemetry.addLine("Driving to 1st Skystone at position 3");
                     telemetry.update();
@@ -478,7 +477,7 @@ public class Carte_Blanche_Blue extends LinearOpMode {
                 armCollection.expandControl(-0.7);
 
                 // Stopping collection wheels and rotating to point towards the building zone
-                Gyro.rotate(87, 0.35);
+                Gyro.rotate(-87, 0.35);
                 armCollection.expandControl(0);
                 sleep(150);
 
@@ -495,7 +494,7 @@ public class Carte_Blanche_Blue extends LinearOpMode {
                 scissorLift.LiftControlAuto(0.7);
 
                 // Turning towards the foundation & driving into it
-                Gyro.rotate(-85,0.5);
+                Gyro.rotate(85,0.5);
 
                 sleep(150);
 
@@ -521,7 +520,7 @@ public class Carte_Blanche_Blue extends LinearOpMode {
                 holonomicDrive.stopMoving();
 
 
-                Gyro.rotate(88,0.75);
+                Gyro.rotate(-88,0.75);
 
                 sleep(150);
                 armCollection.clawAuto(false);
@@ -529,7 +528,7 @@ public class Carte_Blanche_Blue extends LinearOpMode {
                 sleep(400);
 
                 runtime.reset();
-                holonomicDrive.autoDrive(185,0.90);
+                holonomicDrive.autoDrive(175,0.90);
                 while (opModeIsActive() && runtime.seconds() < pos3FND2SS2){
                     if(runtime.seconds() > 0.5 && runtime.seconds() < 2){
                         scissorLift.LiftControlAuto(-0.4);
@@ -540,7 +539,7 @@ public class Carte_Blanche_Blue extends LinearOpMode {
                 }
                 holonomicDrive.stopMoving();
 
-                Gyro.rotate(-83,0.4);
+                Gyro.rotate(83,0.4);
                 sleep(100);
                 runtime.reset();
                 holonomicDrive.autoDrive(0,0.90);
@@ -554,7 +553,7 @@ public class Carte_Blanche_Blue extends LinearOpMode {
                 holonomicDrive.stopMoving();
 
 
-                Gyro.rotate(83, 0.4);
+                Gyro.rotate(-83, 0.4);
                 sleep(150);
 
                 runtime.reset();
