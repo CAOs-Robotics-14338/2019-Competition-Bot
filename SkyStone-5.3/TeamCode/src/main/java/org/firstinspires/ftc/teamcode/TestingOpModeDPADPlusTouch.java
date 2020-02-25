@@ -39,6 +39,8 @@ import com.qualcomm.robotcore.hardware.DigitalChannel;
 import com.qualcomm.robotcore.hardware.Servo;
 import com.qualcomm.robotcore.util.ElapsedTime;
 
+import java.nio.file.StandardOpenOption;
+
 /**
  * This file contains an example of an iterative (Non-Linear) "OpMode".
  * An OpMode is a 'program' that runs in either the autonomous or the teleop period of an FTC match.
@@ -111,7 +113,8 @@ public class TestingOpModeDPADPlusTouch extends OpMode
         intake_systems = new Intake_Systems(IntakeRightMotor, IntakeLeftMotor, IntakePulley, touch, claw);
         bot_servo = new BotServos(left_hook, right_hook);
         armCollection = new ArmCollection(claw, expansion, IntakePulley);
-        capStone = new Capstone(capstone);
+        capStone = new Capstone(capstone, claw);
+        ScissorLiftMotorLeft.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
         // Tell the driver that initialization is complete.
         telemetry.addData("Status", "Initialized");
     }

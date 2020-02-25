@@ -1,18 +1,25 @@
 package org.firstinspires.ftc.teamcode;
 
+import com.qualcomm.robotcore.hardware.CRServo;
 import com.qualcomm.robotcore.hardware.Servo;
 
 public class Capstone {
     // Setup variables and devices
-    Servo cap;
+    Servo cap, claw;
+    ArmCollection armCollection;
+    private CRServo expansion;
+
+    //Set Up Intake pulley for the automated tasks
+    private Servo IntakePulley;
 
     private double extended = 0;
     private double retracted = 1;
 
 
     // Constructor for capstone servo
-    public Capstone(Servo capstone){
+    public Capstone(Servo capstone, Servo cla){
         cap = capstone;
+        claw = cla;
 
     }
 
@@ -21,6 +28,7 @@ public class Capstone {
 
         if(EnabledState){
             cap.setPosition(extended);
+            claw.setPosition(0.0);
         }
 
         else if(DisabledState){

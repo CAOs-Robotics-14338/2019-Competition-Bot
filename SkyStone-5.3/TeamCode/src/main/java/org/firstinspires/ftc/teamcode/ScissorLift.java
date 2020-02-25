@@ -49,6 +49,15 @@ public class ScissorLift {
         }
 
     }
+    public  void LiftControlAuto(double y2){
+        double ScissorLiftPower = Range.clip( (-y2), -1.0, 1.0);
+        ScissorLiftMotorLeft.setPower(ScissorLiftPower);
+        ScissorLiftMotorRight.setPower(ScissorLiftPower);
+        }
+
+
+
+
     /*    public  void LiftControl(double y2){ //lift control for use without the automated parts
             double ScissorLiftPower = Range.clip( (-y2), -1.0, 1.0);
             ScissorLiftMotorLeft.setPower(ScissorLiftPower);
